@@ -68,6 +68,7 @@ public class RoyalBot {
     private long messageDelay = 1000L;
 
     private RoyalBot(String[] args) {
+        getLogger().info("Starting.");
         instance = this;
         saveDefaultConfig();
         c = new Config();
@@ -108,6 +109,7 @@ public class RoyalBot {
         if (!nickServPassword.isEmpty()) cb.setNickservPassword(nickServPassword);
         addListeners(cb);
         bot = new PircBotX(cb.buildConfiguration());
+        getLogger().info("Connecting.");
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -121,6 +123,7 @@ public class RoyalBot {
     }
 
     private void saveDefaultConfig() {
+        getLogger().info("Saving default config.");
         final File f;
         try {
             f = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
@@ -148,7 +151,9 @@ public class RoyalBot {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
+        getLogger().info("Saved!");
     }
 
     private void addCommands() {
