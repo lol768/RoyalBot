@@ -1,5 +1,7 @@
 package org.royaldev.royalbot;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -68,6 +70,22 @@ public class RoyalBot {
     private long messageDelay = 1000L;
 
     private RoyalBot(String[] args) {
+        final ConsoleHandler ch = new ConsoleHandler();
+        ch.setFormatter(new Formatter() {
+            private final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+
+            @Override
+            public String format(LogRecord logRecord) {
+                final StringBuilder sb = new StringBuilder();
+                sb.append(dtf.print(System.currentTimeMillis()));
+                sb.append(" [").append(logRecord.getLevel().getLocalizedName()).append("] ");
+                sb.append(logRecord.getMessage()).append("\n");
+                return sb.toString();
+            }
+        });
+        getLogger().setUseParentHandlers(false);
+        getLogger().addHandler(ch);
+        // Set up log format before logging
         getLogger().info("Starting.");
         instance = this;
         saveDefaultConfig();
@@ -80,18 +98,6 @@ public class RoyalBot {
             clp.printUsage(System.out);
             System.exit(1);
         }
-        final ConsoleHandler ch = new ConsoleHandler();
-        ch.setFormatter(new Formatter() {
-            @Override
-            public String format(LogRecord logRecord) {
-                final StringBuilder sb = new StringBuilder();
-                sb.append("[").append(logRecord.getLevel().getLocalizedName()).append("] ");
-                sb.append(logRecord.getMessage()).append("\n");
-                return sb.toString();
-            }
-        });
-        getLogger().setUseParentHandlers(false);
-        getLogger().addHandler(ch);
         addCommands();
         final Configuration.Builder<PircBotX> cb = new Configuration.Builder<PircBotX>();
         cb.setServer(serverHostname, serverPort)
@@ -123,7 +129,6 @@ public class RoyalBot {
     }
 
     private void saveDefaultConfig() {
-        getLogger().info("Saving default config.");
         final File f;
         try {
             f = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
@@ -132,6 +137,7 @@ public class RoyalBot {
             return;
         }
         if (f.exists()) return;
+        getLogger().info("Saving default config.");
         try {
             if (!f.createNewFile()) return;
         } catch (IOException e) {
