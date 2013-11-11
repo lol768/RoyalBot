@@ -34,7 +34,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
     }
 
     public void onJoin(JoinEvent e) {
-        if (!e.getUser().equals(rb.getBot().getUserBot())) return;
+        if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
         if (channels.contains(e.getChannel().getName())) return;
         channels.add(e.getChannel().getName());
@@ -43,7 +43,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
     }
 
     public void onPart(PartEvent e) {
-        if (!e.getUser().equals(rb.getBot().getUserBot())) return;
+        if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
         if (channels.contains(e.getChannel().getName())) channels.remove(e.getChannel().getName());
         rb.getConfig().setChannels(channels);
@@ -51,7 +51,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
     }
 
     public void onKick(KickEvent e) {
-        if (!e.getRecipient().equals(rb.getBot().getUserBot())) return;
+        if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
         if (channels.contains(e.getChannel().getName())) channels.remove(e.getChannel().getName());
         rb.getConfig().setChannels(channels);
