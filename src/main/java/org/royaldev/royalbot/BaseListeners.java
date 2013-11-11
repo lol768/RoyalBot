@@ -46,7 +46,11 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             e.respond("You are not an admin!");
             return;
         }
-        command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
+        try {
+            command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
+        } catch (Exception ex) {
+            e.respond(BotUtils.formatException(ex));
+        }
     }
 
 }
