@@ -1,6 +1,6 @@
 package org.royaldev.royalbot;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
@@ -46,7 +46,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             e.respond("You are not an admin!");
             return;
         }
-        command.onCommand(e, ((split.length > 1) ? StringUtils.join(split, ' ', 1, split.length).trim() : ""));
+        command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
     }
 
 }

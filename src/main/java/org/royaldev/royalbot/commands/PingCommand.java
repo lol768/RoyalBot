@@ -16,8 +16,9 @@ public class PingCommand implements IRCCommand {
         return "Pings the bot! :D";
     }
 
-    public void onCommand(GenericMessageEvent event, String message) {
-        if (message.equalsIgnoreCase("me")) event.respond("Hello there, " + event.getUser().getNick() + "!");
+    public void onCommand(GenericMessageEvent event, String[] args) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("me"))
+            event.respond("Hello there, " + event.getUser().getNick() + "!");
         else event.respond("Pong!");
     }
 

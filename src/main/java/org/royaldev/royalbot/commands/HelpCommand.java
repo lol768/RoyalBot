@@ -23,7 +23,7 @@ public class HelpCommand implements IRCCommand {
         return "Displays all commands!";
     }
 
-    public void onCommand(GenericMessageEvent event, String message) {
+    public void onCommand(GenericMessageEvent event, String[] args) {
         final CommandHandler ch = rb.getCommandHandler();
         final User u = event.getUser();
         final boolean userIsAdmin = Auth.checkAuth(u).isAuthed();

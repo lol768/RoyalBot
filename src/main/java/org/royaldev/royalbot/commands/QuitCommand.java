@@ -1,5 +1,6 @@
 package org.royaldev.royalbot.commands;
 
+import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
 public class QuitCommand implements IRCCommand {
@@ -15,9 +16,9 @@ public class QuitCommand implements IRCCommand {
         return "Makes the bot quit. :(";
     }
 
-    public void onCommand(GenericMessageEvent event, String message) {
-        if (message.isEmpty()) event.getBot().sendIRC().quitServer();
-        else event.getBot().sendIRC().quitServer(message);
+    public void onCommand(GenericMessageEvent event, String[] args) {
+        if (args.length < 1) event.getBot().sendIRC().quitServer();
+        else event.getBot().sendIRC().quitServer(StringUtils.join(args, ' '));
     }
 
     public CommandType getCommandType() {

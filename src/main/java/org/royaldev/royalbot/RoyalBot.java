@@ -25,6 +25,7 @@ public class RoyalBot {
 
     private final PircBotX bot;
     private final Logger logger = Logger.getLogger("org.royaldev.royalbot.RoyalBot");
+    @SuppressWarnings("FieldCanBeLocal")
     private String botVersion = this.getClass().getPackage().getImplementationVersion();
     private final CommandHandler ch = new CommandHandler();
     private final Config c;

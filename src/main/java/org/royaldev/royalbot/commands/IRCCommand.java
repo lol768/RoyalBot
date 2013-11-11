@@ -34,10 +34,10 @@ public interface IRCCommand {
      * passed to this method will either be a {@link org.pircbotx.hooks.events.MessageEvent} or a
      * {@link org.pircbotx.hooks.events.PrivateMessageEvent}.
      *
-     * @param event   Event of receiving command
-     * @param message Convenience parameter containing everything after the command
+     * @param event Event of receiving command
+     * @param args  Arguments passed to the command
      */
-    public void onCommand(GenericMessageEvent event, String message);
+    public void onCommand(GenericMessageEvent event, String[] args);
 
     /**
      * This should return what type of command this is.
@@ -71,6 +71,6 @@ public interface IRCCommand {
 
     public static enum AuthLevel {
         PUBLIC,
-        ADMIN;
+        ADMIN
     }
 }
