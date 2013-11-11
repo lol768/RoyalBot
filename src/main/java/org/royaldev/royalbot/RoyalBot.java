@@ -9,6 +9,7 @@ import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.royaldev.royalbot.commands.HelpCommand;
+import org.royaldev.royalbot.commands.MCPingCommand;
 import org.royaldev.royalbot.commands.PingCommand;
 import org.royaldev.royalbot.commands.QuitCommand;
 
@@ -109,6 +110,7 @@ public class RoyalBot {
         ch.registerCommand(new HelpCommand());
         ch.registerCommand(new PingCommand());
         ch.registerCommand(new QuitCommand());
+        ch.registerCommand(new MCPingCommand());
     }
 
     public PircBotX getBot() {
