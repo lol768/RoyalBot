@@ -3,12 +3,12 @@ package org.royaldev.royalbot;
 import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class CommandHandler {
 
-    private final Map<String, IRCCommand> commands = new HashMap<String, IRCCommand>();
+    private final Map<String, IRCCommand> commands = new TreeMap<String, IRCCommand>();
 
     public void registerCommand(IRCCommand command) {
         final String name = command.getName().toLowerCase();
@@ -35,6 +35,8 @@ public class CommandHandler {
     }
 
     public Collection<IRCCommand> getAllCommands() {
-        return commands.values();
+        synchronized (commands) {
+            return commands.values();
+        }
     }
 }
