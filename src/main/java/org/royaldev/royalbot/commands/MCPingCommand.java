@@ -79,7 +79,7 @@ public class MCPingCommand implements IRCCommand {
             this.validate(hostname, "Hostname cannot be null.");
             this.validate(port, "Port cannot be null.");
             final Socket socket = new Socket();
-            socket.connect(new InetSocketAddress(hostname, port), 3000);
+            socket.connect(new InetSocketAddress(hostname, port), 1750);
             final DataInputStream in = new DataInputStream(socket.getInputStream());
             final DataOutputStream out = new DataOutputStream(socket.getOutputStream());
             out.write(0xFE);
