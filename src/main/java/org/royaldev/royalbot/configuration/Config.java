@@ -1,6 +1,9 @@
 package org.royaldev.royalbot.configuration;
 
+import org.royaldev.royalbot.RoyalBot;
+
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,10 +11,17 @@ import java.util.TreeSet;
 
 public class Config {
 
-    private final File configFile = new File("config.yml");
-    private final YamlConfiguration yc = YamlConfiguration.loadConfiguration(configFile);
+    private File configFile = null;
+    private final YamlConfiguration yc;
 
     public Config() {
+        try {
+            configFile = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (configFile == null) yc = new YamlConfiguration();
+        else yc = YamlConfiguration.loadConfiguration(configFile);
     }
 
     private void save() {

@@ -16,6 +16,12 @@ import org.royaldev.royalbot.commands.QuitCommand;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.listeners.YouTubeListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -61,6 +67,7 @@ public class RoyalBot {
 
     private RoyalBot(String[] args) {
         instance = this;
+        saveDefaultConfig();
         c = new Config();
         final CmdLineParser clp = new CmdLineParser(this);
         try {
@@ -94,6 +101,7 @@ public class RoyalBot {
                 .setMessageDelay(messageDelay)
                 .setAutoNickChange(true);
         for (String channel : channels) cb.addAutoJoinChannel(channel);
+        for (String channel : c.getChannels()) cb.addAutoJoinChannel(channel);
         if (!serverPassword.isEmpty()) cb.setServerPassword(serverPassword);
         if (!nickServPassword.isEmpty()) cb.setNickservPassword(nickServPassword);
         addListeners(cb);
@@ -108,6 +116,37 @@ public class RoyalBot {
                 }
             }
         }).start();
+    }
+
+    private void saveDefaultConfig() {
+        final File f;
+        try {
+            f = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return;
+        }
+        if (f.exists()) return;
+        try {
+            if (!f.createNewFile()) return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        try {
+            InputStream file = RoyalBot.class.getResourceAsStream("/config.yml");
+            OutputStream os = new FileOutputStream(f);
+            try {
+                int read;
+                while ((read = file.read()) != -1) os.write(read);
+                os.flush();
+            } finally {
+                os.close();
+                file.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addCommands() {

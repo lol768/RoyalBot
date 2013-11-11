@@ -5,11 +5,16 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.InviteEvent;
+import org.pircbotx.hooks.events.JoinEvent;
+import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
+import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.commands.IRCCommand;
+
+import java.util.List;
 
 public class BaseListeners extends ListenerAdapter<PircBotX> {
 
@@ -25,6 +30,28 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
 
     public void onInvite(InviteEvent e) {
         e.getBot().sendIRC().joinChannel(e.getChannel());
+    }
+
+    public void onJoin(JoinEvent e) {
+        if (!e.getUser().equals(rb.getBot().getUserBot())) return;
+        List<String> channels = rb.getConfig().getChannels();
+        if (channels.contains(e.getChannel().getName())) return;
+        channels.add(e.getChannel().getName());
+        rb.getConfig().setChannels(channels);
+    }
+
+    public void onPart(PartEvent e) {
+        if (!e.getUser().equals(rb.getBot().getUserBot())) return;
+        List<String> channels = rb.getConfig().getChannels();
+        if (channels.contains(e.getChannel().getName())) channels.remove(e.getChannel().getName());
+        rb.getConfig().setChannels(channels);
+    }
+
+    public void onKick(KickEvent e) {
+        if (!e.getRecipient().equals(rb.getBot().getUserBot())) return;
+        List<String> channels = rb.getConfig().getChannels();
+        if (channels.contains(e.getChannel().getName())) channels.remove(e.getChannel().getName());
+        rb.getConfig().setChannels(channels);
     }
 
     public void onGenericMessage(GenericMessageEvent e) {

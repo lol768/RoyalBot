@@ -1,6 +1,6 @@
 # YouTube link parsing
 youtube:
-  enabled: true
+  enabled: false
   api-key: "apikeyhere"
 # Channels here will automatically be joined
 channels:
