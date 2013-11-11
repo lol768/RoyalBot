@@ -71,6 +71,7 @@ public interface IRCCommand {
 
     public static enum AuthLevel {
         PUBLIC,
-        ADMIN
+        ADMIN,
+        SUPERADMIN
     }
 }

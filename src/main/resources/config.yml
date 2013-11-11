@@ -1,0 +1,12 @@
+# YouTube link parsing
+youtube:
+  enabled: true
+  api-key: "apikeyhere"
+# Channels here will automatically be joined
+channels:
+- "#royalbot"
+# Must be authed by NickServ
+admins:
+- WizardCM
+# Cannot have power removed
+superadmin: jkcclemens

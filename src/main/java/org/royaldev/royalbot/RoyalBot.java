@@ -8,10 +8,13 @@ import org.kohsuke.args4j.spi.IntOptionHandler;
 import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
+import org.royaldev.royalbot.commands.AdminCommand;
 import org.royaldev.royalbot.commands.HelpCommand;
 import org.royaldev.royalbot.commands.MCPingCommand;
 import org.royaldev.royalbot.commands.PingCommand;
 import org.royaldev.royalbot.commands.QuitCommand;
+import org.royaldev.royalbot.configuration.Config;
+import org.royaldev.royalbot.listeners.YouTubeListener;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
@@ -93,6 +96,7 @@ public class RoyalBot {
         for (String channel : channels) cb.addAutoJoinChannel(channel);
         if (!serverPassword.isEmpty()) cb.setServerPassword(serverPassword);
         if (!nickServPassword.isEmpty()) cb.setNickservPassword(nickServPassword);
+        addListeners(cb);
         bot = new PircBotX(cb.buildConfiguration());
         new Thread(new Runnable() {
             public void run() {
@@ -111,13 +115,18 @@ public class RoyalBot {
         ch.registerCommand(new PingCommand());
         ch.registerCommand(new QuitCommand());
         ch.registerCommand(new MCPingCommand());
+        ch.registerCommand(new AdminCommand());
+    }
+
+    private void addListeners(Configuration.Builder<PircBotX> cb) {
+        cb.addListener(new YouTubeListener());
     }
 
     public PircBotX getBot() {
         return bot;
     }
 
-    protected Logger getLogger() {
+    public Logger getLogger() {
         return logger;
     }
 

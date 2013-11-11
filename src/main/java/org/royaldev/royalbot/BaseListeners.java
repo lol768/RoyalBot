@@ -46,7 +46,12 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             e.respond("You are not an admin!");
             return;
         }
+        if (authLevel == IRCCommand.AuthLevel.SUPERADMIN && (!rb.getConfig().getSuperAdmin().equalsIgnoreCase(e.getUser().getNick()) || !Auth.checkAuth(e.getUser()).isAuthed())) {
+            e.respond("You are not a superadmin!");
+            return;
+        }
         try {
+            rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
             command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
         } catch (Exception ex) {
             e.respond(BotUtils.formatException(ex));
