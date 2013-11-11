@@ -10,7 +10,9 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.royaldev.royalbot.commands.AdminCommand;
 import org.royaldev.royalbot.commands.HelpCommand;
+import org.royaldev.royalbot.commands.JoinCommand;
 import org.royaldev.royalbot.commands.MCPingCommand;
+import org.royaldev.royalbot.commands.PartCommand;
 import org.royaldev.royalbot.commands.PingCommand;
 import org.royaldev.royalbot.commands.QuitCommand;
 import org.royaldev.royalbot.configuration.Config;
@@ -155,6 +157,8 @@ public class RoyalBot {
         ch.registerCommand(new QuitCommand());
         ch.registerCommand(new MCPingCommand());
         ch.registerCommand(new AdminCommand());
+        ch.registerCommand(new JoinCommand());
+        ch.registerCommand(new PartCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {
