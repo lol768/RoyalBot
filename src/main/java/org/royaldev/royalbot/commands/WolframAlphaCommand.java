@@ -31,7 +31,8 @@ public class WolframAlphaCommand implements IRCCommand {
         try {
             content = BotUtils.getContent(String.format("http://api.wolframalpha.com/v2/query?appid=%s&input=%s", rb.getConfig().getWolframAlphaAPIKey(), URLEncoder.encode(query, "UTF-8")));
         } catch (Exception e) {
-            event.respond(BotUtils.formatException(e));
+            final String link = BotUtils.linkToStackTrace(e);
+            event.respond("Exception!" + ((link == null) ? "" : " " + link));
             return;
         }
         final Document d;
