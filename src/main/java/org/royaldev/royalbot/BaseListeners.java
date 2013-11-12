@@ -72,7 +72,10 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         final String[] split = e.getMessage().trim().split(" ");
         final String commandString = (!isPrivateMessage) ? split[0].substring(1, split[0].length()) : split[0];
         final IRCCommand command = rb.getCommandHandler().getCommand(commandString);
-        if (command == null) return;
+        if (command == null) {
+            if (isPrivateMessage) e.respond("No such command.");
+            return;
+        }
         final IRCCommand.CommandType commandType = command.getCommandType();
         if (!isPrivateMessage && commandType != IRCCommand.CommandType.MESSAGE && commandType != IRCCommand.CommandType.BOTH)
             return;
