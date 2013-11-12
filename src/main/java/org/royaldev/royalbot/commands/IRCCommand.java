@@ -5,6 +5,16 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 public interface IRCCommand {
 
     /**
+     * This method is called when a command is received. Depending on what {@link #getCommandType()} returns, the event
+     * passed to this method will either be a {@link org.pircbotx.hooks.events.MessageEvent} or a
+     * {@link org.pircbotx.hooks.events.PrivateMessageEvent}.
+     *
+     * @param event Event of receiving command
+     * @param args  Arguments passed to the command
+     */
+    public void onCommand(GenericMessageEvent event, String[] args);
+
+    /**
      * This should return the name of the command. An example would be "ping"
      * <br/>
      * Case does not matter; do not include a command prefix.
@@ -30,14 +40,11 @@ public interface IRCCommand {
     public String getDescription();
 
     /**
-     * This method is called when a command is received. Depending on what {@link #getCommandType()} returns, the event
-     * passed to this method will either be a {@link org.pircbotx.hooks.events.MessageEvent} or a
-     * {@link org.pircbotx.hooks.events.PrivateMessageEvent}.
+     * Gets an array of names that can be used for this command.
      *
-     * @param event Event of receiving command
-     * @param args  Arguments passed to the command
+     * @return Array, not null
      */
-    public void onCommand(GenericMessageEvent event, String[] args);
+    public String[] getAliases();
 
     /**
      * This should return what type of command this is.

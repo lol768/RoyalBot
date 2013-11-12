@@ -11,22 +11,31 @@ public class HelpCommand implements IRCCommand {
 
     final RoyalBot rb = RoyalBot.getInstance();
 
+    @Override
     public String getName() {
         return "help";
     }
 
+    @Override
     public String getUsage() {
         return "<command> (command)";
     }
 
+    @Override
     public String getDescription() {
         return "Displays all commands!";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[0];
     }
 
     private String getHelpString(IRCCommand ic) {
         return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Type: " + ic.getCommandType().getDescription();
     }
 
+    @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
         final CommandHandler ch = rb.getCommandHandler();
         final User u = event.getUser();
@@ -49,10 +58,12 @@ public class HelpCommand implements IRCCommand {
         }
     }
 
+    @Override
     public CommandType getCommandType() {
         return CommandType.BOTH;
     }
 
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.PUBLIC;
     }

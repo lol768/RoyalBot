@@ -10,18 +10,27 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class MCPingCommand implements IRCCommand {
+    @Override
     public String getName() {
         return "mcping";
     }
 
+    @Override
     public String getUsage() {
         return "<command> [server] (port)";
     }
 
+    @Override
     public String getDescription() {
         return "Pings a Minecraft server and returns its info.";
     }
 
+    @Override
+    public String[] getAliases() {
+        return new String[0];
+    }
+
+    @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
@@ -46,10 +55,12 @@ public class MCPingCommand implements IRCCommand {
         event.respond(mpr.getMotd() + " (" + mpr.getOnlinePlayers() + "/" + mpr.getMaxPlayers() + ", " + mpr.getVersion() + ")");
     }
 
+    @Override
     public CommandType getCommandType() {
         return CommandType.BOTH;
     }
 
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.PUBLIC;
     }

@@ -25,6 +25,7 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
     private final DecimalFormat df = new DecimalFormat("00");
     private final RoyalBot rb = RoyalBot.getInstance();
 
+    @Override
     public void onMessage(MessageEvent e) {
         if (!rb.getConfig().getYouTubeEnabled()) return;
         final Matcher m = p.matcher(e.getMessage());

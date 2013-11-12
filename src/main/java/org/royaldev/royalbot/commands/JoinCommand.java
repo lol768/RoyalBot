@@ -3,18 +3,27 @@ package org.royaldev.royalbot.commands;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
 public class JoinCommand implements IRCCommand {
+    @Override
     public String getName() {
         return "join";
     }
 
+    @Override
     public String getUsage() {
         return "join [channel]";
     }
 
+    @Override
     public String getDescription() {
         return "Makes the bot join a channel";
     }
 
+    @Override
+    public String[] getAliases() {
+        return new String[0];
+    }
+
+    @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
@@ -29,10 +38,12 @@ public class JoinCommand implements IRCCommand {
         event.respond("Joined " + channel + ".");
     }
 
+    @Override
     public CommandType getCommandType() {
         return CommandType.PRIVATE;
     }
 
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.ADMIN;
     }

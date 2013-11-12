@@ -6,20 +6,30 @@ import org.royaldev.royalbot.RoyalBot;
 import java.util.Set;
 
 public class AdminCommand implements IRCCommand {
+
+    private final RoyalBot rb = RoyalBot.getInstance();
+
+    @Override
     public String getName() {
         return "admin";
     }
 
+    @Override
     public String getUsage() {
         return "admin [add/remove] (name)";
     }
 
+    @Override
     public String getDescription() {
         return "Manipulates the admin list.";
     }
 
-    private final RoyalBot rb = RoyalBot.getInstance();
+    @Override
+    public String[] getAliases() {
+        return new String[]{"admins"};
+    }
 
+    @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
         if (args.length < 2) {
             event.respond("Not enough arguments.");
@@ -50,10 +60,12 @@ public class AdminCommand implements IRCCommand {
         }
     }
 
+    @Override
     public CommandType getCommandType() {
         return CommandType.PRIVATE;
     }
 
+    @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.SUPERADMIN;
     }

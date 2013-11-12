@@ -24,15 +24,18 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         rb = instance;
     }
 
+    @Override
     public void onConnect(ConnectEvent e) {
         rb.getLogger().info("Connected!");
     }
 
+    @Override
     public void onInvite(InviteEvent e) {
         e.getBot().sendIRC().joinChannel(e.getChannel());
         rb.getLogger().info("Invited to " + e.getChannel() + " by " + e.getUser() + " .");
     }
 
+    @Override
     public void onJoin(JoinEvent e) {
         if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
@@ -42,6 +45,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         rb.getLogger().info("Joined " + e.getChannel().getName() + ".");
     }
 
+    @Override
     public void onPart(PartEvent e) {
         if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
@@ -50,6 +54,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         rb.getLogger().info("Parted from " + e.getChannel().getName() + ".");
     }
 
+    @Override
     public void onKick(KickEvent e) {
         if (!e.getUser().getNick().equals(rb.getBot().getUserBot().getNick())) return;
         List<String> channels = rb.getConfig().getChannels();
@@ -58,6 +63,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         rb.getLogger().info("Kicked from " + e.getChannel().getName() + ".");
     }
 
+    @Override
     public void onGenericMessage(GenericMessageEvent e) {
         if (!(e instanceof MessageEvent) && !(e instanceof PrivateMessageEvent)) return;
         final boolean isPrivateMessage = e instanceof PrivateMessageEvent;
