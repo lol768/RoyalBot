@@ -33,7 +33,8 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
                 String url = "https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,statistics,contentDetails";
                 jn = om.readTree(BotUtils.getContent(String.format(url, m.group(2), rb.getConfig().getYouTubeAPIKey())));
             } catch (Exception ex) {
-                e.respond(BotUtils.formatException(ex));
+                final String link = BotUtils.linkToStackTrace(ex);
+                e.respond("Exception!" + ((link == null) ? "" : " " + link));
                 return;
             }
             jn = jn.findValue("items");
