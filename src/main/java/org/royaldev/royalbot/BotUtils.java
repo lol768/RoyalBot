@@ -109,7 +109,7 @@ public class BotUtils {
         final BufferedReader br = new BufferedReader(new InputStreamReader(u.openConnection().getInputStream()));
         final StringBuilder sb = new StringBuilder();
         String line;
-        while ((line = br.readLine()) != null) sb.append(line);
+        while ((line = br.readLine()) != null) sb.append(line).append("\n");
         return sb.toString();
     }
 
