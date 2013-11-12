@@ -59,6 +59,22 @@ public class Config {
         return yc.getBoolean("youtube.enabled", false);
     }
 
+    public String getWolframAlphaAPIKey() {
+        return yc.getString("wolframalpha.api-key", "");
+    }
+
+    public boolean getWolframAlphaEnabled() {
+        return yc.getBoolean("wolframalpha.enabled", false);
+    }
+
+    public String getPastebinAPIKey() {
+        return yc.getString("pastebin.api-key", "");
+    }
+
+    public boolean getPastebinEnabled() {
+        return yc.getBoolean("pastebin.enabled", false);
+    }
+
     public List<String> getChannels() {
         return yc.getStringList("channels");
     }

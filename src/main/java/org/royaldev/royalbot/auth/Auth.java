@@ -9,7 +9,6 @@ public class Auth {
 
     public static AuthResponse checkAuth(User user) {
         final RoyalBot rb = RoyalBot.getInstance();
-
         rb.getBot().sendIRC().message("NickServ", String.format("ACC %s *", user.getNick()));
         WaitForQueue queue = new WaitForQueue(rb.getBot());
         try {

@@ -1,7 +1,13 @@
 # YouTube link parsing
 youtube:
   enabled: false
-  api-key: "apikeyhere"
+  api-key: "api-key-here"
+wolframalpha:
+  enabled: false
+  api-key: "api-key-here"
+pastebin:
+  enabled: false
+  api-key: "api-key-here"
 # Channels here will automatically be joined
 channels:
 - "#royalbot"

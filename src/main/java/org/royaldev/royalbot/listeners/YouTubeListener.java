@@ -11,9 +11,6 @@ import org.pircbotx.hooks.events.MessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,7 +31,7 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
             JsonNode jn;
             try {
                 String url = "https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,statistics,contentDetails";
-                jn = om.readTree(getContent(String.format(url, m.group(2), rb.getConfig().getYouTubeAPIKey())));
+                jn = om.readTree(BotUtils.getContent(String.format(url, m.group(2), rb.getConfig().getYouTubeAPIKey())));
             } catch (Exception ex) {
                 e.respond(BotUtils.formatException(ex));
                 return;
@@ -54,15 +51,6 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
                     statistics.findPath("viewCount").asLong()
             ));
         }
-    }
-
-    private String getContent(String url) throws Exception {
-        final URL u = new URL(url);
-        final BufferedReader br = new BufferedReader(new InputStreamReader(u.openConnection().getInputStream()));
-        final StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) sb.append(line);
-        return sb.toString();
     }
 
 }

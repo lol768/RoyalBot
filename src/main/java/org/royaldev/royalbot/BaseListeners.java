@@ -87,11 +87,24 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             e.respond("You are not a superadmin!");
             return;
         }
+        rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
         try {
-            rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
             command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
         } catch (Exception ex) {
-            e.respond(BotUtils.formatException(ex));
+            final StringBuilder sb = new StringBuilder("Unhandled command exception! ");
+            sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
+            if (rb.getConfig().getPastebinEnabled()) {
+                final String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
+                if (pastebin != null) {
+                    String url = null;
+                    try {
+                        url = BotUtils.shortenURL(pastebin);
+                    } catch (Exception ignored) {
+                    }
+                    if (url != null) sb.append(" (").append(url).append(")");
+                }
+            } else ex.printStackTrace();
+            e.respond(sb.toString());
         }
     }
 
