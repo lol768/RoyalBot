@@ -55,8 +55,8 @@ public class RoyalBot {
     private String botFinger = "RoyalDev's IRC Management Bot";
     @Option(name = "-l", usage = "Define the bot's login to the server", aliases = {"--login"})
     private String botLogin = "RoyalBot";
-    @Option(name = "-s", usage = "Set the server to connect to", aliases = {"--server"})
-    private String serverHostname = "irc.esper.net";
+    @Option(name = "-s", usage = "Set the server to connect to", aliases = {"--server"}, required = true)
+    private String serverHostname;
     @Option(name = "-P", usage = "Set the password of the server", aliases = {"--server-password"})
     private String serverPassword = "";
     @Option(name = "-A", usage = "Set the NickServ password to use", aliases = {"--nickserv-password"})
