@@ -17,6 +17,8 @@ import org.royaldev.royalbot.commands.MCPingCommand;
 import org.royaldev.royalbot.commands.PartCommand;
 import org.royaldev.royalbot.commands.PingCommand;
 import org.royaldev.royalbot.commands.QuitCommand;
+import org.royaldev.royalbot.commands.RepositoryCommand;
+import org.royaldev.royalbot.commands.ShakespeareInsultCommand;
 import org.royaldev.royalbot.commands.ShortenCommand;
 import org.royaldev.royalbot.commands.WolframAlphaCommand;
 import org.royaldev.royalbot.configuration.Config;
@@ -174,6 +176,8 @@ public class RoyalBot {
         ch.registerCommand(new PartCommand());
         ch.registerCommand(new WolframAlphaCommand());
         ch.registerCommand(new ShortenCommand());
+        ch.registerCommand(new RepositoryCommand());
+        ch.registerCommand(new ShakespeareInsultCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {
