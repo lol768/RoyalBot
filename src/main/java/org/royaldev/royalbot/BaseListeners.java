@@ -32,7 +32,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
     @Override
     public void onInvite(InviteEvent e) {
         e.getBot().sendIRC().joinChannel(e.getChannel());
-        rb.getLogger().info("Invited to " + e.getChannel() + " by " + e.getUser() + " .");
+        rb.getLogger().info("Invited to " + e.getChannel() + " by " + e.getUser() + ".");
     }
 
     @Override
