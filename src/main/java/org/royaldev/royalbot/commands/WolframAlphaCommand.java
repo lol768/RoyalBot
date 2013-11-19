@@ -43,6 +43,7 @@ public class WolframAlphaCommand implements IRCCommand {
             return;
         }
         Element root = d.getDocumentElement();
+        root.normalize();
         if (!root.hasAttribute("success") || !root.getAttribute("success").equalsIgnoreCase("true")) {
             StringBuilder sb = new StringBuilder("WolframAlpha returned with an error!");
             if (!root.getAttribute("error").equalsIgnoreCase("false"))
