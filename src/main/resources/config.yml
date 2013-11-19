@@ -8,6 +8,9 @@ wolframalpha:
 pastebin:
   enabled: false
   api-key: "api-key-here"
+dictionaryapi:
+  enabled: false
+  api-key: "api-key-here"
 # Channels here will automatically be joined
 channels:
 - "#royalbot"
