@@ -6,6 +6,7 @@ admins:
 # Channels here will automatically be joined
 channels:
 - "#royalbot"
+# "Fax" for BaxFax command - Pull Requests welcome!
 baxfax:
 - "mbaxter is not a mother. Not actually."
 - "mbaxter once ate twelve gorillas for fun."
@@ -60,13 +61,49 @@ baxfax:
 - "mbaxter loves all and hates none (mostly)."
 - "mbaxter is your lord and ruler."
 - "mbaxter is not a mother. Not yet."
+- "mbaxter is a virgin and has given birth to seven donkeys."
+- "mbaxter is a pimp."
+- "mbaxter is a player."
+- "mbaxter wakes up and slaughters his enemies."
+- "mbaxter: Woohoo!"
+- "mbaxter invented sound."
+- "mbaxter created YouTube."
+- "mbaxter owns Google."
+- "mbaxter is the coroporation."
+- "mbaxter is the revolution."
+- "mbaxter loves being pinged several times!"
+- "mbaxter regrets his decisions."
+- "mbaxter's favorite other game is Sonic the Hedgehog!"
+- "mbaxter runs Bukkit internally."
+- "mbaxter requires no maintenance. Plugin him in and leave him!"
+- "mbaxter doesn't need to sleep."
+- "mbaxter exists to rule."
+- "mbaxter will judge your code; beware."
+- "mbaxter mbaxter mbaxter!"
+- "Cats have a tendency to land on their feet!"
+- "Cats like mbaxter."
+- "mbaxter likes cats."
+- "Dogs aren't quite like cats."
+- "Kitteh is the preferred spelling of kitten for mbaxter."
+- "mbaxter once said, \"Where are my oven mitts?\""
+- "mbaxter didn't say a lot of things."
+- "mbaxter's brother is tbaxter."
+- "Baxfax are 100% free because of mbaxter's hard labor."
+- "mbaxter prefers British spellings over Americanized spellings."
+- "mbaxter questions the validity of some of these fax."
+- "mbaxter can recite the Bukkit JavaDocs by heart."
+- "mbaxter likes the term \"javaducks.\""
+- "mbaxter made the computer you're using."
+- "mbaxter made you."
 # YouTube link parsing
 youtube:
   enabled: false
   api-key: "api-key-here"
+# WolframAlpha queries
 wolframalpha:
   enabled: false
   api-key: "api-key-here"
+# Define queries
 dictionaryapi:
   enabled: false
   api-key: "api-key-here"
