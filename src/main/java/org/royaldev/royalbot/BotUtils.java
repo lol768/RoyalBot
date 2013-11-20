@@ -1,5 +1,7 @@
 package org.royaldev.royalbot;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -62,10 +64,11 @@ public class BotUtils {
         }
         HttpEntity he = hr.getEntity();
         if (he == null) return null;
+        String json;
         try {
             final BufferedReader br = new BufferedReader(new InputStreamReader(he.getContent()));
             try {
-                return br.readLine();
+                json = br.readLine();
             } finally {
                 br.close();
                 hc.close();
@@ -73,6 +76,15 @@ public class BotUtils {
         } catch (IOException ex) {
             return null;
         }
+        final ObjectMapper om = new ObjectMapper();
+        JsonNode jn;
+        try {
+            jn = om.readTree(json);
+        } catch (Exception e) {
+            return null;
+        }
+        json = jn.path("key").textValue();
+        return json.isEmpty() ? null : json;
     }
 
     /**
