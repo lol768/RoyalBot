@@ -2,8 +2,8 @@ package org.royaldev.royalbot;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -40,15 +40,17 @@ public class BotUtils {
 
     public static String pastebin(String paste) {
         final CloseableHttpClient hc = HttpClients.createDefault();
-        final HttpPost hp = new HttpPost("http://pastebin.com/api/api_post.php");
+        //final HttpPost hp = new HttpPost("http://pastebin.com/api/api_post.php");
+        final HttpPost hp = new HttpPost("http://hastebin.com/documents");
         final List<BasicNameValuePair> posts = new ArrayList<BasicNameValuePair>();
-        posts.add(new BasicNameValuePair("api_dev_key", RoyalBot.getInstance().getConfig().getPastebinAPIKey()));
+        /*posts.add(new BasicNameValuePair("api_dev_key", RoyalBot.getInstance().getConfig().getPastebinAPIKey()));
         posts.add(new BasicNameValuePair("api_paste_format", "text"));
         posts.add(new BasicNameValuePair("api_option", "paste"));
         posts.add(new BasicNameValuePair("api_paste_private", "1"));
-        posts.add(new BasicNameValuePair("api_paste_code", paste));
+        posts.add(new BasicNameValuePair("api_paste_code", paste));*/
         try {
-            hp.setEntity(new UrlEncodedFormEntity(posts, "UTF-8"));
+            //hp.setEntity(new UrlEncodedFormEntity(posts, "UTF-8"));
+            hp.setEntity(new StringEntity(paste, "UTF-8"));
         } catch (UnsupportedEncodingException ignored) {
             return null;
         }
