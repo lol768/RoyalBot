@@ -24,9 +24,23 @@ public class Config {
         else yc = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    private synchronized void save() {
+    /**
+     * Saves the config to the disk.
+     */
+    public synchronized void save() {
         try {
             yc.save(configFile);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads the config from the disk. Discards any unsaved changes.
+     */
+    public synchronized void load() {
+        try {
+            yc.load(configFile);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -174,6 +174,7 @@ public class RoyalBot {
         ch.registerCommand(new BaxFaxCommand());
         ch.registerCommand(new MCAccountCommand());
         ch.registerCommand(new ChuckCommand());
+        ch.registerCommand(new RoyalBotCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {
