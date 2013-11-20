@@ -14,9 +14,9 @@ public class Config {
     private File configFile = null;
     private final YamlConfiguration yc;
 
-    public Config() {
+    public Config(String path) {
         try {
-            configFile = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
+            configFile = (path == null) ? new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml") : new File(path);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

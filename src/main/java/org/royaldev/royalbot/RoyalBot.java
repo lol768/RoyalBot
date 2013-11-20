@@ -65,6 +65,8 @@ public class RoyalBot {
     private String serverPassword = "";
     @Option(name = "-A", usage = "Set the NickServ password to use", aliases = {"--nickserv-password"})
     private String nickServPassword = "";
+    @Option(name = "-z", usage = "Sets the path to the configuration file", aliases = {"--config"})
+    private String configPath = null;
     @Option(name = "-C", usage = "Sets the command prefix (one character) to use for the bot", aliases = {"--command-prefix"}, handler = CharOptionHandler.class)
     private char commandPrefix = ':';
     @SuppressWarnings("MismatchedReadAndWriteOfArray")
@@ -95,7 +97,7 @@ public class RoyalBot {
         getLogger().info("Starting.");
         instance = this;
         saveDefaultConfig();
-        c = new Config();
+        c = new Config(configPath);
         final CmdLineParser clp = new CmdLineParser(this);
         try {
             clp.parseArgument(args);
