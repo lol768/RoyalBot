@@ -17,7 +17,7 @@ public class MCAccountCommand implements IRCCommand {
         boolean status;
         try {
             String content = BotUtils.getContent(String.format("https://minecraft.net/haspaid.jsp?user=%s", URLEncoder.encode(args[0], "UTF-8")));
-            status = content.equalsIgnoreCase("true");
+            status = content.split("\n")[0].equalsIgnoreCase("true");
         } catch (Exception e) {
             event.respond(BotUtils.formatException(e));
             return;
