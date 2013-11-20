@@ -2,6 +2,7 @@ package org.royaldev.royalbot.commands;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 
@@ -24,7 +25,7 @@ public class ChuckCommand implements IRCCommand {
             event.respond("Couldn't find a joke!");
             return;
         }
-        event.respond(joke);
+        event.respond(StringEscapeUtils.unescapeHtml4(joke));
     }
 
     @Override
