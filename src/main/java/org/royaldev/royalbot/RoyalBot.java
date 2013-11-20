@@ -96,7 +96,6 @@ public class RoyalBot {
         // Set up log format before logging
         getLogger().info("Starting.");
         instance = this;
-        saveDefaultConfig();
         final CmdLineParser clp = new CmdLineParser(this);
         try {
             clp.parseArgument(args);
@@ -105,6 +104,7 @@ public class RoyalBot {
             clp.printUsage(System.out);
             System.exit(1);
         }
+        saveDefaultConfig();
         c = new Config(configPath);
         addCommands();
         final Configuration.Builder<PircBotX> cb = new Configuration.Builder<PircBotX>();
@@ -139,7 +139,7 @@ public class RoyalBot {
     private void saveDefaultConfig() {
         final File f;
         try {
-            f = new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml");
+            f = (configPath == null) ? new File(URLDecoder.decode(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().resolve(".").getPath(), "UTF-8"), "config.yml") : new File(configPath);
         } catch (Exception ex) {
             ex.printStackTrace();
             return;
