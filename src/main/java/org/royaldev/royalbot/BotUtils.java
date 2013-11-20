@@ -11,6 +11,8 @@ import org.apache.http.message.BasicNameValuePair;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -31,10 +33,9 @@ public class BotUtils {
     }
 
     public static String getStackTrace(Exception e) {
-        final StringBuilder sb = new StringBuilder(e.getClass().getName());
-        sb.append(": ").append(e.getMessage());
-        for (StackTraceElement ste : e.getStackTrace()) sb.append("\n").append("  at ").append(ste.toString());
-        return sb.toString();
+        final StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
     }
 
     public static String pastebin(String paste) {

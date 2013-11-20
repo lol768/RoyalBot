@@ -10,19 +10,7 @@ import org.kohsuke.args4j.spi.IntOptionHandler;
 import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
-import org.royaldev.royalbot.commands.AdminCommand;
-import org.royaldev.royalbot.commands.BaxFaxCommand;
-import org.royaldev.royalbot.commands.DefineCommand;
-import org.royaldev.royalbot.commands.HelpCommand;
-import org.royaldev.royalbot.commands.JoinCommand;
-import org.royaldev.royalbot.commands.MCPingCommand;
-import org.royaldev.royalbot.commands.PartCommand;
-import org.royaldev.royalbot.commands.PingCommand;
-import org.royaldev.royalbot.commands.QuitCommand;
-import org.royaldev.royalbot.commands.RepositoryCommand;
-import org.royaldev.royalbot.commands.ShakespeareInsultCommand;
-import org.royaldev.royalbot.commands.ShortenCommand;
-import org.royaldev.royalbot.commands.WolframAlphaCommand;
+import org.royaldev.royalbot.commands.*;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.listeners.YouTubeListener;
 
@@ -184,6 +172,8 @@ public class RoyalBot {
         ch.registerCommand(new ShakespeareInsultCommand());
         ch.registerCommand(new DefineCommand());
         ch.registerCommand(new BaxFaxCommand());
+        ch.registerCommand(new MCAccountCommand());
+        ch.registerCommand(new ChuckCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {
