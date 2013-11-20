@@ -96,15 +96,8 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         } catch (Exception ex) {
             final StringBuilder sb = new StringBuilder("Unhandled command exception! ");
             sb.append(ex.getClass().getSimpleName()).append(": ").append(ex.getMessage());
-            final String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
-            if (pastebin != null) {
-                String url = null;
-                try {
-                    url = BotUtils.shortenURL(pastebin);
-                } catch (Exception ignored) {
-                }
-                if (url != null) sb.append(" (").append(url).append(")");
-            }
+            String url = BotUtils.linkToStackTrace(ex);
+            if (url != null) sb.append(" (").append(url).append(")");
             e.respond(sb.toString());
         }
     }

@@ -117,7 +117,7 @@ public class BotUtils {
 
     public static String shortenURL(String url) throws IOException, URISyntaxException {
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
-        return getContent(shorten.toString());
+        return getContent(shorten.toString()).split("\n")[0];
     }
 
 }
