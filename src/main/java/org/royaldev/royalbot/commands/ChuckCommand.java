@@ -16,8 +16,7 @@ public class ChuckCommand implements IRCCommand {
         try {
             jn = om.readTree(BotUtils.getContent(url));
         } catch (Exception ex) {
-            final String link = BotUtils.linkToStackTrace(ex);
-            event.respond("Exception!" + ((link == null) ? "" : " " + link));
+            event.respond("Invalid category, probably.");
             return;
         }
         String joke = jn.path("value").path("joke").asText();
