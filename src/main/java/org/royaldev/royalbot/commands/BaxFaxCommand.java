@@ -14,7 +14,7 @@ public class BaxFaxCommand implements IRCCommand {
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
         final List<String> baxfax = rb.getConfig().getBaxFax();
-        event.respond(baxfax.get(r.nextInt(baxfax.size())));
+        event.respond("[baxfax] " + baxfax.get(r.nextInt(baxfax.size())));
     }
 
     @Override
