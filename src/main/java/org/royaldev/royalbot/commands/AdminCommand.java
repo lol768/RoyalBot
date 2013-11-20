@@ -41,8 +41,8 @@ public class AdminCommand implements IRCCommand {
             event.respond("Removed " + user + " from admins.");
         } else if (subcommand.equalsIgnoreCase("list")) {
             final StringBuilder sb = new StringBuilder();
-            for (String admin : rb.getConfig().getAdmins()) sb.append(admin);
-            event.respond("Admins: " + sb.toString());
+            for (String admin : rb.getConfig().getAdmins()) sb.append(admin).append(", ");
+            event.respond("Admins: " + sb.substring(0, sb.length() - 2));
         } else {
             event.respond("Invalid subcommand.");
         }
