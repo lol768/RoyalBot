@@ -87,6 +87,10 @@ public class Config {
         return yc.getStringList("channels");
     }
 
+    public List<String> getBaxFax() {
+        return yc.getStringList("baxfax");
+    }
+
     public void setChannels(List<String> channels) {
         yc.set("channels", channels);
         save();

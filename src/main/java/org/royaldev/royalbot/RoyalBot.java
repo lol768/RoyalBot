@@ -11,6 +11,7 @@ import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.royaldev.royalbot.commands.AdminCommand;
+import org.royaldev.royalbot.commands.BaxFaxCommand;
 import org.royaldev.royalbot.commands.DefineCommand;
 import org.royaldev.royalbot.commands.HelpCommand;
 import org.royaldev.royalbot.commands.JoinCommand;
@@ -180,6 +181,7 @@ public class RoyalBot {
         ch.registerCommand(new RepositoryCommand());
         ch.registerCommand(new ShakespeareInsultCommand());
         ch.registerCommand(new DefineCommand());
+        ch.registerCommand(new BaxFaxCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {

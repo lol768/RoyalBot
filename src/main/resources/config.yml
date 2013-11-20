@@ -1,3 +1,49 @@
+# Cannot have power removed
+superadmin: jkcclemens
+# Must be authed by NickServ
+admins:
+- WizardCM
+# Channels here will automatically be joined
+channels:
+- "#royalbot"
+baxfax:
+- "mbaxter is not a mother. Not actually."
+- "mbaxter once ate twelve gorillas for fun."
+- "No one knows the origin of the original mbaxter."
+- "TnT cannot harm mbaxter; it is against his Code of Conduct."
+- "mbaxter is impervious to fire, but weak against earth."
+- "mbaxter's melting point is 800 degrees Fahrenheit."
+- "mbaxter goes by mbax or mombaxter."
+- "mbaxter cannot be harmed by mere mortals."
+- "mbaxter opened the gates to Hell."
+- "Those who glimpse the face of mbaxter often die from shock."
+- "mbaxter is 25% zinc!"
+- "Bonus fact! mbaxter is mbaxter!"
+- "mbaxter will frequently abuse Chester."
+- "mbaxter once said, \"Meow meow meow! That''s what a cat sounds like!\""
+- "mbaxter manually delivers each baxfax straight to you!"
+- "mbaxter cannot remember who he once was."
+- "The light inside mbaxter has gone out."
+- "Just kidding. mbaxter's light is still shining!"
+- "mbaxter is opinionated."
+- "mbaxter is like hawkfalcon, only better."
+- "mbaxter made Minecraft."
+- "mbaxter made the earth."
+- "mbaxter made Bukkit."
+- "mbaxter invented light."
+- "mbaxter is master race."
+- "mbaxter cannot be comprehended by us puny mortals."
+- "mbaxter takes what he wants."
+- "mbaxter made water."
+- "mbaxter often kills baby whales just to show them that he's in control."
+- "mbaxter says, \"Take this. It's dangerous to go alone.\""
+- "mbaxter gives good staff members cookies."
+- "mbaxter doesn't know how to not know."
+- "mbaxter is the epitome of cool."
+- "mbaxter is. You should be greatful."
+- "Remember mbaxter? He's a cool guy."
+- "mbaxter hates baxfax... Just kidding!"
+- "mbaxter is the heart and soul of the universe."
 # YouTube link parsing
 youtube:
   enabled: false
@@ -11,11 +57,3 @@ pastebin:
 dictionaryapi:
   enabled: false
   api-key: "api-key-here"
-# Channels here will automatically be joined
-channels:
-- "#royalbot"
-# Must be authed by NickServ
-admins:
-- WizardCM
-# Cannot have power removed
-superadmin: jkcclemens
