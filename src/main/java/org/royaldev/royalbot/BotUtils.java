@@ -73,7 +73,7 @@ public class BotUtils {
             return null;
         }
         json = jn.path("key").asText();
-        return json.isEmpty() ? null : "http://hastebin.com/" + json;
+        return json.isEmpty() ? null : "http://hastebin.com/" + json + ".txt";
     }
 
     /**
