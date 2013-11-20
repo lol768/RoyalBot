@@ -24,7 +24,7 @@ public class PartCommand implements IRCCommand {
             event.respond("Not in that channel!");
             return;
         }
-        if (args.length > 1) c.send().part(StringUtils.join(args, 1, args.length));
+        if (args.length > 1) c.send().part(StringUtils.join(args, ' ', 1, args.length));
         else c.send().part();
         event.respond("Parted from " + channel + ".");
     }
