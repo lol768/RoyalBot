@@ -8,7 +8,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,8 +18,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BotUtils {
 
@@ -42,16 +39,8 @@ public class BotUtils {
 
     public static String pastebin(String paste) {
         final CloseableHttpClient hc = HttpClients.createDefault();
-        //final HttpPost hp = new HttpPost("http://pastebin.com/api/api_post.php");
         final HttpPost hp = new HttpPost("http://hastebin.com/documents");
-        final List<BasicNameValuePair> posts = new ArrayList<BasicNameValuePair>();
-        /*posts.add(new BasicNameValuePair("api_dev_key", RoyalBot.getInstance().getConfig().getPastebinAPIKey()));
-        posts.add(new BasicNameValuePair("api_paste_format", "text"));
-        posts.add(new BasicNameValuePair("api_option", "paste"));
-        posts.add(new BasicNameValuePair("api_paste_private", "1"));
-        posts.add(new BasicNameValuePair("api_paste_code", paste));*/
         try {
-            //hp.setEntity(new UrlEncodedFormEntity(posts, "UTF-8"));
             hp.setEntity(new StringEntity(paste, "UTF-8"));
         } catch (UnsupportedEncodingException ignored) {
             return null;
@@ -83,8 +72,8 @@ public class BotUtils {
         } catch (Exception e) {
             return null;
         }
-        json = jn.path("key").textValue();
-        return json.isEmpty() ? null : json;
+        json = jn.path("key").asText();
+        return json.isEmpty() ? null : "http://hastebin.com/" + json;
     }
 
     /**
@@ -98,8 +87,6 @@ public class BotUtils {
      * @return Shortened link to the stack trace or null
      */
     public static String linkToStackTrace(Exception ex) {
-        final RoyalBot rb = RoyalBot.getInstance();
-        if (!rb.getConfig().getPastebinEnabled()) return null;
         final String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
         if (pastebin != null) {
             String url = null;

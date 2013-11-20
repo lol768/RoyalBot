@@ -67,20 +67,12 @@ public class Config {
         return yc.getBoolean("wolframalpha.enabled", false);
     }
 
-    public String getPastebinAPIKey() {
-        return yc.getString("pastebin.api-key", "");
-    }
-
     public boolean getDictionaryAPIEnabled() {
         return yc.getBoolean("dictionaryapi.enabled", false);
     }
 
     public String getDictionaryAPIKey() {
         return yc.getString("dictionaryapi.api-key", "");
-    }
-
-    public boolean getPastebinEnabled() {
-        return yc.getBoolean("pastebin.enabled", false);
     }
 
     public List<String> getChannels() {
