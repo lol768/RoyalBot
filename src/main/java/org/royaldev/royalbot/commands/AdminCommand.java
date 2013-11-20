@@ -11,12 +11,16 @@ public class AdminCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
-        if (args.length < 2) {
+        if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;
         }
         final String subcommand = args[0];
-        final String user = args[1];
+        final String user = (args.length > 1) ? args[1] : null;
+        if (user == null && !subcommand.equalsIgnoreCase("list")) {
+            event.respond("Not enough arguments.");
+            return;
+        }
         if (rb.getConfig().getSuperAdmin().equalsIgnoreCase(user)) {
             event.respond("Cannot manipulate the superadmin!");
             return;
@@ -35,6 +39,10 @@ public class AdminCommand implements IRCCommand {
             admins.remove(user);
             rb.getConfig().setAdmins(admins);
             event.respond("Removed " + user + " from admins.");
+        } else if (subcommand.equalsIgnoreCase("list")) {
+            final StringBuilder sb = new StringBuilder();
+            for (String admin : rb.getConfig().getAdmins()) sb.append(admin);
+            event.respond("Admins: " + sb.toString());
         } else {
             event.respond("Invalid subcommand.");
         }
