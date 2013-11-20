@@ -24,7 +24,7 @@ public class Config {
         else yc = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    private void save() {
+    private synchronized void save() {
         try {
             yc.save(configFile);
         } catch (Exception ex) {
