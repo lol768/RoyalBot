@@ -25,7 +25,7 @@ public class MemorySection implements ConfigurationSection {
 
     /**
      * Creates an empty MemorySection for use as a root {@link Configuration} section.
-     * <p>
+     * <p/>
      * Note that calling this without being yourself a {@link Configuration} will throw an
      * exception!
      *
@@ -44,7 +44,7 @@ public class MemorySection implements ConfigurationSection {
      * Creates an empty MemorySection with the specified parent and path.
      *
      * @param parent Parent section that contains this own section.
-     * @param path Path that you may access this section from via the root {@link Configuration}.
+     * @param path   Path that you may access this section from via the root {@link Configuration}.
      * @throws IllegalArgumentException Thrown is parent or path is null, or if parent contains no root Configuration.
      */
     protected MemorySection(ConfigurationSection parent, String path) {
@@ -495,11 +495,11 @@ public class MemorySection implements ConfigurationSection {
 
     /**
      * Creates a full path to the given {@link ConfigurationSection} from its root {@link Configuration}.
-     * <p>
+     * <p/>
      * You may use this method for any given {@link ConfigurationSection}, not only {@link MemorySection}.
      *
      * @param section Section to create a path for.
-     * @param key Name of the specified section.
+     * @param key     Name of the specified section.
      * @return Full path of the section from its root.
      */
     public static String createPath(ConfigurationSection section, String key) {
@@ -508,11 +508,11 @@ public class MemorySection implements ConfigurationSection {
 
     /**
      * Creates a relative path to the given {@link ConfigurationSection} from the given relative section.
-     * <p>
+     * <p/>
      * You may use this method for any given {@link ConfigurationSection}, not only {@link MemorySection}.
      *
-     * @param section Section to create a path for.
-     * @param key Name of the specified section.
+     * @param section    Section to create a path for.
+     * @param key        Name of the specified section.
      * @param relativeTo Section to create the path relative to.
      * @return Full path of the section from its root.
      */

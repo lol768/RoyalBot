@@ -8,14 +8,14 @@ import java.util.Map;
 public interface Configuration extends ConfigurationSection {
     /**
      * Sets the default value of the given path as provided.
-     * <p>
+     * <p/>
      * If no source {@link Configuration} was provided as a default collection,
      * then a new {@link MemoryConfiguration} will be created to hold the new default
      * value.
-     * <p>
+     * <p/>
      * If value is null, the value will be removed from the default Configuration source.
      *
-     * @param path Path of the value to set.
+     * @param path  Path of the value to set.
      * @param value Value to set the default to.
      * @throws IllegalArgumentException Thrown if path is null.
      */
@@ -23,7 +23,7 @@ public interface Configuration extends ConfigurationSection {
 
     /**
      * Sets the default values of the given paths as provided.
-     * <p>
+     * <p/>
      * If no source {@link Configuration} was provided as a default collection,
      * then a new {@link MemoryConfiguration} will be created to hold the new default
      * values.
@@ -35,7 +35,7 @@ public interface Configuration extends ConfigurationSection {
 
     /**
      * Gets the source {@link Configuration} for this configuration.
-     * <p>
+     * <p/>
      * If no configuration source was set, but default values were added, then a
      * {@link MemoryConfiguration} will be returned. If no source was set and no
      * defaults were set, then this method will return null.

@@ -30,7 +30,7 @@ public class YamlConfiguration extends FileConfiguration {
         yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         String dump = yaml.dump(getValues(false));
         if (dump.equals(BLANK_CONFIG)) dump = "";
-        return  dump;
+        return dump;
     }
 
     @Override
