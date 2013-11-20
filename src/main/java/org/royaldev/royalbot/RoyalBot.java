@@ -97,7 +97,6 @@ public class RoyalBot {
         getLogger().info("Starting.");
         instance = this;
         saveDefaultConfig();
-        c = new Config(configPath);
         final CmdLineParser clp = new CmdLineParser(this);
         try {
             clp.parseArgument(args);
@@ -106,6 +105,7 @@ public class RoyalBot {
             clp.printUsage(System.out);
             System.exit(1);
         }
+        c = new Config(configPath);
         addCommands();
         final Configuration.Builder<PircBotX> cb = new Configuration.Builder<PircBotX>();
         cb.setServer(serverHostname, serverPort)
