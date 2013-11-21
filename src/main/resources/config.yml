@@ -95,6 +95,9 @@ baxfax:
 - "mbaxter likes the term \"javaducks.\""
 - "mbaxter made the computer you're using."
 - "mbaxter made you."
+- "mbaxter is the moon and the sun and the stars."
+- "mbaxter does not code; code mbaxters."
+- "mbaxter poops out bars of gold."
 # YouTube link parsing
 youtube:
   enabled: false
