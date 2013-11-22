@@ -98,6 +98,8 @@ baxfax:
 - "mbaxter is the moon and the sun and the stars."
 - "mbaxter does not code; code mbaxters."
 - "mbaxter poops out bars of gold."
+- "Beware impostors! Official baxfax only come from approved sources."
+- "The average kitten is VERY adorable."
 # YouTube link parsing
 youtube:
   enabled: false
