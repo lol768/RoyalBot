@@ -188,6 +188,7 @@ public class RoyalBot {
 
     private void addChannelCommands() {
         ConfigurationSection cs = getConfig().getChannelCommands();
+        if (cs == null) return;
         final ObjectMapper om = new ObjectMapper();
         for (final String channel : cs.getKeys(false)) {
             ConfigurationSection channelCommands = cs.getConfigurationSection(channel);
