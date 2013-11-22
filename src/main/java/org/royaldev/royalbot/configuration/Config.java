@@ -107,7 +107,9 @@ public class Config {
     }
 
     public ConfigurationSection getChannelCommands() {
-        return yc.getConfigurationSection("channel-commands");
+        ConfigurationSection cs = yc.getConfigurationSection("channel-commands");
+        if (cs == null) yc.createSection("channel-commands");
+        return cs;
     }
 
 }
