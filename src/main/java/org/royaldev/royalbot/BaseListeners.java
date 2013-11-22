@@ -71,10 +71,18 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         if (e.getMessage().charAt(0) != rb.getCommandPrefix() && !isPrivateMessage) return;
         final String[] split = e.getMessage().trim().split(" ");
         final String commandString = (!isPrivateMessage) ? split[0].substring(1, split[0].length()) : split[0];
-        final IRCCommand command = rb.getCommandHandler().getCommand(commandString);
+        IRCCommand command = rb.getCommandHandler().getCommand(commandString);
+        if (command == null && !isPrivateMessage) // search for channel-specific commands
+            command = rb.getCommandHandler().getCommand(commandString + ":" + ((MessageEvent) e).getChannel().getName());
         if (command == null) {
             if (isPrivateMessage) e.respond("No such command.");
             return;
+        }
+        if (command.getName().contains(":") && !isPrivateMessage) {
+            MessageEvent me = (MessageEvent) e;
+            final String[] names = command.getName().split(":");
+            if (names.length < 2) return; // invalid command name
+            if (!me.getChannel().getName().equalsIgnoreCase(names[names.length - 1])) return; // wrong channel
         }
         final IRCCommand.CommandType commandType = command.getCommandType();
         if (!isPrivateMessage && commandType != IRCCommand.CommandType.MESSAGE && commandType != IRCCommand.CommandType.BOTH)

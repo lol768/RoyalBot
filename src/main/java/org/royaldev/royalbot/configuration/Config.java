@@ -106,4 +106,8 @@ public class Config {
         return yc.getString("superadmin", "");
     }
 
+    public ConfigurationSection getChannelCommands() {
+        return yc.getConfigurationSection("channel-commands");
+    }
+
 }

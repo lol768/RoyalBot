@@ -1,5 +1,7 @@
 package org.royaldev.royalbot;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kohsuke.args4j.CmdLineException;
@@ -12,6 +14,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.royaldev.royalbot.commands.*;
 import org.royaldev.royalbot.configuration.Config;
+import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.listeners.YouTubeListener;
 
 import java.io.File;
@@ -95,6 +98,7 @@ public class RoyalBot {
         saveDefaultConfig();
         c = new Config(configPath);
         addCommands();
+        addChannelCommands();
         final Configuration.Builder<PircBotX> cb = new Configuration.Builder<PircBotX>();
         cb.setServer(serverHostname, serverPort)
                 .setName(botNick)
@@ -159,26 +163,93 @@ public class RoyalBot {
     }
 
     private void addCommands() {
+        ch.registerCommand(new AdminCommand());
+        ch.registerCommand(new BaxFaxCommand());
+        ch.registerCommand(new ChannelCommandCommand());
+        ch.registerCommand(new ChuckCommand());
+        ch.registerCommand(new DefineCommand());
         ch.registerCommand(new HelpCommand());
+        ch.registerCommand(new JoinCommand());
+        ch.registerCommand(new MCAccountCommand());
+        ch.registerCommand(new MCPingCommand());
+        ch.registerCommand(new PartCommand());
         ch.registerCommand(new PingCommand());
         ch.registerCommand(new QuitCommand());
-        ch.registerCommand(new MCPingCommand());
-        ch.registerCommand(new AdminCommand());
-        ch.registerCommand(new JoinCommand());
-        ch.registerCommand(new PartCommand());
-        ch.registerCommand(new WolframAlphaCommand());
-        ch.registerCommand(new ShortenCommand());
         ch.registerCommand(new RepositoryCommand());
-        ch.registerCommand(new ShakespeareInsultCommand());
-        ch.registerCommand(new DefineCommand());
-        ch.registerCommand(new BaxFaxCommand());
-        ch.registerCommand(new MCAccountCommand());
-        ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new RoyalBotCommand());
+        ch.registerCommand(new ShakespeareInsultCommand());
+        ch.registerCommand(new ShortenCommand());
+        ch.registerCommand(new WolframAlphaCommand());
     }
 
     private void addListeners(Configuration.Builder<PircBotX> cb) {
         cb.addListener(new YouTubeListener());
+    }
+
+    private void addChannelCommands() {
+        ConfigurationSection cs = getConfig().getChannelCommands();
+        final ObjectMapper om = new ObjectMapper();
+        for (final String channel : cs.getKeys(false)) {
+            ConfigurationSection channelCommands = cs.getConfigurationSection(channel);
+            for (final String command : channelCommands.getKeys(false)) {
+                JsonNode jn;
+                try {
+                    jn = om.readTree(channelCommands.getString(command, ""));
+                } catch (Exception ex) {
+                    continue;
+                }
+                final String name = jn.path("name").asText().trim();
+                final String desc = jn.path("description").asText().trim();
+                final String usage = jn.path("usage").asText().trim();
+                final String auth = jn.path("auth").asText().trim();
+                final String script = jn.path("script").asText().trim();
+                if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
+                    continue;
+                }
+                final IRCCommand.AuthLevel al;
+                try {
+                    al = IRCCommand.AuthLevel.valueOf(auth.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    continue;
+                }
+                ch.registerCommand(new ChannelCommand() {
+                    @Override
+                    public String getBaseName() {
+                        return name;
+                    }
+
+                    @Override
+                    public String getChannel() {
+                        return channel;
+                    }
+
+                    @Override
+                    public String getJavaScript() {
+                        return script;
+                    }
+
+                    @Override
+                    public String getUsage() {
+                        return usage;
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return desc;
+                    }
+
+                    @Override
+                    public String[] getAliases() {
+                        return new String[0];
+                    }
+
+                    @Override
+                    public AuthLevel getAuthLevel() {
+                        return al;
+                    }
+                });
+            }
+        }
     }
 
     public PircBotX getBot() {

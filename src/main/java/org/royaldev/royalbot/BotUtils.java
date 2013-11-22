@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -118,6 +119,10 @@ public class BotUtils {
     public static String shortenURL(String url) throws IOException, URISyntaxException {
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
         return getContent(shorten.toString()).split("\n")[0];
+    }
+
+    public static String getHelpString(IRCCommand ic) {
+        return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Type: " + ic.getCommandType().getDescription();
     }
 
 }

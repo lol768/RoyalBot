@@ -6,6 +6,16 @@ admins:
 # Channels here will automatically be joined
 channels:
 - "#royalbot"
+channel-commands:
+  "#royalbot":
+    example: |
+      {
+        "name": "example",
+        "description": "Prints out an example message",
+        "usage": "<command>",
+        "auth": "PUBLIC",
+        "script": "var name = event.getUser().getNick(); // omg JS!\nevent.respond(\"This is an example, \" + name + \".\");"
+      }
 # "Fax" for BaxFax command - Pull Requests welcome!
 baxfax:
 - "mbaxter is not a mother. Not actually."

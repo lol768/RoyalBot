@@ -20,6 +20,7 @@ public class HelpCommand implements IRCCommand {
         u.send().message("Channel command prefix: \"" + rb.getCommandPrefix() + "\"");
         if (args.length < 1) {
             for (IRCCommand ic : ch.getAllCommands()) {
+                if (ic instanceof ChannelCommand) continue;
                 if (ic.getAuthLevel() == AuthLevel.ADMIN && !userIsAdmin) continue;
                 if (ic.getAuthLevel() == AuthLevel.SUPERADMIN && !isSuperAdmin) continue;
                 u.send().message(getHelpString(ic));
