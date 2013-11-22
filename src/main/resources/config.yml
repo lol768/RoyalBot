@@ -23,7 +23,7 @@ baxfax:
 - "No one knows the origin of the original mbaxter."
 - "TnT cannot harm mbaxter; it is against his Code of Conduct."
 - "mbaxter is impervious to fire, but weak against earth."
-- "mbaxter's melting point is 800 degrees Fahrenheit."
+- "mbaxter's melting point is 8000 degrees Kelvin."
 - "mbaxter goes by mbax or mombaxter."
 - "mbaxter cannot be harmed by mere mortals."
 - "mbaxter opened the gates to Hell."
@@ -110,6 +110,9 @@ baxfax:
 - "mbaxter poops out bars of gold."
 - "Beware impostors! Official baxfax only come from approved sources."
 - "The average kitten is VERY adorable."
+- "The speed of mbaxter is 3*10^8."
+- "mbaxter can punch so hard the mass of anything he punches gets so concentrated a black hole is formed."
+- "mbaxter can escape an event horizon."
 # YouTube link parsing
 youtube:
   enabled: false
