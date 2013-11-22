@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.configuration.ConfigurationSection;
 
 public class ChannelCommandCommand implements IRCCommand {
 
@@ -131,6 +132,35 @@ public class ChannelCommandCommand implements IRCCommand {
             event.respond("Unregistered.");
             rb.getConfig().getChannelCommands().set(channel + "." + ic.getName(), null);
             rb.getConfig().save();
+        } else if (subcommand.equalsIgnoreCase("source")) {
+            if (args.length < 3) {
+                event.respond("Not enough arguments.");
+                return;
+            }
+            final String channel = args[1];
+            final String command = args[2];
+            if (!event.getBot().getUserChannelDao().getChannel(channel).getOps().contains(event.getUser()) && !event.getUser().isIrcop()) {
+                event.respond("You are not an operator in that channel.");
+                return;
+            }
+            ConfigurationSection cs = rb.getConfig().getChannelCommands().getConfigurationSection(channel);
+            if (cs == null) {
+                event.respond("No commands in that channel.");
+                return;
+            }
+            String json = cs.getString(command);
+            if (json == null) {
+                event.respond("No such command.");
+                return;
+            }
+            String url = BotUtils.pastebin(json);
+            if (url == null) event.respond("Could not paste the source!");
+            else event.respond(url + ".json");
+        } else if (subcommand.equalsIgnoreCase("help")) {
+            event.respond("channelcommand list [channel] - Lists all commands in a channel");
+            event.respond("channelcommand add [channel] [url] - Adds a command to the channel from a raw paste of the JSON");
+            event.respond("channelcommand remove [channel] [name] - Removes the named command from the channel");
+            event.respond("channelcommand source [channel] [name] - Retrieves the source of the named command");
         } else {
             event.respond("No such subcommand.");
         }

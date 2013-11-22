@@ -74,7 +74,7 @@ public class BotUtils {
             return null;
         }
         json = jn.path("key").asText();
-        return json.isEmpty() ? null : "http://hastebin.com/" + json + ".txt";
+        return json.isEmpty() ? null : "http://hastebin.com/" + json;
     }
 
     /**
@@ -95,7 +95,7 @@ public class BotUtils {
                 url = BotUtils.shortenURL(pastebin);
             } catch (Exception ignored) {
             }
-            if (url != null) return url;
+            if (url != null) return url + ".txt";
         }
         return null;
     }
