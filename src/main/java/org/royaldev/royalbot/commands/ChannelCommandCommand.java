@@ -124,13 +124,14 @@ public class ChannelCommandCommand implements IRCCommand {
                 event.respond("No such command.");
                 return;
             }
-            if (!((ChannelCommand) ic).getChannel().equalsIgnoreCase(channel)) {
+            ChannelCommand cc = (ChannelCommand) ic;
+            if (!cc.getChannel().equalsIgnoreCase(channel)) {
                 event.respond("That command does not appear to register with the channel.");
                 return;
             }
             rb.getCommandHandler().unregisterCommand(ic.getName());
             event.respond("Unregistered.");
-            rb.getConfig().getChannelCommands().set(channel + "." + ic.getName(), null);
+            rb.getConfig().getChannelCommands().set(channel + "." + cc.getBaseName(), null);
             rb.getConfig().save();
         } else if (subcommand.equalsIgnoreCase("source")) {
             if (args.length < 3) {
