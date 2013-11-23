@@ -88,14 +88,15 @@ public class BotUtils {
      * @return Shortened link to the stack trace or null
      */
     public static String linkToStackTrace(Exception ex) {
-        final String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
+        String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
         if (pastebin != null) {
+            pastebin += ".txt";
             String url = null;
             try {
                 url = BotUtils.shortenURL(pastebin);
             } catch (Exception ignored) {
             }
-            if (url != null) return url + ".txt";
+            if (url != null) return url;
         }
         return null;
     }
