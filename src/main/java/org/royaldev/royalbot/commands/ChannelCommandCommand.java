@@ -62,7 +62,8 @@ public class ChannelCommandCommand implements IRCCommand {
             final String auth = jn.path("auth").asText().trim();
             final String script = jn.path("script").asText().trim();
             final List<String> aliases = new ArrayList<String>();
-            for (String alias : jn.path("aliases").asText().trim().split(",")) aliases.add(alias.trim());
+            for (String alias : jn.path("aliases").asText().trim().split(","))
+                aliases.add(alias.trim() + ":" + channel);
             if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
                 event.respond("Invalid JSON.");
                 return;
