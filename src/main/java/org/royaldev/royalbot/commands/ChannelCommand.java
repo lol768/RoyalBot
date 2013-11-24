@@ -46,7 +46,8 @@ public abstract class ChannelCommand implements IRCCommand {
         c.setClassShutter(new ClassShutter() {
             @Override
             public boolean visibleToScripts(String className) {
-                if (className.equals("org.pircbotx.PircBotX")) return false; // no bot access
+                if (className.equals("org.royaldev.royalbot.BotUtils")) return true; // allow BotUtils
+                else if (className.equals("org.pircbotx.PircBotX")) return false; // no bot access
                 else if (className.startsWith("org.royaldev.royalbot")) return false; // no package access
                 return true;
             }
