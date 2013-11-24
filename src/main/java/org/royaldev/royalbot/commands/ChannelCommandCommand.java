@@ -7,6 +7,9 @@ import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChannelCommandCommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
@@ -58,6 +61,8 @@ public class ChannelCommandCommand implements IRCCommand {
             final String usage = jn.path("usage").asText().trim();
             final String auth = jn.path("auth").asText().trim();
             final String script = jn.path("script").asText().trim();
+            final List<String> aliases = new ArrayList<String>();
+            for (String alias : jn.path("aliases").asText().trim().split(",")) aliases.add(alias.trim());
             if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
                 event.respond("Invalid JSON.");
                 return;
@@ -97,7 +102,7 @@ public class ChannelCommandCommand implements IRCCommand {
 
                 @Override
                 public String[] getAliases() {
-                    return new String[0];
+                    return aliases.toArray(new String[aliases.size()]);
                 }
 
                 @Override
