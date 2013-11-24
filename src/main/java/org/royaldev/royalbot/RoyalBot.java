@@ -1,7 +1,5 @@
 package org.royaldev.royalbot;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kohsuke.args4j.CmdLineException;
@@ -23,8 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -190,67 +186,16 @@ public class RoyalBot {
 
     private void addChannelCommands() {
         ConfigurationSection cs = getConfig().getChannelCommands();
-        final ObjectMapper om = new ObjectMapper();
         for (final String channel : cs.getKeys(false)) {
             ConfigurationSection channelCommands = cs.getConfigurationSection(channel);
             for (final String command : channelCommands.getKeys(false)) {
-                JsonNode jn;
+                final ChannelCommand cc;
                 try {
-                    jn = om.readTree(channelCommands.getString(command, ""));
-                } catch (Exception ex) {
+                    cc = BotUtils.createChannelCommand(channelCommands.getString(command, ""), channel);
+                } catch (Exception e) {
                     continue;
                 }
-                final String name = jn.path("name").asText().trim();
-                final String desc = jn.path("description").asText().trim();
-                final String usage = jn.path("usage").asText().trim();
-                final String auth = jn.path("auth").asText().trim();
-                final String script = jn.path("script").asText().trim();
-                final List<String> aliases = new ArrayList<String>();
-                for (String alias : jn.path("aliases").asText().trim().split(","))
-                    aliases.add(alias.trim() + ":" + channel);
-                if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) continue;
-                final IRCCommand.AuthLevel al;
-                try {
-                    al = IRCCommand.AuthLevel.valueOf(auth.toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    continue;
-                }
-                ch.registerCommand(new ChannelCommand() {
-                    @Override
-                    public String getBaseName() {
-                        return name;
-                    }
-
-                    @Override
-                    public String getChannel() {
-                        return channel;
-                    }
-
-                    @Override
-                    public String getJavaScript() {
-                        return script;
-                    }
-
-                    @Override
-                    public String getUsage() {
-                        return usage;
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return desc;
-                    }
-
-                    @Override
-                    public String[] getAliases() {
-                        return aliases.toArray(new String[aliases.size()]);
-                    }
-
-                    @Override
-                    public AuthLevel getAuthLevel() {
-                        return al;
-                    }
-                });
+                ch.registerCommand(cc);
             }
         }
     }

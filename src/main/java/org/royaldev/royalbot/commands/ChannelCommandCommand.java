@@ -1,19 +1,13 @@
 package org.royaldev.royalbot.commands;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ChannelCommandCommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
-    private final ObjectMapper om = new ObjectMapper();
 
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
@@ -48,71 +42,20 @@ public class ChannelCommandCommand implements IRCCommand {
                 event.respond("You are not an operator in that channel.");
                 return;
             }
-            JsonNode jn;
+            final ChannelCommand cc;
             try {
-                jn = om.readTree(BotUtils.getContent(url));
+                cc = BotUtils.createChannelCommand(BotUtils.getContent(url), channel);
             } catch (Exception ex) {
-                String paste = BotUtils.linkToStackTrace(ex);
-                event.respond("An error occurred reading that!" + ((paste != null) ? " (" + paste + ")" : ""));
+                final String stackTraceURL = BotUtils.linkToStackTrace(ex);
+                event.respond("Could not create command!" + ((url == null) ? "" : " (" + stackTraceURL + ")"));
                 return;
             }
-            final String name = jn.path("name").asText().trim();
-            final String desc = jn.path("description").asText().trim();
-            final String usage = jn.path("usage").asText().trim();
-            final String auth = jn.path("auth").asText().trim();
-            final String script = jn.path("script").asText().trim();
-            final List<String> aliases = new ArrayList<String>();
-            for (String alias : jn.path("aliases").asText().trim().split(","))
-                aliases.add(alias.trim() + ":" + channel);
-            if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
-                event.respond("Invalid JSON.");
+            if (rb.getCommandHandler().registerCommand(cc)) event.respond("Registered command.");
+            else {
+                event.respond("Could not register that command.");
                 return;
             }
-            final AuthLevel al;
-            try {
-                al = AuthLevel.valueOf(auth.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                event.respond("Invalid auth level.");
-                return;
-            }
-            rb.getCommandHandler().registerCommand(new ChannelCommand() {
-                @Override
-                public String getBaseName() {
-                    return name;
-                }
-
-                @Override
-                public String getChannel() {
-                    return channel;
-                }
-
-                @Override
-                public String getJavaScript() {
-                    return script;
-                }
-
-                @Override
-                public String getUsage() {
-                    return usage;
-                }
-
-                @Override
-                public String getDescription() {
-                    return desc;
-                }
-
-                @Override
-                public String[] getAliases() {
-                    return aliases.toArray(new String[aliases.size()]);
-                }
-
-                @Override
-                public AuthLevel getAuthLevel() {
-                    return al;
-                }
-            });
-            event.respond("Attempted to register command.");
-            rb.getConfig().getChannelCommands().set(channel + "." + name, jn.toString());
+            rb.getConfig().getChannelCommands().set(channel + "." + cc.getBaseName(), cc.toString());
             rb.getConfig().save();
         } else if (subcommand.equalsIgnoreCase("remove")) {
             if (args.length < 3) {

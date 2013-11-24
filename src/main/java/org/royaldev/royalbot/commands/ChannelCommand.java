@@ -1,5 +1,7 @@
 package org.royaldev.royalbot.commands;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.ClassShutter;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
@@ -11,7 +13,12 @@ import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class ChannelCommand implements IRCCommand {
+
+    private final ObjectMapper om = new ObjectMapper();
 
     static {
         ContextFactory.initGlobal(new SandboxContextFactory());
@@ -40,7 +47,7 @@ public abstract class ChannelCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
-        if (!(event instanceof MessageEvent)) return; // how?
+        if (!(event instanceof MessageEvent)) return; // these commands should only be channel messages
         final MessageEvent me = (MessageEvent) event;
         final Context c = ContextFactory.getGlobal().enterContext();
         c.setClassShutter(new ClassShutter() {
@@ -73,6 +80,27 @@ public abstract class ChannelCommand implements IRCCommand {
     @Override
     public String getName() {
         return getBaseName() + ":" + getChannel();
+    }
+
+    @Override
+    public String toString() {
+        final Map<String, Object> data = new HashMap<String, Object>();
+        data.put("name", getBaseName());
+        final StringBuilder aliases = new StringBuilder();
+        for (String alias : getAliases()) {
+            String[] split = alias.split(":#");
+            aliases.append(StringUtils.join(split, ":#", 0, split.length - 1)).append(",");
+        }
+        data.put("aliases", aliases.substring(0, aliases.length() - 1));
+        data.put("description", getDescription());
+        data.put("usage", getUsage());
+        data.put("auth", getAuthLevel().name());
+        data.put("script", getJavaScript());
+        try {
+            return om.writeValueAsString(data);
+        } catch (Exception e) {
+            return "{}";
+        }
     }
 
     private static class SandboxContextFactory extends ContextFactory {

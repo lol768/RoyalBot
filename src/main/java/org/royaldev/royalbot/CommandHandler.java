@@ -19,11 +19,12 @@ public class CommandHandler {
      * register your command.
      *
      * @param command Command to be registered
+     * @return If command was registered
      */
-    public void registerCommand(IRCCommand command) {
+    public boolean registerCommand(IRCCommand command) {
         final String name = command.getName().toLowerCase();
         synchronized (commands) {
-            if (commands.containsKey(name)) return;
+            if (commands.containsKey(name)) return false;
             commands.put(name, command);
         }
         for (String alias : command.getAliases()) {
@@ -32,6 +33,7 @@ public class CommandHandler {
                 aliasCommands.put(alias, name);
             }
         }
+        return true;
     }
 
     /**

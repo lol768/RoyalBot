@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.io.BufferedReader;
@@ -19,8 +20,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BotUtils {
+
+    private final static ObjectMapper om = new ObjectMapper();
 
     /**
      * Gets the appropriate string to send to a user if an exception is encountered.
@@ -124,6 +129,69 @@ public class BotUtils {
 
     public static String getHelpString(IRCCommand ic) {
         return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Type: " + ic.getCommandType().getDescription();
+    }
+
+    public static ChannelCommand createChannelCommand(String commandJson, final String channel) throws RuntimeException {
+        final JsonNode jn;
+        try {
+            jn = om.readTree(commandJson);
+        } catch (Exception ex) {
+            String paste = BotUtils.linkToStackTrace(ex);
+            throw new RuntimeException("An error occurred reading that!" + ((paste != null) ? " (" + paste + ")" : ""));
+        }
+        final String name = jn.path("name").asText().trim();
+        final String desc = jn.path("description").asText().trim();
+        final String usage = jn.path("usage").asText().trim();
+        final String auth = jn.path("auth").asText().trim();
+        final String script = jn.path("script").asText().trim();
+        final List<String> aliases = new ArrayList<String>();
+        for (String alias : jn.path("aliases").asText().trim().split(","))
+            aliases.add(alias.trim() + ":" + channel);
+        if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
+            throw new RuntimeException("Invalid JSON.");
+        }
+        final IRCCommand.AuthLevel al;
+        try {
+            al = IRCCommand.AuthLevel.valueOf(auth.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid auth level.");
+        }
+        return new ChannelCommand() {
+            @Override
+            public String getBaseName() {
+                return name;
+            }
+
+            @Override
+            public String getChannel() {
+                return channel;
+            }
+
+            @Override
+            public String getJavaScript() {
+                return script;
+            }
+
+            @Override
+            public String getUsage() {
+                return usage;
+            }
+
+            @Override
+            public String getDescription() {
+                return desc;
+            }
+
+            @Override
+            public String[] getAliases() {
+                return aliases.toArray(new String[aliases.size()]);
+            }
+
+            @Override
+            public AuthLevel getAuthLevel() {
+                return al;
+            }
+        };
     }
 
 }
