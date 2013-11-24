@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -203,6 +205,8 @@ public class RoyalBot {
                 final String usage = jn.path("usage").asText().trim();
                 final String auth = jn.path("auth").asText().trim();
                 final String script = jn.path("script").asText().trim();
+                final List<String> aliases = new ArrayList<String>();
+                for (String alias : jn.path("aliases").asText().trim().split(",")) aliases.add(alias.trim());
                 if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
                     continue;
                 }
@@ -240,7 +244,7 @@ public class RoyalBot {
 
                     @Override
                     public String[] getAliases() {
-                        return new String[0];
+                        return aliases.toArray(new String[aliases.size()]);
                     }
 
                     @Override
