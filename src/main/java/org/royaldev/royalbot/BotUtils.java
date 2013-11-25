@@ -119,12 +119,12 @@ public class BotUtils {
         final StringBuilder sb = new StringBuilder();
         String line;
         while ((line = br.readLine()) != null) sb.append(line).append("\n");
-        return sb.toString();
+        return sb.substring(0, sb.length() - 1); // remove last newline
     }
 
     public static String shortenURL(String url) throws IOException, URISyntaxException {
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
-        return getContent(shorten.toString()).split("\n")[0];
+        return getContent(shorten.toString());
     }
 
     public static String getHelpString(IRCCommand ic) {
