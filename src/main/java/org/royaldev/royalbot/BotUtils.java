@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BotUtils {
@@ -30,19 +31,31 @@ public class BotUtils {
     /**
      * Gets the appropriate string to send to a user if an exception is encountered.
      *
-     * @param e Exception to format
+     * @param t Exception to format
      * @return Message to send user; never null
      */
-    public static String formatException(Exception e) {
-        return "Exception! " + e.getClass().getSimpleName() + ": " + e.getMessage();
+    public static String formatException(Throwable t) {
+        return "Exception! " + t.getClass().getSimpleName() + ": " + t.getMessage();
     }
 
-    public static String getStackTrace(Exception e) {
+    /**
+     * Converts a Throwable's stack trace into a String.
+     *
+     * @param t Throwable
+     * @return Stack trace as string
+     */
+    public static String getStackTrace(Throwable t) {
         final StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
+        t.printStackTrace(new PrintWriter(sw));
         return sw.toString();
     }
 
+    /**
+     * Pastes something to Hastebin.
+     *
+     * @param paste String to paste
+     * @return Hastebin URL or null if error encountered
+     */
     public static String pastebin(String paste) {
         final CloseableHttpClient hc = HttpClients.createDefault();
         final HttpPost hp = new HttpPost("http://hastebin.com/documents");
@@ -122,15 +135,37 @@ public class BotUtils {
         return sb.substring(0, sb.length() - 1); // remove last newline
     }
 
+    /**
+     * Shortens a URL with is.gd.
+     *
+     * @param url URL to shorten
+     * @return Shortened URL
+     * @throws IOException
+     * @throws URISyntaxException
+     */
     public static String shortenURL(String url) throws IOException, URISyntaxException {
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
         return getContent(shorten.toString());
     }
 
+    /**
+     * Gets a string to send a user if help is requested for a command.
+     *
+     * @param ic Command to get help for
+     * @return String to send user
+     */
     public static String getHelpString(IRCCommand ic) {
-        return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Type: " + ic.getCommandType().getDescription();
+        return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Aliases: " + Arrays.toString(ic.getAliases()) + " / Type: " + ic.getCommandType().getDescription();
     }
 
+    /**
+     * Creates a channel-specific command based on JSON.
+     *
+     * @param commandJson JSON of command
+     * @param channel     Channel for command
+     * @return ChannelCommand
+     * @throws RuntimeException If there is any error
+     */
     public static ChannelCommand createChannelCommand(String commandJson, final String channel) throws RuntimeException {
         final JsonNode jn;
         try {
@@ -145,8 +180,7 @@ public class BotUtils {
         final String auth = jn.path("auth").asText().trim();
         final String script = jn.path("script").asText().trim();
         final List<String> aliases = new ArrayList<String>();
-        for (String alias : jn.path("aliases").asText().trim().split(","))
-            aliases.add(alias.trim() + ":" + channel);
+        for (String alias : jn.path("aliases").asText().trim().split(",")) aliases.add(alias.trim() + ":" + channel);
         if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
             throw new RuntimeException("Invalid JSON.");
         }
