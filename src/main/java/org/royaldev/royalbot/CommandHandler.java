@@ -28,6 +28,7 @@ public class CommandHandler {
             commands.put(name, command);
         }
         for (String alias : command.getAliases()) {
+            alias = alias.toLowerCase();
             synchronized (aliasCommands) {
                 if (aliasCommands.containsKey(alias)) continue;
                 aliasCommands.put(alias, name);
