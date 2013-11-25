@@ -2,8 +2,6 @@ package org.royaldev.royalbot.listeners;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.Period;
-import org.joda.time.format.ISOPeriodFormat;
 import org.pircbotx.Colors;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
@@ -18,9 +16,19 @@ import java.util.regex.Pattern;
 public class YouTubeListener extends ListenerAdapter<PircBotX> {
 
     private final Pattern p = Pattern.compile("https?://(www\\.)?youtube\\.com/watch\\?v=([\\w\\-]+)");
+    // 2 = hour, 4 = minute, 6 = second
+    private final Pattern time = Pattern.compile("PT((\\d+)H)?((\\d+)M)?((\\d+)S)?");
     private final ObjectMapper om = new ObjectMapper();
     private final DecimalFormat df = new DecimalFormat("00");
     private final RoyalBot rb = RoyalBot.getInstance();
+
+    private int zeroOrNumber(String s) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
 
     @Override
     public void onMessage(MessageEvent e) {
@@ -33,8 +41,6 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
                 String url = "https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,statistics,contentDetails";
                 jn = om.readTree(BotUtils.getContent(String.format(url, m.group(2), rb.getConfig().getYouTubeAPIKey())));
             } catch (Exception ex) {
-                final String link = BotUtils.linkToStackTrace(ex);
-                e.respond("Exception!" + ((link == null) ? "" : " " + link));
                 return;
             }
             jn = jn.findValue("items");
@@ -44,11 +50,12 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
             JsonNode snippet = jn.findPath("snippet");
             JsonNode statistics = jn.findPath("statistics");
             JsonNode contentDetails = jn.findPath("contentDetails");
-            Period p = ISOPeriodFormat.standard().parsePeriod(contentDetails.findPath("duration").asText());
+            Matcher timeMatcher = time.matcher(contentDetails.findPath("duration").asText());
+            timeMatcher.find();
             e.respond(String.format("%s by %s (%s) - %s views",
                     Colors.BOLD + snippet.findPath("title").asText() + Colors.NORMAL,
                     Colors.BOLD + snippet.findPath("channelTitle").asText() + Colors.NORMAL,
-                    df.format(p.getHours()) + ":" + df.format(p.getMinutes()) + ":" + df.format(p.getSeconds()),
+                    df.format(zeroOrNumber(timeMatcher.group(2))) + ":" + df.format(zeroOrNumber(timeMatcher.group(4))) + ":" + df.format(zeroOrNumber(timeMatcher.group(6))),
                     statistics.findPath("viewCount").asLong()
             ));
         }

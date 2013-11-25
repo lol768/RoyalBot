@@ -1,7 +1,5 @@
 package org.royaldev.royalbot;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -21,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -69,12 +69,12 @@ public class RoyalBot {
     private RoyalBot(String[] args) {
         final ConsoleHandler ch = new ConsoleHandler();
         ch.setFormatter(new Formatter() {
-            private final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+            private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             @Override
             public String format(LogRecord logRecord) {
                 final StringBuilder sb = new StringBuilder();
-                sb.append(dtf.print(System.currentTimeMillis()));
+                sb.append(sdf.format(new Date()));
                 sb.append(" [").append(logRecord.getLevel().getLocalizedName()).append("] ");
                 sb.append(logRecord.getMessage()).append("\n");
                 return sb.toString();
