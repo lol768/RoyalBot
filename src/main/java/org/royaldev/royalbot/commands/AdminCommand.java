@@ -55,7 +55,7 @@ public class AdminCommand implements IRCCommand {
 
     @Override
     public String getUsage() {
-        return "admin [add/remove] (name)";
+        return "admin [add/remove/list] (name)";
     }
 
     @Override
