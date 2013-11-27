@@ -3,6 +3,7 @@ package org.royaldev.royalbot.commands;
 
 import org.pircbotx.User;
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.CommandHandler;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.auth.Auth;
@@ -23,7 +24,7 @@ public class HelpCommand implements IRCCommand {
                 if (ic instanceof ChannelCommand) continue;
                 if (ic.getAuthLevel() == AuthLevel.ADMIN && !userIsAdmin) continue;
                 if (ic.getAuthLevel() == AuthLevel.SUPERADMIN && !isSuperAdmin) continue;
-                u.send().message(getHelpString(ic));
+                u.send().message(BotUtils.getHelpString(ic));
             }
         } else {
             final IRCCommand ic = ch.getCommand(args[0]);
@@ -31,7 +32,7 @@ public class HelpCommand implements IRCCommand {
                 event.respond("No such command!");
                 return;
             }
-            u.send().message(getHelpString(ic));
+            u.send().message(BotUtils.getHelpString(ic));
         }
     }
 
@@ -53,10 +54,6 @@ public class HelpCommand implements IRCCommand {
     @Override
     public String[] getAliases() {
         return new String[0];
-    }
-
-    private String getHelpString(IRCCommand ic) {
-        return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Type: " + ic.getCommandType().getDescription();
     }
 
     @Override
