@@ -98,12 +98,12 @@ public class ChannelCommandCommand implements IRCCommand {
                 event.respond("No commands in that channel.");
                 return;
             }
-            String json = cs.getString(command);
-            if (json == null) {
+            IRCCommand ic = rb.getCommandHandler().getCommand(command);
+            if (ic == null || !(ic instanceof ChannelCommand)) {
                 event.respond("No such command.");
                 return;
             }
-            String url = BotUtils.pastebin(json);
+            String url = BotUtils.pastebin(ic.toString());
             if (url == null) event.respond("Could not paste the source!");
             else event.respond(url + ".json");
         } else if (subcommand.equalsIgnoreCase("help")) {
