@@ -60,9 +60,21 @@ public interface IRCCommand {
      */
     public AuthLevel getAuthLevel();
 
+    /**
+     * CommandType defines where a command can be used.
+     */
     public static enum CommandType {
+        /**
+         * Command can be used in channel messages only.
+         */
         MESSAGE("Channel message only"),
+        /**
+         * Command can be used in private messages only.
+         */
         PRIVATE("Private message only"),
+        /**
+         * Command can be used in either channel or private message.
+         */
         BOTH("Channel or private message");
 
         private final String description;
@@ -71,14 +83,31 @@ public interface IRCCommand {
             this.description = description;
         }
 
+        /**
+         * Gets the description of where the command can be used.
+         *
+         * @return Description
+         */
         public String getDescription() {
             return description;
         }
     }
 
+    /**
+     * AuthLevel defines who can use the command.
+     */
     public static enum AuthLevel {
+        /**
+         * Anyone can use the command.
+         */
         PUBLIC,
+        /**
+         * Only bot admins can use the command.
+         */
         ADMIN,
+        /**
+         * Only the bot superadmin can use the command.
+         */
         SUPERADMIN
     }
 }
