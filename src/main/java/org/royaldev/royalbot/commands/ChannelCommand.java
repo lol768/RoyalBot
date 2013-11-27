@@ -25,7 +25,7 @@ public abstract class ChannelCommand implements IRCCommand {
     }
 
     /**
-     * Gets the name of the command.
+     * Gets the name of the command without the channel appended.
      *
      * @return Name of the command
      */
@@ -45,8 +45,18 @@ public abstract class ChannelCommand implements IRCCommand {
      */
     public abstract String getJavaScript();
 
+    /**
+     * This executes the command. In ChannelCommands, this will set up a Context for Rhino to use to execute the
+     * command's JavaScript, which will be obtained from {@link #getJavaScript()}. Two global variables will be passed
+     * to the script: <code>event</code> and <code>args</code>, the same that are used in this method.
+     * <code>event</code> will always be a {@link MessageEvent}. If any exceptions occur while the JavaScript is being
+     * processed, they will be caught and pasted.
+     *
+     * @param event Event of receiving command
+     * @param args  Arguments passed to the command
+     */
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public final void onCommand(GenericMessageEvent event, String[] args) {
         if (!(event instanceof MessageEvent)) return; // these commands should only be channel messages
         final MessageEvent me = (MessageEvent) event;
         final Context c = ContextFactory.getGlobal().enterContext();
@@ -73,17 +83,17 @@ public abstract class ChannelCommand implements IRCCommand {
     }
 
     @Override
-    public CommandType getCommandType() {
+    public final CommandType getCommandType() {
         return CommandType.MESSAGE;
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return getBaseName() + ":" + getChannel();
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         final Map<String, Object> data = new HashMap<String, Object>();
         data.put("name", getBaseName());
         final StringBuilder aliases = new StringBuilder();
