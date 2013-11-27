@@ -6,6 +6,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.CharOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
 import org.kohsuke.args4j.spi.LongOptionHandler;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.royaldev.royalbot.commands.*;
@@ -59,7 +60,7 @@ public class RoyalBot {
     @Option(name = "-C", usage = "Sets the command prefix (one character) to use for the bot", aliases = {"--command-prefix"}, handler = CharOptionHandler.class)
     private char commandPrefix = ':';
     @SuppressWarnings("MismatchedReadAndWriteOfArray")
-    @Option(name = "-c", usage = "List of channels to join (e.g. \"#chan #chan2\"", aliases = {"--channels"})
+    @Option(name = "-c", usage = "List of channels to join (e.g. \"#chan #chan2\")", aliases = {"--channels"}, handler = StringArrayOptionHandler.class)
     private String[] channels = new String[0];
     @Option(name = "-p", usage = "Set the port of the server to connect to", aliases = {"--port"}, handler = IntOptionHandler.class)
     private int serverPort = 6667;
@@ -119,6 +120,7 @@ public class RoyalBot {
                 try {
                     bot.startBot();
                 } catch (Exception e) {
+                    e.printStackTrace();
                     getLogger().severe("Could not start bot: " + e.getClass().getSimpleName() + " (" + e.getMessage() + ")");
                     System.exit(1);
                 }
@@ -170,6 +172,7 @@ public class RoyalBot {
         ch.registerCommand(new JoinCommand());
         ch.registerCommand(new MCAccountCommand());
         ch.registerCommand(new MCPingCommand());
+        ch.registerCommand(new MessageCommand());
         ch.registerCommand(new PartCommand());
         ch.registerCommand(new PingCommand());
         ch.registerCommand(new QuitCommand());

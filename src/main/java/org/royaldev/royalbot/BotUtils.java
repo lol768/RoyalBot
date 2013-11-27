@@ -104,8 +104,8 @@ public class BotUtils {
      * @param ex Exception to do this with
      * @return Shortened link to the stack trace or null
      */
-    public static String linkToStackTrace(Exception ex) {
-        String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(ex));
+    public static String linkToStackTrace(Throwable t) {
+        String pastebin = BotUtils.pastebin(BotUtils.getStackTrace(t));
         if (pastebin != null) {
             pastebin += ".txt";
             String url = null;
