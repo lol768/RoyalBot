@@ -84,7 +84,6 @@ public class BotUtils {
         } catch (IOException ex) {
             return null;
         }
-        final ObjectMapper om = new ObjectMapper();
         JsonNode jn;
         try {
             jn = om.readTree(json);
@@ -96,8 +95,8 @@ public class BotUtils {
     }
 
     /**
-     * Convenience method to get a stack trace from an Exception, send it to Pastebin, and then shorten the link with
-     * is.gd. If Pastebin is disabled in the config, this will return null.
+     * Convenience method to get a stack trace from an Exception, send it to Hastebin, and then shorten the link with
+     * is.gd.
      * <br/>
      * <strong>Note:</strong> If <em>any</em> errors occur, this will simply return null, and you will get no feedback
      * of the error.
