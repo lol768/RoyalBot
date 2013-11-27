@@ -91,7 +91,7 @@ public abstract class ChannelCommand implements IRCCommand {
             String[] split = alias.split(":#");
             aliases.append(StringUtils.join(split, ":#", 0, split.length - 1)).append(",");
         }
-        data.put("aliases", aliases.substring(0, aliases.length() - 1));
+        if (aliases.length() > 0) data.put("aliases", aliases.substring(0, aliases.length() - 1));
         data.put("description", getDescription());
         data.put("usage", getUsage());
         data.put("auth", getAuthLevel().name());
