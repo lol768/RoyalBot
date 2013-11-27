@@ -180,7 +180,11 @@ public class BotUtils {
         final String auth = jn.path("auth").asText().trim();
         final String script = jn.path("script").asText().trim();
         final List<String> aliases = new ArrayList<String>();
-        for (String alias : jn.path("aliases").asText().trim().split(",")) aliases.add(alias.trim() + ":" + channel);
+        for (String alias : jn.path("aliases").asText().trim().split(",")) {
+            alias = alias.trim();
+            if (alias.isEmpty()) continue;
+            aliases.add(alias + ":" + channel);
+        }
         if (name.isEmpty() || desc.isEmpty() || usage.isEmpty() || auth.isEmpty() || script.isEmpty()) {
             throw new RuntimeException("Invalid JSON.");
         }
