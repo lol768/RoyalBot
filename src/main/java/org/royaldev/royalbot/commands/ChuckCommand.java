@@ -6,13 +6,22 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ChuckCommand implements IRCCommand {
 
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
-        final String url = "http://api.icndb.com/jokes/random" + ((args.length > 0) ? "?limitTo=[" + args[0] + "]" : "");
+        final String url;
+        try {
+            url = "http://api.icndb.com/jokes/random" + ((args.length > 0) ? "?limitTo=[" + URLEncoder.encode(args[0], "UTF-8") + "]" : "");
+        } catch (UnsupportedEncodingException ex) {
+            event.respond("Couldn't encode in UTF-8.");
+            return;
+        }
         JsonNode jn;
         try {
             jn = om.readTree(BotUtils.getContent(url));
