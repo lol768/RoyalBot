@@ -92,6 +92,11 @@ public abstract class ChannelCommand implements IRCCommand {
         return getBaseName() + ":" + getChannel();
     }
 
+    /**
+     * Writes the command out in JSON, ready for use with a command maker.
+     *
+     * @return Command as a JSON string
+     */
     @Override
     public final String toString() {
         final Map<String, Object> data = new HashMap<String, Object>();
