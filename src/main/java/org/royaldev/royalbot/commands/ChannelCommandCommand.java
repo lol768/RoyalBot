@@ -98,7 +98,7 @@ public class ChannelCommandCommand implements IRCCommand {
                 event.respond("No commands in that channel.");
                 return;
             }
-            IRCCommand ic = rb.getCommandHandler().getCommand(command);
+            IRCCommand ic = rb.getCommandHandler().getCommand(command + ":" + channel);
             if (ic == null || !(ic instanceof ChannelCommand)) {
                 event.respond("No such command.");
                 return;
