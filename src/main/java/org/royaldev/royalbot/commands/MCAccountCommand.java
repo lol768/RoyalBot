@@ -42,7 +42,7 @@ public class MCAccountCommand implements IRCCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"ispremium"};
+        return new String[]{"ispremium", "haspaid"};
     }
 
     @Override
