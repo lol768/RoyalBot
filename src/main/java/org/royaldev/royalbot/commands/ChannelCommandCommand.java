@@ -128,7 +128,7 @@ public class ChannelCommandCommand implements IRCCommand {
 
     @Override
     public String getDescription() {
-        return "Creates channel-specific commands!";
+        return "Manages channel-specific commands!";
     }
 
     @Override
