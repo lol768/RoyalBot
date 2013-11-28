@@ -77,7 +77,7 @@ public class RoyalBot {
                 final StringBuilder sb = new StringBuilder();
                 sb.append(sdf.format(new Date()));
                 sb.append(" [").append(logRecord.getLevel().getLocalizedName()).append("] ");
-                sb.append(logRecord.getMessage()).append("\n");
+                sb.append(logRecord.getMessage()).append(System.getProperty("line.separator"));
                 return sb.toString();
             }
         });
