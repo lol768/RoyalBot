@@ -60,7 +60,7 @@ public class WolframAlphaCommand implements IRCCommand {
             event.respond(BotUtils.formatException(e));
             return;
         }
-        event.respond(toSend.replace("\n", " / "));
+        event.respond(toSend.replaceAll("(\r)?\n", " / "));
     }
 
     @Override
