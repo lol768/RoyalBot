@@ -48,14 +48,15 @@ public class WeatherCommand implements IRCCommand {
         double kelvin = main.path("temp").asDouble();
         double low = main.path("temp_min").asDouble();
         double high = main.path("temp_max").asDouble();
+        final String DEGREE = "\u00ba";
         event.respond(String.format("Weather in %s: Currently %sC (%sF). High is %sC (%sF); low is %sC (%sF).",
                 cityName,
-                df.format(kelvinToCelsius(kelvin)),
-                df.format(kelvinToFahrenheit(kelvin)),
-                df.format(kelvinToCelsius(high)),
-                df.format(kelvinToFahrenheit(high)),
-                df.format(kelvinToCelsius(low)),
-                df.format(kelvinToFahrenheit(low))));
+                df.format(kelvinToCelsius(kelvin)) + DEGREE,
+                df.format(kelvinToFahrenheit(kelvin)) + DEGREE,
+                df.format(kelvinToCelsius(high)) + DEGREE,
+                df.format(kelvinToFahrenheit(high)) + DEGREE,
+                df.format(kelvinToCelsius(low)) + DEGREE,
+                df.format(kelvinToFahrenheit(low)) + DEGREE));
     }
 
     @Override
