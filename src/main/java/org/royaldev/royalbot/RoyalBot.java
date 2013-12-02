@@ -180,6 +180,7 @@ public class RoyalBot {
         ch.registerCommand(new RoyalBotCommand());
         ch.registerCommand(new ShakespeareInsultCommand());
         ch.registerCommand(new ShortenCommand());
+        ch.registerCommand(new UrbanDictionaryCommand());
         ch.registerCommand(new WolframAlphaCommand());
     }
 
