@@ -8,10 +8,12 @@ import org.royaldev.royalbot.BotUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 
 public class WeatherCommand implements IRCCommand {
 
     private final ObjectMapper om = new ObjectMapper();
+    private final DecimalFormat df = new DecimalFormat("###.##");
 
     private double kelvinToCelsius(double kelvin) {
         return kelvin - 273.15D;
@@ -48,12 +50,12 @@ public class WeatherCommand implements IRCCommand {
         double high = main.path("temp_max").asDouble();
         event.respond(String.format("Weather in %s: Currently %sC (%sF). High is %sC (%sF); low is %sC (%sF).",
                 cityName,
-                kelvinToCelsius(kelvin),
-                kelvinToFahrenheit(kelvin),
-                kelvinToCelsius(high),
-                kelvinToFahrenheit(high),
-                kelvinToCelsius(low),
-                kelvinToFahrenheit(low)));
+                df.format(kelvinToCelsius(kelvin)),
+                df.format(kelvinToFahrenheit(kelvin)),
+                df.format(kelvinToCelsius(high)),
+                df.format(kelvinToFahrenheit(high)),
+                df.format(kelvinToCelsius(low)),
+                df.format(kelvinToFahrenheit(low))));
     }
 
     @Override
