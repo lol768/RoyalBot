@@ -48,11 +48,13 @@ public class WeatherCommand implements IRCCommand {
         if (cityName.trim().isEmpty()) cityName = "area";
         String weather = jn.path("weather").path(0).path("description").asText();
         double cloudiness = jn.path("clouds").path("all").asDouble();
+        double wind = jn.path("wind").path("speed").asDouble();
+        double humidity = main.path("humidity").asDouble();
         double kelvin = main.path("temp").asDouble();
         double low = main.path("temp_min").asDouble();
         double high = main.path("temp_max").asDouble();
         final String DEGREE = "\u00ba";
-        event.respond(String.format("Weather in %s: Currently %sC (%sF). High is %sC (%sF); low is %sC (%sF). %s. %s%% cloudy.",
+        event.respond(String.format("Weather in %s: Currently %sC (%sF). High is %sC (%sF); low is %sC (%sF). %s. %s%% cloudy. Wind at %sm/s. Humidity is %s%%.",
                 cityName,
                 df.format(kelvinToCelsius(kelvin)) + DEGREE,
                 df.format(kelvinToFahrenheit(kelvin)) + DEGREE,
@@ -61,7 +63,9 @@ public class WeatherCommand implements IRCCommand {
                 df.format(kelvinToCelsius(low)) + DEGREE,
                 df.format(kelvinToFahrenheit(low)) + DEGREE,
                 StringUtils.capitalize(weather),
-                df.format(cloudiness)
+                df.format(cloudiness),
+                df.format(wind),
+                df.format(humidity)
         ));
     }
 
