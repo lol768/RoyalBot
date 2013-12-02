@@ -181,6 +181,7 @@ public class RoyalBot {
         ch.registerCommand(new ShakespeareInsultCommand());
         ch.registerCommand(new ShortenCommand());
         ch.registerCommand(new UrbanDictionaryCommand());
+        ch.registerCommand(new WeatherCommand());
         ch.registerCommand(new WolframAlphaCommand());
     }
 
