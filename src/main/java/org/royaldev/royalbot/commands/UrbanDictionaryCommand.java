@@ -34,6 +34,10 @@ public class UrbanDictionaryCommand implements IRCCommand {
             event.respond(BotUtils.formatException(ex) + ((stackURL != null) ? " (" + stackURL + ")" : ""));
             return;
         }
+        if (jn.path("result_type").asText().equalsIgnoreCase("no_results")) {
+            event.respond("No results.");
+            return;
+        }
         jn = jn.path("list").path(0);
         String permalink;
         try {
