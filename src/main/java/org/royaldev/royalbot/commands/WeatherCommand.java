@@ -45,7 +45,7 @@ public class WeatherCommand implements IRCCommand {
         }
         JsonNode main = jn.path("main");
         String cityName = jn.path("name").asText();
-        String weather = jn.path("weather").path("description").asText();
+        String weather = jn.path("weather").path(0).path("description").asText();
         double cloudiness = jn.path("clouds").path("all").asDouble();
         double kelvin = main.path("temp").asDouble();
         double low = main.path("temp_min").asDouble();
