@@ -45,7 +45,7 @@ public class UrbanDictionaryCommand implements IRCCommand {
         } catch (Exception e) {
             permalink = "no url";
         }
-        String definition = jn.path("definition").asText();
+        String definition = jn.path("definition").asText().replaceAll("(\r)?\n", " ");
         if (definition.length() > 200) definition = definition.substring(0, 200) + " ...";
         event.respond(String.format("(%s) %s", permalink, definition));
     }
