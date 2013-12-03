@@ -59,6 +59,10 @@ public class DefineCommand implements IRCCommand {
             root.normalize();
             NodeList nl = root.getElementsByTagName("entry");
             numberEntries = nl.getLength();
+            if (numberEntries < 1) {
+                event.respond("No entries found.");
+                return;
+            }
             if (entryNumber + 1 > numberEntries) {
                 event.respond("Invalid entry number.");
                 return;
