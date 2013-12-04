@@ -9,7 +9,27 @@ import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
-import org.royaldev.royalbot.commands.*;
+import org.royaldev.royalbot.commands.AdminCommand;
+import org.royaldev.royalbot.commands.BaxFaxCommand;
+import org.royaldev.royalbot.commands.ChannelCommand;
+import org.royaldev.royalbot.commands.ChannelCommandCommand;
+import org.royaldev.royalbot.commands.ChuckCommand;
+import org.royaldev.royalbot.commands.DefineCommand;
+import org.royaldev.royalbot.commands.HelpCommand;
+import org.royaldev.royalbot.commands.JoinCommand;
+import org.royaldev.royalbot.commands.MCAccountCommand;
+import org.royaldev.royalbot.commands.MCPingCommand;
+import org.royaldev.royalbot.commands.MessageCommand;
+import org.royaldev.royalbot.commands.PartCommand;
+import org.royaldev.royalbot.commands.PingCommand;
+import org.royaldev.royalbot.commands.QuitCommand;
+import org.royaldev.royalbot.commands.RepositoryCommand;
+import org.royaldev.royalbot.commands.RoyalBotCommand;
+import org.royaldev.royalbot.commands.ShakespeareInsultCommand;
+import org.royaldev.royalbot.commands.ShortenCommand;
+import org.royaldev.royalbot.commands.UrbanDictionaryCommand;
+import org.royaldev.royalbot.commands.WeatherCommand;
+import org.royaldev.royalbot.commands.WolframAlphaCommand;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.listeners.YouTubeListener;
@@ -74,11 +94,7 @@ public class RoyalBot {
 
             @Override
             public String format(LogRecord logRecord) {
-                final StringBuilder sb = new StringBuilder();
-                sb.append(sdf.format(new Date()));
-                sb.append(" [").append(logRecord.getLevel().getLocalizedName()).append("] ");
-                sb.append(logRecord.getMessage()).append(System.getProperty("line.separator"));
-                return sb.toString();
+                return sdf.format(new Date()) + " [" + logRecord.getLevel().getLocalizedName() + "] " + logRecord.getMessage() + System.getProperty("line.separator");
             }
         });
         getLogger().setUseParentHandlers(false);

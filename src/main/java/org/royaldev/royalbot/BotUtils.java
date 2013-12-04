@@ -101,7 +101,7 @@ public class BotUtils {
      * <strong>Note:</strong> If <em>any</em> errors occur, this will simply return null, and you will get no feedback
      * of the error.
      *
-     * @param ex Exception to do this with
+     * @param t Exception to do this with
      * @return Shortened link to the stack trace or null
      */
     public static String linkToStackTrace(Throwable t) {
