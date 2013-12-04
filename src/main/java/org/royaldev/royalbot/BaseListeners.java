@@ -68,9 +68,21 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
     public void onGenericMessage(GenericMessageEvent e) {
         if (!(e instanceof MessageEvent) && !(e instanceof PrivateMessageEvent)) return;
         final boolean isPrivateMessage = e instanceof PrivateMessageEvent;
-        if (e.getMessage().isEmpty()) return;
-        if (e.getMessage().charAt(0) != rb.getCommandPrefix() && !isPrivateMessage) return;
-        final String[] split = e.getMessage().trim().split(" ");
+        String message = e.getMessage();
+        if (message.isEmpty()) return;
+        if (message.startsWith(e.getBot().getNick()) && !isPrivateMessage) {
+            message = e.getMessage().substring(e.getBot().getNick().length());
+            if (message.charAt(0) != '.') return;
+            message = message.substring(1);
+            int parenIndex = message.indexOf('(');
+            String command = message.substring(0, parenIndex);
+            message = message.substring(parenIndex);
+            if (!message.startsWith("(") || !message.endsWith(");")) return;
+            message = message.substring(1, message.length() - 2);
+            message = rb.getCommandPrefix() + command + " " + message;
+        }
+        if (message.charAt(0) != rb.getCommandPrefix() && !isPrivateMessage) return;
+        final String[] split = message.trim().split(" ");
         final String commandString = (!isPrivateMessage) ? split[0].substring(1, split[0].length()) : split[0];
         IRCCommand command = rb.getCommandHandler().getCommand(commandString);
         if (command == null && !isPrivateMessage) // search for channel-specific commands
