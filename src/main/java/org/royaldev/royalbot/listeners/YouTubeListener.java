@@ -51,7 +51,7 @@ public class YouTubeListener extends ListenerAdapter<PircBotX> {
             JsonNode statistics = jn.findPath("statistics");
             JsonNode contentDetails = jn.findPath("contentDetails");
             Matcher timeMatcher = time.matcher(contentDetails.findPath("duration").asText());
-            timeMatcher.find();
+            if (!timeMatcher.find()) return;
             e.respond(String.format("%s by %s (%s) - %s views",
                     Colors.BOLD + snippet.findPath("title").asText() + Colors.NORMAL,
                     Colors.BOLD + snippet.findPath("channelTitle").asText() + Colors.NORMAL,
