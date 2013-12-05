@@ -14,6 +14,7 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
+import org.royaldev.royalbot.configuration.ChannelPreferences;
 
 import java.util.List;
 
@@ -96,6 +97,11 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             final String[] names = command.getName().split(":");
             if (names.length < 2) return; // invalid command name
             if (!me.getChannel().getName().equalsIgnoreCase(names[names.length - 1])) return; // wrong channel
+        }
+        if (!isPrivateMessage) {
+            MessageEvent me = (MessageEvent) e;
+            ChannelPreferences cp = new ChannelPreferences(me.getChannel().getName());
+            if (cp.getDisabledCommands().contains(command.getName())) return;
         }
         final IRCCommand.CommandType commandType = command.getCommandType();
         if (!isPrivateMessage && commandType != IRCCommand.CommandType.MESSAGE && commandType != IRCCommand.CommandType.BOTH)

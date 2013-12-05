@@ -9,10 +9,12 @@ import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
+import org.pircbotx.hooks.managers.ThreadedListenerManager;
 import org.royaldev.royalbot.commands.AdminCommand;
 import org.royaldev.royalbot.commands.BaxFaxCommand;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.ChannelCommandCommand;
+import org.royaldev.royalbot.commands.ChannelPreferencesCommand;
 import org.royaldev.royalbot.commands.ChuckCommand;
 import org.royaldev.royalbot.commands.DefineCommand;
 import org.royaldev.royalbot.commands.HelpCommand;
@@ -58,6 +60,7 @@ public class RoyalBot {
     @SuppressWarnings("FieldCanBeLocal")
     private String botVersion = this.getClass().getPackage().getImplementationVersion();
     private final CommandHandler ch = new CommandHandler();
+    private final ListenerHandler lh = new ListenerHandler(this);
     private final Config c;
     private static RoyalBot instance;
 
@@ -121,6 +124,7 @@ public class RoyalBot {
                 .setLogin(botLogin)
                 .setFinger(botFinger)
                 .setVersion("RoyalBot " + botVersion)
+                .setListenerManager(new ThreadedListenerManager<PircBotX>())
                 .addListener(new BaseListeners(this))
                 .setMessageDelay(messageDelay)
                 .setAutoNickChange(true);
@@ -128,8 +132,8 @@ public class RoyalBot {
         for (String channel : c.getChannels()) cb.addAutoJoinChannel(channel);
         if (!serverPassword.isEmpty()) cb.setServerPassword(serverPassword);
         if (!nickServPassword.isEmpty()) cb.setNickservPassword(nickServPassword);
-        addListeners(cb);
         bot = new PircBotX(cb.buildConfiguration());
+        addListeners();
         getLogger().info("Connecting.");
         new Thread(new Runnable() {
             public void run() {
@@ -182,6 +186,7 @@ public class RoyalBot {
         ch.registerCommand(new AdminCommand());
         ch.registerCommand(new BaxFaxCommand());
         ch.registerCommand(new ChannelCommandCommand());
+        ch.registerCommand(new ChannelPreferencesCommand());
         ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new DefineCommand());
         ch.registerCommand(new HelpCommand());
@@ -201,8 +206,8 @@ public class RoyalBot {
         ch.registerCommand(new WolframAlphaCommand());
     }
 
-    private void addListeners(Configuration.Builder<PircBotX> cb) {
-        cb.addListener(new YouTubeListener());
+    private void addListeners() {
+        lh.registerListener(new YouTubeListener());
     }
 
     private void addChannelCommands() {
@@ -235,6 +240,10 @@ public class RoyalBot {
 
     public CommandHandler getCommandHandler() {
         return ch;
+    }
+
+    public ListenerHandler getListenerHandler() {
+        return lh;
     }
 
     public char getCommandPrefix() {

@@ -112,4 +112,10 @@ public class Config {
         return cs;
     }
 
+    public ConfigurationSection getChannelPreferences() {
+        ConfigurationSection cs = yc.getConfigurationSection("channel-preferences");
+        if (cs == null) cs = yc.createSection("channel-preferences");
+        return cs;
+    }
+
 }
