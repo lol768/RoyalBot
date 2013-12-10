@@ -1,6 +1,5 @@
 package org.royaldev.royalbot;
 
-import org.pircbotx.hooks.ListenerAdapter;
 import org.royaldev.royalbot.listeners.IRCListener;
 
 import java.util.Collection;
@@ -8,22 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ListenerHandler {
-    private final RoyalBot rb;
     private final Map<String, IRCListener> listeners = new TreeMap<String, IRCListener>();
-
-    protected ListenerHandler(RoyalBot rb) {
-        this.rb = rb;
-    }
-
-    private void addListener(IRCListener listener) {
-        if (!(listener instanceof ListenerAdapter)) return;
-        rb.getBot().getConfiguration().getListenerManager().addListener((ListenerAdapter) listener);
-    }
-
-    private void removeListener(IRCListener listener) {
-        if (!(listener instanceof ListenerAdapter)) return;
-        rb.getBot().getConfiguration().getListenerManager().removeListener((ListenerAdapter) listener);
-    }
 
     /**
      * Registers a listener into the ListenerHandler.
@@ -40,7 +24,6 @@ public class ListenerHandler {
             if (listeners.containsKey(name)) return false;
             listeners.put(name, listener);
         }
-        addListener(listener);
         return true;
     }
 
@@ -54,10 +37,7 @@ public class ListenerHandler {
     public void unregisterListener(String name) {
         name = name.toLowerCase();
         synchronized (listeners) {
-            if (listeners.containsKey(name)) {
-                removeListener(listeners.get(name));
-                listeners.remove(name);
-            }
+            if (listeners.containsKey(name)) listeners.remove(name);
         }
     }
 
