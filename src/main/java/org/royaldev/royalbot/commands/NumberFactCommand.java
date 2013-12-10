@@ -3,6 +3,8 @@ package org.royaldev.royalbot.commands;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 
+import java.net.URLEncoder;
+
 public class NumberFactCommand implements IRCCommand {
 
     @Override
@@ -13,7 +15,7 @@ public class NumberFactCommand implements IRCCommand {
         }
         String num = args[0], type = (args.length > 1) ? args[1].toLowerCase() : "", content;
         try {
-            content = BotUtils.getContent("http://numbersapi.com/" + num + "/" + type);
+            content = BotUtils.getContent("http://numbersapi.com/" + URLEncoder.encode(num, "UTF-8") + "/" + URLEncoder.encode(type, "UTF-8"));
         } catch (Exception ex) {
             event.respond("Couldn't get a fact!");
             return;
