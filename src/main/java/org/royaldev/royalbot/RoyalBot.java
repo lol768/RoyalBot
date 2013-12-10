@@ -46,6 +46,7 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -64,6 +65,7 @@ public class RoyalBot {
     private final CommandHandler ch = new CommandHandler();
     private final ListenerHandler lh = new ListenerHandler(this);
     private final Config c;
+    private final Random random = new Random();
     private static RoyalBot instance;
 
     @Option(name = "-n", usage = "Define the nickname of the bot", aliases = {"--nick"})
@@ -252,6 +254,10 @@ public class RoyalBot {
 
     public char getCommandPrefix() {
         return commandPrefix;
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     public static RoyalBot getInstance() {

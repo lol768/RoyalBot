@@ -9,7 +9,7 @@ import java.util.Random;
 public class BaxFaxCommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
-    private final Random r = new Random();
+    private final Random r = rb.getRandom();
 
     @Override
     public void onCommand(GenericMessageEvent event, String[] args) {
