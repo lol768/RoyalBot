@@ -22,6 +22,7 @@ import org.royaldev.royalbot.commands.JoinCommand;
 import org.royaldev.royalbot.commands.MCAccountCommand;
 import org.royaldev.royalbot.commands.MCPingCommand;
 import org.royaldev.royalbot.commands.MessageCommand;
+import org.royaldev.royalbot.commands.NumberFactCommand;
 import org.royaldev.royalbot.commands.PartCommand;
 import org.royaldev.royalbot.commands.PingCommand;
 import org.royaldev.royalbot.commands.QuitCommand;
@@ -194,6 +195,7 @@ public class RoyalBot {
         ch.registerCommand(new MCAccountCommand());
         ch.registerCommand(new MCPingCommand());
         ch.registerCommand(new MessageCommand());
+        ch.registerCommand(new NumberFactCommand());
         ch.registerCommand(new PartCommand());
         ch.registerCommand(new PingCommand());
         ch.registerCommand(new QuitCommand());
