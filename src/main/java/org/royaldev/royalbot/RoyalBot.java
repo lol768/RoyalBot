@@ -15,6 +15,7 @@ import org.royaldev.royalbot.commands.BaxFaxCommand;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.ChannelCommandCommand;
 import org.royaldev.royalbot.commands.ChannelPreferencesCommand;
+import org.royaldev.royalbot.commands.ChooseCommand;
 import org.royaldev.royalbot.commands.ChuckCommand;
 import org.royaldev.royalbot.commands.DefineCommand;
 import org.royaldev.royalbot.commands.HelpCommand;
@@ -188,6 +189,7 @@ public class RoyalBot {
         ch.registerCommand(new BaxFaxCommand());
         ch.registerCommand(new ChannelCommandCommand());
         ch.registerCommand(new ChannelPreferencesCommand());
+        ch.registerCommand(new ChooseCommand());
         ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new DefineCommand());
         ch.registerCommand(new HelpCommand());
