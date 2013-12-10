@@ -46,7 +46,7 @@ public class NumberFactCommand implements IRCCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"nf, numfact, num"};
+        return new String[]{"nf", "numfact", "num"};
     }
 
     @Override
