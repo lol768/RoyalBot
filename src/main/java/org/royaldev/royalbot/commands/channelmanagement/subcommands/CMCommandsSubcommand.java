@@ -1,11 +1,13 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.channelmanagement.subcommands;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.ChannelCommand;
+import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 
-public class ChannelCommandCommand implements IRCCommand {
+public class CMCommandsSubcommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
 
@@ -118,7 +120,7 @@ public class ChannelCommandCommand implements IRCCommand {
 
     @Override
     public String getName() {
-        return "channelcommand";
+        return "commands";
     }
 
     @Override
@@ -133,7 +135,7 @@ public class ChannelCommandCommand implements IRCCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"cc", "chancom"};
+        return new String[]{"command", "c", "com"};
     }
 
     @Override

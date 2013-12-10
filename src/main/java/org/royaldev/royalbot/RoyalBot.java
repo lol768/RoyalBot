@@ -11,6 +11,7 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.managers.ThreadedListenerManager;
 import org.royaldev.royalbot.commands.*;
+import org.royaldev.royalbot.commands.channelmanagement.ChannelManagementCommand;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.listeners.YouTubeListener;
@@ -166,8 +167,7 @@ public class RoyalBot {
     private void addCommands() {
         ch.registerCommand(new AdminCommand());
         ch.registerCommand(new BaxFaxCommand());
-        ch.registerCommand(new ChannelCommandCommand());
-        ch.registerCommand(new ChannelPreferencesCommand());
+        ch.registerCommand(new ChannelManagementCommand());
         ch.registerCommand(new ChooseCommand());
         ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new DefineCommand());

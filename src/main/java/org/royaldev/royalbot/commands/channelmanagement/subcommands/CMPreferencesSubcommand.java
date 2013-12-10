@@ -1,4 +1,4 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.channelmanagement.subcommands;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.Colors;
@@ -7,12 +7,13 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.auth.AuthResponse;
+import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ChannelPreferences;
 import org.royaldev.royalbot.listeners.IRCListener;
 
 import java.util.List;
 
-public class ChannelPreferencesCommand implements IRCCommand {
+public class CMPreferencesSubcommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
 
@@ -24,7 +25,7 @@ public class ChannelPreferencesCommand implements IRCCommand {
         }
         if (args[0].equalsIgnoreCase("help")) {
             event.respond(Colors.BOLD + "Channel Preferences Help");
-            event.respond("cp [channel] set [option] [value] (values...)");
+            event.respond("preferences [channel] set [option] [value] (values...)");
             return;
         }
         if (args.length < 2) {
@@ -145,7 +146,7 @@ public class ChannelPreferencesCommand implements IRCCommand {
 
     @Override
     public String getName() {
-        return "channelpreferences";
+        return "preferences";
     }
 
     @Override
@@ -160,7 +161,7 @@ public class ChannelPreferencesCommand implements IRCCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[]{"chanpref", "chpr", "cp"};
+        return new String[]{"pref", "pr", "p"};
     }
 
     @Override
