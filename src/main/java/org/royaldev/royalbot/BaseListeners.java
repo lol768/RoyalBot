@@ -2,6 +2,7 @@ package org.royaldev.royalbot;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.PircBotX;
+import org.pircbotx.hooks.Event;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
 import org.pircbotx.hooks.events.InviteEvent;
@@ -10,12 +11,17 @@ import org.pircbotx.hooks.events.KickEvent;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
+import org.pircbotx.hooks.types.GenericChannelEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.pircbotx.hooks.types.GenericUserEvent;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ChannelPreferences;
+import org.royaldev.royalbot.listeners.IRCListener;
+import org.royaldev.royalbot.listeners.Listener;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class BaseListeners extends ListenerAdapter<PircBotX> {
@@ -24,6 +30,39 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
 
     protected BaseListeners(RoyalBot instance) {
         rb = instance;
+    }
+
+    @Override
+    public void onEvent(Event<PircBotX> event) {
+        try {
+            super.onEvent(event);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        for (IRCListener il : rb.getListenerHandler().getAllListeners()) {
+            if (event instanceof GenericChannelEvent) {
+                GenericChannelEvent gce = (GenericChannelEvent) event;
+                ChannelPreferences cp = new ChannelPreferences(gce.getChannel().getName());
+                if (cp.getDisabledListeners().contains(il.getName())) continue;
+            }
+            if (event instanceof GenericUserEvent) {
+                GenericUserEvent gue = (GenericUserEvent) event;
+                if (BotUtils.isIgnored(BotUtils.generateHostmask(gue.getUser()))) continue;
+            }
+            for (Method m : il.getClass().getDeclaredMethods()) {
+                if (m.getAnnotation(Listener.class) == null) continue;
+                Class<?>[] params = m.getParameterTypes();
+                if (params.length != 1) continue;
+                Class clazz = params[0];
+                if (!Event.class.isAssignableFrom(clazz)) continue;
+                if (event.getClass() != clazz) continue;
+                try {
+                    m.invoke(il, event);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
