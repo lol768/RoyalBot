@@ -37,6 +37,10 @@ public class RollCommand implements IRCCommand {
             event.respond("Can't roll zero times or roll a die that has no faces.");
             return;
         }
+        if (numRolls > 25) {
+            event.respond(numRolls + " rolls is a little excessive. Max number of rolls is 25.");
+            return;
+        }
         for (int i = 0; i < numRolls; i++) rolls.append(r.nextInt(dieValue) + 1).append(" ");
         event.respond("Rolling " + numRolls + "d" + dieValue + ": " + rolls.substring(0, rolls.length() - 1));
     }
