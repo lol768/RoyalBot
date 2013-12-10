@@ -468,7 +468,7 @@ public class MemorySection implements ConfigurationSection {
                 output.add(createPath(section, entry.getKey(), this));
                 if ((deep) && (entry.getValue() instanceof ConfigurationSection)) {
                     ConfigurationSection subsection = (ConfigurationSection) entry.getValue();
-                    mapChildrenKeys(output, subsection, deep);
+                    mapChildrenKeys(output, subsection, true);
                 }
             }
         } else {
@@ -483,7 +483,7 @@ public class MemorySection implements ConfigurationSection {
             for (Map.Entry<String, Object> entry : sec.map.entrySet()) {
                 output.put(createPath(section, entry.getKey(), this), entry.getValue());
                 if (entry.getValue() instanceof ConfigurationSection) {
-                    if (deep) mapChildrenValues(output, (ConfigurationSection) entry.getValue(), deep);
+                    if (deep) mapChildrenValues(output, (ConfigurationSection) entry.getValue(), true);
                 }
             }
         } else {
