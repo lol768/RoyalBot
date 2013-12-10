@@ -93,12 +93,21 @@ public class Config {
         return yc.getStringList("channels");
     }
 
+    public void setChannels(List<String> channels) {
+        yc.set("channels", channels);
+        save();
+    }
+
     public List<String> getBaxFax() {
         return yc.getStringList("baxfax");
     }
 
-    public void setChannels(List<String> channels) {
-        yc.set("channels", channels);
+    public List<String> getIgnores() {
+        return yc.getStringList("ignores");
+    }
+
+    public void setIgnores(List<String> ignores) {
+        yc.set("ignores", ignores);
         save();
     }
 

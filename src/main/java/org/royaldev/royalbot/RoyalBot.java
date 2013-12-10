@@ -172,6 +172,7 @@ public class RoyalBot {
         ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new DefineCommand());
         ch.registerCommand(new HelpCommand());
+        ch.registerCommand(new IgnoreCommand());
         ch.registerCommand(new JoinCommand());
         ch.registerCommand(new MCAccountCommand());
         ch.registerCommand(new MCPingCommand());

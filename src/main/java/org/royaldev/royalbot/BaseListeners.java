@@ -67,6 +67,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
 
     @Override
     public void onGenericMessage(GenericMessageEvent e) {
+        if (BotUtils.isIgnored(BotUtils.generateHostmask(e.getUser()))) return;
         if (!(e instanceof MessageEvent) && !(e instanceof PrivateMessageEvent)) return;
         final boolean isPrivateMessage = e instanceof PrivateMessageEvent;
         String message = e.getMessage();

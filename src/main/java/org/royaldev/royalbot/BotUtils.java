@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.pircbotx.User;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 
@@ -229,6 +230,44 @@ public class BotUtils {
                 return al;
             }
         };
+    }
+
+    /**
+     * Checks if a hostmask matches a pattern. This replaces "*" with ".+" prior to checking, and it does use regex, as
+     * one would assume.
+     *
+     * @param hostmask     Hostmask of a user
+     * @param checkAgainst Hostmask pattern to check against
+     * @return true if hostmask matches checkAgainst, false if otherwise
+     */
+    public static boolean doesHostmaskMatch(String hostmask, String checkAgainst) {
+        checkAgainst = checkAgainst.replace("*", ".+");
+        return hostmask.matches(checkAgainst);
+    }
+
+    /**
+     * Checks to see if a hostmask is ignored by the bot.
+     *
+     * @param hostmask Hostmask to check
+     * @return true if hostmask is ignored, false if not
+     */
+    public static boolean isIgnored(String hostmask) {
+        final List<String> ignores = RoyalBot.getInstance().getConfig().getIgnores();
+        for (String ignore : ignores) {
+            if (ignore.equals(hostmask)) return true;
+            if (doesHostmaskMatch(hostmask, ignore)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Temporary workaround for PircBotX not returning the right value for {@link org.pircbotx.User#getHostmask()}.
+     *
+     * @param user User to get hostmask of
+     * @return Real hostmask
+     */
+    public static String generateHostmask(User user) {
+        return user.getNick() + "!" + user.getLogin() + "@" + user.getHostmask();
     }
 
 }
