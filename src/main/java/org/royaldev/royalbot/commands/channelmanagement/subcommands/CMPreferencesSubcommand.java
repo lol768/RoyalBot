@@ -59,6 +59,7 @@ public class CMPreferencesSubcommand implements IRCCommand {
         final String option = args[0];
         if (option.equalsIgnoreCase("help")) {
             event.respond("set command <command> <status> (e.g. \"set command mcping disabled\")");
+            event.respond("set listener <listener> <status> (e.g. \"set listener youtube disabled\"");
         } else if (option.equalsIgnoreCase("command")) {
             if (args.length < 3) {
                 event.respond("Not enough arguments.");
