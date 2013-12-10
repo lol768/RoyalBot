@@ -27,8 +27,8 @@ public class RollCommand implements IRCCommand {
         final StringBuilder rolls = new StringBuilder();
         int numRolls, dieValue;
         try {
-            numRolls = Integer.parseInt(m.group(1).isEmpty() ? "1" : m.group(1));
-            dieValue = Integer.parseInt(m.group(2).isEmpty() ? "6" : m.group(2));
+            numRolls = Integer.parseInt(m.group(1) == null ? "1" : m.group(1));
+            dieValue = Integer.parseInt(m.group(2) == null ? "6" : m.group(2));
         } catch (NumberFormatException ex) {
             event.respond("Rolls or die value was not a number.");
             return;
