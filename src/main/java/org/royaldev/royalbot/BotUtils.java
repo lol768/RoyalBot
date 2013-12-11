@@ -9,6 +9,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.pircbotx.User;
+import org.royaldev.royalbot.auth.Auth;
+import org.royaldev.royalbot.auth.AuthResponse;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 
@@ -236,7 +238,7 @@ public class BotUtils {
      * Checks if a hostmask matches a pattern. This replaces "*" with ".+" prior to checking, and it does use regex, as
      * one would assume.
      *
-     * @param hostmask     Hostmask of a user
+     * @param hostmask     Hostmask of a user (regex, * = .+)
      * @param checkAgainst Hostmask pattern to check against
      * @return true if hostmask matches checkAgainst, false if otherwise
      */
@@ -249,15 +251,25 @@ public class BotUtils {
      * Checks to see if a hostmask is ignored by the bot.
      *
      * @param hostmask Hostmask to check
+     * @param ignores  List of hostmasks to check against
      * @return true if hostmask is ignored, false if not
      */
-    public static boolean isIgnored(String hostmask) {
-        final List<String> ignores = RoyalBot.getInstance().getConfig().getIgnores();
+    public static boolean isIgnored(String hostmask, List<String> ignores) {
         for (String ignore : ignores) {
             if (ignore.equals(hostmask)) return true;
             if (doesHostmaskMatch(hostmask, ignore)) return true;
         }
         return false;
+    }
+
+    /**
+     * Checks to see if a hostmask is ignored by the bot.
+     *
+     * @param hostmask Hostmask to check
+     * @return true if hostmask is ignored, false if not
+     */
+    public static boolean isIgnored(String hostmask) {
+        return isIgnored(hostmask, RoyalBot.getInstance().getConfig().getIgnores());
     }
 
     /**
@@ -268,6 +280,14 @@ public class BotUtils {
      */
     public static String generateHostmask(User user) {
         return user.getNick() + "!" + user.getLogin() + "@" + user.getHostmask();
+    }
+
+    public static boolean isAuthorized(User u, String chan) {
+        AuthResponse ar = Auth.checkAuth(u);
+        boolean loggedIn = ar.isLoggedIn() && ar.isValid();
+        boolean isChanOp = u.getChannelsOpIn().contains(u.getBot().getUserChannelDao().getChannel(chan));
+        boolean isSuperAdmin = RoyalBot.getInstance().getConfig().getSuperAdmin().equalsIgnoreCase(u.getNick());
+        return (loggedIn && isChanOp) || isSuperAdmin;
     }
 
 }

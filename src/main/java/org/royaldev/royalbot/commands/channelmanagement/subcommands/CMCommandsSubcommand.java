@@ -40,8 +40,8 @@ public class CMCommandsSubcommand implements IRCCommand {
             }
             final String channel = args[1];
             final String url = args[2];
-            if (!event.getBot().getUserChannelDao().getChannel(channel).getOps().contains(event.getUser()) && !event.getUser().isIrcop()) {
-                event.respond("You are not an operator in that channel.");
+            if (!BotUtils.isAuthorized(event.getUser(), channel)) {
+                event.respond("You need to be an op in that channel.");
                 return;
             }
             final ChannelCommand cc;
@@ -66,8 +66,8 @@ public class CMCommandsSubcommand implements IRCCommand {
             }
             final String channel = args[1];
             final String command = args[2];
-            if (!event.getBot().getUserChannelDao().getChannel(channel).getOps().contains(event.getUser()) && !event.getUser().isIrcop()) {
-                event.respond("You are not an operator in that channel.");
+            if (!BotUtils.isAuthorized(event.getUser(), channel)) {
+                event.respond("You need to be an op in that channel.");
                 return;
             }
             IRCCommand ic = rb.getCommandHandler().getCommand(command + ":" + channel);
@@ -91,8 +91,8 @@ public class CMCommandsSubcommand implements IRCCommand {
             }
             final String channel = args[1];
             final String command = args[2];
-            if (!event.getBot().getUserChannelDao().getChannel(channel).getOps().contains(event.getUser()) && !event.getUser().isIrcop()) {
-                event.respond("You are not an operator in that channel.");
+            if (!BotUtils.isAuthorized(event.getUser(), channel)) {
+                event.respond("You need to be an op in that channel.");
                 return;
             }
             ConfigurationSection cs = rb.getConfig().getChannelCommands().getConfigurationSection(channel);

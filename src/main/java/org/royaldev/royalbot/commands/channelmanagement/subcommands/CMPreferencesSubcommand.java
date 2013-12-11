@@ -2,11 +2,9 @@ package org.royaldev.royalbot.commands.channelmanagement.subcommands;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.Colors;
-import org.pircbotx.User;
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
-import org.royaldev.royalbot.auth.Auth;
-import org.royaldev.royalbot.auth.AuthResponse;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ChannelPreferences;
 import org.royaldev.royalbot.listeners.IRCListener;
@@ -42,14 +40,6 @@ public class CMPreferencesSubcommand implements IRCCommand {
         else event.respond("Unknown subcommand!");
     }
 
-    private boolean isAuthorized(User u, String chan) {
-        AuthResponse ar = Auth.checkAuth(u);
-        boolean loggedIn = ar.isLoggedIn() && ar.isValid();
-        boolean isChanOp = u.getChannelsOpIn().contains(u.getBot().getUserChannelDao().getChannel(chan));
-        boolean isSuperAdmin = rb.getConfig().getSuperAdmin().equalsIgnoreCase(u.getNick());
-        return (loggedIn && isChanOp) || isSuperAdmin;
-    }
-
     private void set(GenericMessageEvent event, ChannelPreferences cp, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
@@ -65,7 +55,7 @@ public class CMPreferencesSubcommand implements IRCCommand {
                 event.respond("Not enough arguments.");
                 return;
             }
-            if (!isAuthorized(event.getUser(), channel)) {
+            if (!BotUtils.isAuthorized(event.getUser(), channel)) {
                 event.respond("You need to be an op in that channel.");
                 return;
             }
@@ -104,7 +94,7 @@ public class CMPreferencesSubcommand implements IRCCommand {
                 event.respond("Not enough arguments.");
                 return;
             }
-            if (!isAuthorized(event.getUser(), channel)) {
+            if (!BotUtils.isAuthorized(event.getUser(), channel)) {
                 event.respond("You need to be an op in that channel.");
                 return;
             }
