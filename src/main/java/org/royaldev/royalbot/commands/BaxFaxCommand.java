@@ -1,20 +1,43 @@
 package org.royaldev.royalbot.commands;
 
+import org.apache.commons.lang3.StringUtils;
+import org.pircbotx.User;
+import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
 
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BaxFaxCommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
     private final Random r = rb.getRandom();
 
+    private final Pattern baxfaxPattern = Pattern.compile("(m?bax(ter|fax)?)", Pattern.CASE_INSENSITIVE);
+
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         final List<String> baxfax = rb.getConfig().getBaxFax();
-        event.respond("[baxfax] " + baxfax.get(r.nextInt(baxfax.size())));
+        boolean noPing = args.length > 0 && args[0].equalsIgnoreCase("noping");
+        String response = "[baxfax] " + baxfax.get(r.nextInt(baxfax.size()));
+        if (label.equalsIgnoreCase("xafxab")) {
+            Matcher m = baxfaxPattern.matcher(response);
+            while (m.find())
+                response = response.substring(0, m.start()) + StringUtils.reverse(m.group(1)) + response.substring(m.end(), response.length());
+        }
+        if (noPing && event instanceof MessageEvent) {
+            MessageEvent me = (MessageEvent) event;
+            for (User u : me.getChannel().getUsers()) {
+                int length = u.getNick().length();
+                int index;
+                while ((index = response.toLowerCase().indexOf(u.getNick().toLowerCase())) != -1)
+                    response = response.substring(0, index) + StringUtils.reverse(response.substring(index, index + length)) + response.substring(index + length, response.length());
+            }
+        }
+        event.respond(response);
     }
 
     @Override
@@ -34,7 +57,7 @@ public class BaxFaxCommand implements IRCCommand {
 
     @Override
     public String[] getAliases() {
-        return new String[0];
+        return new String[]{"xafxab"};
     }
 
     @Override
