@@ -18,7 +18,7 @@ public class YouTubeListener implements IRCListener {
         return "YouTube";
     }
 
-    private final Pattern p = Pattern.compile("https?://(www\\.)?youtube\\.com/watch\\?v=([\\w\\-]+)");
+    private final Pattern p = Pattern.compile("https?://(?:[0-9A-Z-]+\\.)?(?:youtu\\.be/|youtube(?:-nocookie)?\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w.-]*(?:['\"][^<>]*>|</a>))[?=&+%\\w.-]*");
     // 2 = hour, 4 = minute, 6 = second
     private final Pattern time = Pattern.compile("PT((\\d+)H)?((\\d+)M)?((\\d+)S)?");
     private final ObjectMapper om = new ObjectMapper();
@@ -38,11 +38,11 @@ public class YouTubeListener implements IRCListener {
         if (!rb.getConfig().getYouTubeEnabled()) return;
         final Matcher m = p.matcher(e.getMessage());
         while (m.find()) {
-            if (m.group(2) == null) continue;
+            if (m.group(1) == null) continue;
             JsonNode jn;
             try {
                 String url = "https://www.googleapis.com/youtube/v3/videos?id=%s&key=%s&part=snippet,statistics,contentDetails";
-                jn = om.readTree(BotUtils.getContent(String.format(url, m.group(2), rb.getConfig().getYouTubeAPIKey())));
+                jn = om.readTree(BotUtils.getContent(String.format(url, m.group(1), rb.getConfig().getYouTubeAPIKey())));
             } catch (Exception ex) {
                 return;
             }
