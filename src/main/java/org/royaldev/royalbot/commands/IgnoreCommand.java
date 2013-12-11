@@ -1,5 +1,6 @@
 package org.royaldev.royalbot.commands;
 
+import org.pircbotx.Colors;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
 
@@ -17,6 +18,11 @@ public class IgnoreCommand implements IRCCommand {
         }
         String hostmask = args[0];
         final List<String> ignores = rb.getConfig().getIgnores();
+        if (hostmask.equalsIgnoreCase("list")) {
+            event.respond(Colors.BOLD + "Ignored hostmasks:");
+            for (String ignore : ignores) event.respond("  " + ignore);
+            return;
+        }
         if (ignores.contains(hostmask)) {
             ignores.remove(hostmask);
             event.respond("Unignored " + hostmask + ".");
