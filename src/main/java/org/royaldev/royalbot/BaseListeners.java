@@ -12,6 +12,7 @@ import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PartEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.types.GenericChannelEvent;
+import org.pircbotx.hooks.types.GenericChannelUserEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.pircbotx.hooks.types.GenericUserEvent;
 import org.royaldev.royalbot.auth.Auth;
@@ -48,6 +49,11 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
             if (event instanceof GenericUserEvent) {
                 GenericUserEvent gue = (GenericUserEvent) event;
                 if (BotUtils.isIgnored(BotUtils.generateHostmask(gue.getUser()))) continue;
+            }
+            if (event instanceof GenericChannelUserEvent) {
+                GenericChannelUserEvent gcue = (GenericChannelUserEvent) event;
+                ChannelPreferences cp = new ChannelPreferences(gcue.getChannel().getName());
+                if (BotUtils.isIgnored(BotUtils.generateHostmask(gcue.getUser()), cp.getIgnores())) continue;
             }
             for (Method m : il.getClass().getDeclaredMethods()) {
                 if (m.getAnnotation(Listener.class) == null) continue;
@@ -141,6 +147,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         if (!isPrivateMessage) {
             MessageEvent me = (MessageEvent) e;
             ChannelPreferences cp = new ChannelPreferences(me.getChannel().getName());
+            if (BotUtils.isIgnored(BotUtils.generateHostmask(me.getUser()), cp.getIgnores())) return;
             if (cp.getDisabledCommands().contains(command.getName())) return;
         }
         final IRCCommand.CommandType commandType = command.getCommandType();

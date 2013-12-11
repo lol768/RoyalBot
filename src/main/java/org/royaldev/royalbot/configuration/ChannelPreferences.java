@@ -38,4 +38,13 @@ public class ChannelPreferences {
         rb.getConfig().save();
     }
 
+    public List<String> getIgnores() {
+        return cs.getStringList("ignores");
+    }
+
+    public void setIgnores(List<String> ignores) {
+        cs.set("ignores", ignores);
+        rb.getConfig().save();
+    }
+
 }

@@ -41,7 +41,7 @@ public class RoyalBot {
     @SuppressWarnings("FieldCanBeLocal")
     private String botVersion = this.getClass().getPackage().getImplementationVersion();
     private final CommandHandler ch = new CommandHandler();
-    private final ListenerHandler lh = new ListenerHandler(this);
+    private final ListenerHandler lh = new ListenerHandler();
     private final Config c;
     private final Random random = new Random();
     private static RoyalBot instance;

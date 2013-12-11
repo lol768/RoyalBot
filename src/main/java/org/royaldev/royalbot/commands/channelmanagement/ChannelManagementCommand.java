@@ -6,6 +6,7 @@ import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.CommandHandler;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.commands.channelmanagement.subcommands.CMCommandsSubcommand;
+import org.royaldev.royalbot.commands.channelmanagement.subcommands.CMIgnoreSubcommand;
 import org.royaldev.royalbot.commands.channelmanagement.subcommands.CMPreferencesSubcommand;
 
 public class ChannelManagementCommand implements IRCCommand {
@@ -14,6 +15,7 @@ public class ChannelManagementCommand implements IRCCommand {
 
     public ChannelManagementCommand() {
         subcommands.registerCommand(new CMCommandsSubcommand());
+        subcommands.registerCommand(new CMIgnoreSubcommand());
         subcommands.registerCommand(new CMPreferencesSubcommand());
     }
 
