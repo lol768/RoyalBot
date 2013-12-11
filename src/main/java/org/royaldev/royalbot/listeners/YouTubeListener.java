@@ -8,6 +8,7 @@ import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ public class YouTubeListener implements IRCListener {
     private final Pattern time = Pattern.compile("PT((\\d+)H)?((\\d+)M)?((\\d+)S)?");
     private final ObjectMapper om = new ObjectMapper();
     private final DecimalFormat df = new DecimalFormat("00");
+    private final NumberFormat nf = NumberFormat.getInstance();
     private final RoyalBot rb = RoyalBot.getInstance();
 
     private int zeroOrNumber(String s) {
@@ -59,7 +61,7 @@ public class YouTubeListener implements IRCListener {
                     Colors.BOLD + snippet.findPath("title").asText() + Colors.NORMAL,
                     Colors.BOLD + snippet.findPath("channelTitle").asText() + Colors.NORMAL,
                     df.format(zeroOrNumber(timeMatcher.group(2))) + ":" + df.format(zeroOrNumber(timeMatcher.group(4))) + ":" + df.format(zeroOrNumber(timeMatcher.group(6))),
-                    statistics.findPath("viewCount").asLong()
+                    nf.format(statistics.findPath("viewCount").asLong())
             ));
         }
     }
