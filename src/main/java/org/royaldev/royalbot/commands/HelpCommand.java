@@ -13,7 +13,7 @@ public class HelpCommand implements IRCCommand {
     final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         final CommandHandler ch = rb.getCommandHandler();
         final User u = event.getUser();
         final boolean userIsAdmin = Auth.checkAuth(u).isAuthed();

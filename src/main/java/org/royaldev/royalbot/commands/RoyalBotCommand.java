@@ -8,7 +8,7 @@ public class RoyalBotCommand implements IRCCommand {
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;

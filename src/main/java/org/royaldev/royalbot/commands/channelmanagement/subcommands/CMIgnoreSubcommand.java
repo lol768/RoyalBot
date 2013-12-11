@@ -11,7 +11,7 @@ import java.util.List;
 public class CMIgnoreSubcommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 2) {
             event.respond("Not enough arguments.");
             return;

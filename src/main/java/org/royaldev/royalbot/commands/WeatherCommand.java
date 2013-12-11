@@ -28,7 +28,7 @@ public class WeatherCommand implements IRCCommand {
     }
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         String url;
         try {
             url = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s", URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8"));

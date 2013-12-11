@@ -14,7 +14,7 @@ public class ChuckCommand implements IRCCommand {
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         final String url;
         try {
             url = "http://api.icndb.com/jokes/random" + ((args.length > 0) ? "?limitTo=[" + URLEncoder.encode(args[0], "UTF-8") + "]" : "");

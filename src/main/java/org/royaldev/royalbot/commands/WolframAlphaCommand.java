@@ -17,7 +17,7 @@ public class WolframAlphaCommand implements IRCCommand {
     private RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (!rb.getConfig().getWolframAlphaEnabled()) {
             event.respond("WolframAlpha is disabled on this bot.");
             return;

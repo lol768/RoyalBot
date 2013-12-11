@@ -20,7 +20,7 @@ public class ChannelManagementCommand implements IRCCommand {
     }
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;
@@ -37,7 +37,7 @@ public class ChannelManagementCommand implements IRCCommand {
             return;
         }
         try {
-            ic.onCommand(event, ArrayUtils.subarray(args, 1, args.length));
+            ic.onCommand(event, subcommandName, ArrayUtils.subarray(args, 1, args.length));
         } catch (Throwable t) {
             final StringBuilder sb = new StringBuilder("Unhandled subcommand exception! ");
             sb.append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());

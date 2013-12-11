@@ -6,7 +6,7 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 public class QuitCommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) event.getBot().sendIRC().quitServer();
         else event.getBot().sendIRC().quitServer(StringUtils.join(args, ' '));
     }

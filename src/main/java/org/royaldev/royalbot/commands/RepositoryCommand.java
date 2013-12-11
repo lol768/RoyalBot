@@ -5,7 +5,7 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 public class RepositoryCommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         event.respond("Contribute to " + event.getBot().getNick() + "! https://github.com/RoyalDev/RoyalBot");
     }
 

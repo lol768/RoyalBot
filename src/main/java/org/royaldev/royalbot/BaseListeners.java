@@ -166,7 +166,7 @@ public class BaseListeners extends ListenerAdapter<PircBotX> {
         }
         rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
         try {
-            command.onCommand(e, ArrayUtils.subarray(split, 1, split.length));
+            command.onCommand(e, commandString, ArrayUtils.subarray(split, 1, split.length));
         } catch (Throwable t) {
             final StringBuilder sb = new StringBuilder("Unhandled command exception! ");
             sb.append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());

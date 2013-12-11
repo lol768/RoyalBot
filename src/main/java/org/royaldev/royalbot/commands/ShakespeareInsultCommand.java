@@ -15,7 +15,7 @@ public class ShakespeareInsultCommand implements IRCCommand {
     private final Random r = rb.getRandom();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         event.respond(((args.length > 0) ? StringUtils.join(args, ' ') + ", thou" : "Thou") + " " + col1[r.nextInt(col1.length)] + " " + col2[r.nextInt(col2.length)] + " " + col3[r.nextInt(col3.length)] + "!");
     }
 

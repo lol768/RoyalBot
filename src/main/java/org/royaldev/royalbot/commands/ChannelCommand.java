@@ -53,10 +53,11 @@ public abstract class ChannelCommand implements IRCCommand {
      * processed, they will be caught and pasted.
      *
      * @param event Event of receiving command
+     * @param label
      * @param args  Arguments passed to the command
      */
     @Override
-    public final void onCommand(GenericMessageEvent event, String[] args) {
+    public final void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (!(event instanceof MessageEvent)) return; // these commands should only be channel messages
         final MessageEvent me = (MessageEvent) event;
         final Context c = ContextFactory.getGlobal().enterContext();

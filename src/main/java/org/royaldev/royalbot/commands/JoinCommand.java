@@ -5,7 +5,7 @@ import org.pircbotx.hooks.types.GenericMessageEvent;
 public class JoinCommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;

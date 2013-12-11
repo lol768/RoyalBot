@@ -14,7 +14,7 @@ public class RollCommand implements IRCCommand {
     private final Pattern p = Pattern.compile("(\\d+)?d(\\d+)", Pattern.CASE_INSENSITIVE);
 
     @Override
-    public void onCommand(GenericMessageEvent event, String[] args) {
+    public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;
