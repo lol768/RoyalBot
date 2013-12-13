@@ -8,7 +8,7 @@ import java.util.TreeMap;
 
 public class ListenerHandler {
 
-    private final Map<String, IRCListener> listeners = new TreeMap<String, IRCListener>();
+    private final Map<String, IRCListener> listeners = new TreeMap<>();
 
     /**
      * Registers a listener into the ListenerHandler.

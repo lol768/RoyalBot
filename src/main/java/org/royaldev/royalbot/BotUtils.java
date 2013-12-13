@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -77,11 +76,9 @@ public class BotUtils {
         if (he == null) return null;
         String json;
         try {
-            final BufferedReader br = new BufferedReader(new InputStreamReader(he.getContent()));
-            try {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(he.getContent()))) {
                 json = br.readLine();
             } finally {
-                br.close();
                 hc.close();
             }
         } catch (IOException ex) {
@@ -128,7 +125,7 @@ public class BotUtils {
      * @return Contents
      * @throws IOException
      */
-    public static String getContent(String url) throws IOException, URISyntaxException {
+    public static String getContent(String url) throws IOException {
         final URL u = new URL(url);
         final BufferedReader br = new BufferedReader(new InputStreamReader(u.openConnection().getInputStream()));
         final StringBuilder sb = new StringBuilder();
@@ -143,9 +140,8 @@ public class BotUtils {
      * @param url URL to shorten
      * @return Shortened URL
      * @throws IOException
-     * @throws URISyntaxException
      */
-    public static String shortenURL(String url) throws IOException, URISyntaxException {
+    public static String shortenURL(String url) throws IOException {
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
         return getContent(shorten.toString());
     }
@@ -181,7 +177,7 @@ public class BotUtils {
         final String usage = jn.path("usage").asText().trim();
         final String auth = jn.path("auth").asText().trim();
         final String script = jn.path("script").asText().trim();
-        final List<String> aliases = new ArrayList<String>();
+        final List<String> aliases = new ArrayList<>();
         for (String alias : jn.path("aliases").asText().trim().split(",")) {
             alias = alias.trim();
             if (alias.isEmpty()) continue;
@@ -282,6 +278,13 @@ public class BotUtils {
         return user.getNick() + "!" + user.getLogin() + "@" + user.getHostmask();
     }
 
+    /**
+     * Checks to see if a User is authorized in a channel or is a superadmin.
+     *
+     * @param u    User to check
+     * @param chan Channel of user
+     * @return true if authorized or superadmin, false if not
+     */
     public static boolean isAuthorized(User u, String chan) {
         AuthResponse ar = Auth.checkAuth(u);
         boolean loggedIn = ar.isLoggedIn() && ar.isValid();

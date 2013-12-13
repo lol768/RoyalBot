@@ -8,9 +8,9 @@ import java.util.TreeMap;
 
 public class CommandHandler {
 
-    private final Map<String, IRCCommand> commands = new TreeMap<String, IRCCommand>();
+    private final Map<String, IRCCommand> commands = new TreeMap<>();
     // Alias, Command
-    private final Map<String, String> aliasCommands = new TreeMap<String, String>();
+    private final Map<String, String> aliasCommands = new TreeMap<>();
 
     /**
      * Registers a command into the CommandHandler.

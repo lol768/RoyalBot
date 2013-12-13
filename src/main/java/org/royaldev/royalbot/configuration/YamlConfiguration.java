@@ -9,7 +9,6 @@ import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -18,7 +17,7 @@ import java.util.Map;
  * Note that this implementation is not synchronized.
  */
 public class YamlConfiguration extends FileConfiguration {
-    protected static final String BLANK_CONFIG = "{}\n";
+    private static final String BLANK_CONFIG = "{}\n";
     private final DumperOptions yamlOptions = new DumperOptions();
     private final Representer yamlRepresenter = new YamlRepresenter();
     private final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions);
@@ -71,8 +70,6 @@ public class YamlConfiguration extends FileConfiguration {
         YamlConfiguration config = new YamlConfiguration();
         try {
             config.load(file);
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

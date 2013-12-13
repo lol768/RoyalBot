@@ -52,14 +52,14 @@ public class Config {
      * @return Map
      */
     public Set<String> getAdmins() {
-        final Set<String> admins = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+        final Set<String> admins = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         admins.addAll(yc.getStringList("admins"));
         if (!getSuperAdmin().isEmpty()) admins.add(getSuperAdmin());
         return admins;
     }
 
     public void setAdmins(Set<String> admins) {
-        final List<String> newAdmins = new ArrayList<String>(admins);
+        final List<String> newAdmins = new ArrayList<>(admins);
         if (!getSuperAdmin().isEmpty() && newAdmins.contains(getSuperAdmin())) newAdmins.remove(getSuperAdmin());
         yc.set("admins", newAdmins);
         save();

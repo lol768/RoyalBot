@@ -41,11 +41,8 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         Validate.notNull(file, "File cannot be null");
         Files.createParentDirs(file);
         String data = saveToString();
-        FileWriter writer = new FileWriter(file);
-        try {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(data);
-        } finally {
-            writer.close();
         }
     }
 
@@ -88,15 +85,12 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         Validate.notNull(stream, "Stream cannot be null");
         InputStreamReader reader = new InputStreamReader(stream);
         StringBuilder builder = new StringBuilder();
-        BufferedReader input = new BufferedReader(reader);
-        try {
+        try (BufferedReader input = new BufferedReader(reader)) {
             String line;
             while ((line = input.readLine()) != null) {
                 builder.append(line);
                 builder.append('\n');
             }
-        } finally {
-            input.close();
         }
         loadFromString(builder.toString());
     }

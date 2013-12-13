@@ -161,11 +161,11 @@ public class MCPingCommand implements IRCCommand {
          */
         private final int onlinePlayers;
 
-        protected MinecraftPingReply(final String ip, final int port, final String motd, final int onlinePlayers, final int maxPlayers) {
+        MinecraftPingReply(final String ip, final int port, final String motd, final int onlinePlayers, final int maxPlayers) {
             this(ip, port, motd, "Pre-47", "Pre-12w42b", onlinePlayers, maxPlayers);
         }
 
-        protected MinecraftPingReply(final String ip, final int port, final String motd, final String protocolVersion, final String version, final int onlinePlayers, final int maxPlayers) {
+        MinecraftPingReply(final String ip, final int port, final String motd, final String protocolVersion, final String version, final int onlinePlayers, final int maxPlayers) {
             this.ip = ip;
             this.port = port;
             this.motd = motd;

@@ -53,7 +53,7 @@ public abstract class ChannelCommand implements IRCCommand {
      * processed, they will be caught and pasted.
      *
      * @param event Event of receiving command
-     * @param label
+     * @param label Name of the command passed
      * @param args  Arguments passed to the command
      */
     @Override
@@ -100,7 +100,7 @@ public abstract class ChannelCommand implements IRCCommand {
      */
     @Override
     public final String toString() {
-        final Map<String, Object> data = new HashMap<String, Object>();
+        final Map<String, Object> data = new HashMap<>();
         data.put("name", getBaseName());
         final StringBuilder aliases = new StringBuilder();
         for (String alias : getAliases()) {

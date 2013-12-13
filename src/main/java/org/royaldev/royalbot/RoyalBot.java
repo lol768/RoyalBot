@@ -10,7 +10,30 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.managers.ThreadedListenerManager;
-import org.royaldev.royalbot.commands.*;
+import org.royaldev.royalbot.commands.AdminCommand;
+import org.royaldev.royalbot.commands.BaxFaxCommand;
+import org.royaldev.royalbot.commands.ChannelCommand;
+import org.royaldev.royalbot.commands.ChooseCommand;
+import org.royaldev.royalbot.commands.ChuckCommand;
+import org.royaldev.royalbot.commands.DefineCommand;
+import org.royaldev.royalbot.commands.HelpCommand;
+import org.royaldev.royalbot.commands.IgnoreCommand;
+import org.royaldev.royalbot.commands.JoinCommand;
+import org.royaldev.royalbot.commands.MCAccountCommand;
+import org.royaldev.royalbot.commands.MCPingCommand;
+import org.royaldev.royalbot.commands.MessageCommand;
+import org.royaldev.royalbot.commands.NumberFactCommand;
+import org.royaldev.royalbot.commands.PartCommand;
+import org.royaldev.royalbot.commands.PingCommand;
+import org.royaldev.royalbot.commands.QuitCommand;
+import org.royaldev.royalbot.commands.RepositoryCommand;
+import org.royaldev.royalbot.commands.RollCommand;
+import org.royaldev.royalbot.commands.RoyalBotCommand;
+import org.royaldev.royalbot.commands.ShakespeareInsultCommand;
+import org.royaldev.royalbot.commands.ShortenCommand;
+import org.royaldev.royalbot.commands.UrbanDictionaryCommand;
+import org.royaldev.royalbot.commands.WeatherCommand;
+import org.royaldev.royalbot.commands.WolframAlphaCommand;
 import org.royaldev.royalbot.commands.channelmanagement.ChannelManagementCommand;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
@@ -39,7 +62,7 @@ public class RoyalBot {
     private final PircBotX bot;
     private final Logger logger = Logger.getLogger("org.royaldev.royalbot.RoyalBot");
     @SuppressWarnings("FieldCanBeLocal")
-    private String botVersion = this.getClass().getPackage().getImplementationVersion();
+    private final String botVersion = this.getClass().getPackage().getImplementationVersion();
     private final CommandHandler ch = new CommandHandler();
     private final ListenerHandler lh = new ListenerHandler();
     private final Config c;
@@ -99,14 +122,14 @@ public class RoyalBot {
         c = new Config(configPath);
         addCommands();
         addChannelCommands();
-        final Configuration.Builder<PircBotX> cb = new Configuration.Builder<PircBotX>();
+        final Configuration.Builder<PircBotX> cb = new Configuration.Builder<>();
         cb.setServer(serverHostname, serverPort)
                 .setName(botNick)
                 .setRealName(botRealname)
                 .setLogin(botLogin)
                 .setFinger(botFinger)
                 .setVersion("RoyalBot " + botVersion)
-                .setListenerManager(new ThreadedListenerManager<PircBotX>())
+                .setListenerManager(new ThreadedListenerManager<>())
                 .addListener(new BaseListeners(this))
                 .setMessageDelay(messageDelay)
                 .setAutoNickChange(true);
@@ -146,17 +169,10 @@ public class RoyalBot {
             e.printStackTrace();
             return;
         }
-        try {
-            InputStream file = RoyalBot.class.getResourceAsStream("/config.yml");
-            OutputStream os = new FileOutputStream(f);
-            try {
-                int read;
-                while ((read = file.read()) != -1) os.write(read);
-                os.flush();
-            } finally {
-                os.close();
-                file.close();
-            }
+        try (InputStream file = RoyalBot.class.getResourceAsStream("/config.yml"); OutputStream os = new FileOutputStream(f)) {
+            int read;
+            while ((read = file.read()) != -1) os.write(read);
+            os.flush();
         } catch (IOException e) {
             e.printStackTrace();
             return;

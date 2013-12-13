@@ -11,7 +11,7 @@ import java.util.Map;
  * This is useful for temporary Configurations for providing defaults.
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
-    protected Configuration defaults;
+    private Configuration defaults;
 
     /**
      * Creates an empty {@link MemoryConfiguration} with no default values.

@@ -29,8 +29,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).intValue();
         try {
             return Integer.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }
@@ -39,8 +38,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).floatValue();
         try {
             return Float.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }
@@ -49,8 +47,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).doubleValue();
         try {
             return Double.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }
@@ -59,8 +56,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).longValue();
         try {
             return Long.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }
@@ -69,8 +65,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).shortValue();
         try {
             return Short.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }
@@ -79,8 +74,7 @@ public final class NumberConversions {
         if (object instanceof Number) return ((Number) object).byteValue();
         try {
             return Byte.valueOf(object.toString());
-        } catch (NumberFormatException ignored) {
-        } catch (NullPointerException ignored) {
+        } catch (NumberFormatException | NullPointerException ignored) {
         }
         return 0;
     }

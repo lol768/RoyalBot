@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 
 public class WolframAlphaCommand implements IRCCommand {
 
-    private RoyalBot rb = RoyalBot.getInstance();
+    private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
