@@ -73,7 +73,6 @@ public abstract class ChannelCommand extends NoticeableCommand {
         final Scriptable s = c.initStandardObjects();
         ScriptableObject.putProperty(s, "event", Context.javaToJS(me, s)); // provide message event for ease
         ScriptableObject.putProperty(s, "args", Context.javaToJS(args, s)); // supply arguments
-        ScriptableObject.putProperty(s, "this", Context.javaToJS(this, s)); // allow access to this
         try {
             c.evaluateString(s, getJavaScript(), getName(), 1, null);
         } catch (Exception e) {
