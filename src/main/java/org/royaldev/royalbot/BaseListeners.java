@@ -158,11 +158,11 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
             return;
         final IRCCommand.AuthLevel authLevel = command.getAuthLevel();
         if (authLevel == IRCCommand.AuthLevel.ADMIN && !Auth.checkAuth(e.getUser()).isAuthed()) {
-            e.respond("You are not an admin!");
+            e.getUser().send().notice("You are not an admin!");
             return;
         }
         if (authLevel == IRCCommand.AuthLevel.SUPERADMIN && (!rb.getConfig().getSuperAdmin().equalsIgnoreCase(e.getUser().getNick()) || !Auth.checkAuth(e.getUser()).isAuthed())) {
-            e.respond("You are not a superadmin!");
+            e.getUser().send().notice("You are not a superadmin!");
             return;
         }
         rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
@@ -173,7 +173,8 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
             sb.append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());
             String url = BotUtils.linkToStackTrace(t);
             if (url != null) sb.append(" (").append(url).append(")");
-            e.respond(sb.toString());
+            e.getUser().send().notice(sb.toString());
+            rb.getLogger().warning(sb.toString());
         }
     }
 
