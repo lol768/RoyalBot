@@ -31,6 +31,10 @@ public class WeatherCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
+        if (args.length < 1) {
+            notice(event, "Not enough arguments.");
+            return;
+        }
         String url;
         try {
             url = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s", URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8"));
