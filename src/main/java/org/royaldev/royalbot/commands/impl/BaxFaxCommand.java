@@ -10,14 +10,11 @@ import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.util.List;
 import java.util.Random;
-import java.util.regex.Pattern;
 
 public class BaxFaxCommand implements IRCCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
     private final Random r = rb.getRandom();
-
-    private final Pattern baxfaxPattern = Pattern.compile("(m?bax(ter|fax)?)", Pattern.CASE_INSENSITIVE);
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
