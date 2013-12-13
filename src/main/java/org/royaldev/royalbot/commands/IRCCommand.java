@@ -2,6 +2,9 @@ package org.royaldev.royalbot.commands;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 
+/**
+ * The basis for all commands handled by the bot.
+ */
 public interface IRCCommand {
 
     /**

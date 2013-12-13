@@ -1,5 +1,8 @@
 package org.royaldev.royalbot.listeners;
 
+/**
+ * The basis for all listeners used by the bot.
+ */
 public interface IRCListener {
 
     /**

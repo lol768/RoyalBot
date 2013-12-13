@@ -10,9 +10,9 @@ import org.kohsuke.args4j.spi.StringArrayOptionHandler;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.managers.ThreadedListenerManager;
+import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.impl.AdminCommand;
 import org.royaldev.royalbot.commands.impl.BaxFaxCommand;
-import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.impl.ChooseCommand;
 import org.royaldev.royalbot.commands.impl.ChuckCommand;
 import org.royaldev.royalbot.commands.impl.DefineCommand;
@@ -53,6 +53,9 @@ import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+/**
+ * The main bot.
+ */
 public class RoyalBot {
 
     public static void main(String[] args) {
