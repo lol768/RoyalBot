@@ -3,6 +3,7 @@ package org.royaldev.royalbot.commands.impl.channelmanagement.subcommands;
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ChannelPreferences;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class CMIgnoreSubcommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 2) {
             event.respond("Not enough arguments.");
             return;

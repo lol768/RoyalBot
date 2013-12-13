@@ -9,11 +9,11 @@ public interface IRCCommand {
      * passed to this method will either be a {@link org.pircbotx.hooks.events.MessageEvent} or a
      * {@link org.pircbotx.hooks.events.PrivateMessageEvent}.
      *
-     * @param event Event of receiving command
-     * @param label Alias of the command used
-     * @param args  Arguments passed to the command
+     * @param event    Event of receiving command
+     * @param callInfo Information received when this command was called
+     * @param args     Arguments passed to the command
      */
-    public void onCommand(GenericMessageEvent event, String label, String[] args);
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args);
 
     /**
      * This should return the name of the command. An example would be "ping"

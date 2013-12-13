@@ -4,6 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.CommandHandler;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMCommandsSubcommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMIgnoreSubcommand;
@@ -20,7 +21,7 @@ public class ChannelManagementCommand implements IRCCommand {
     }
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;
@@ -37,7 +38,7 @@ public class ChannelManagementCommand implements IRCCommand {
             return;
         }
         try {
-            ic.onCommand(event, subcommandName, ArrayUtils.subarray(args, 1, args.length));
+            ic.onCommand(event, new CallInfo(subcommandName, CallInfo.UsageType.PRIVATE), ArrayUtils.subarray(args, 1, args.length));
         } catch (Throwable t) {
             final StringBuilder sb = new StringBuilder("Unhandled subcommand exception! ");
             sb.append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());

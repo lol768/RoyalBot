@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.UnsupportedEncodingException;
@@ -15,7 +16,7 @@ public class UrbanDictionaryCommand extends NoticeableCommand {
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 1) {
             notice(event, "Not enough arguments.");
             return;

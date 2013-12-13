@@ -1,12 +1,13 @@
 package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 
 public class JoinCommand implements IRCCommand {
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;

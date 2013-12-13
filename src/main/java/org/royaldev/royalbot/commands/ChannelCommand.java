@@ -52,12 +52,12 @@ public abstract class ChannelCommand extends NoticeableCommand {
      * <code>event</code> will always be a {@link MessageEvent}. If any exceptions occur while the JavaScript is being
      * processed, they will be caught and pasted.
      *
-     * @param event Event of receiving command
-     * @param label Name of the command passed
-     * @param args  Arguments passed to the command
+     * @param event    Event of receiving command
+     * @param callInfo Information received at the calling of this command
+     * @param args     Arguments passed to the command
      */
     @Override
-    public final void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public final void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (!(event instanceof MessageEvent)) return; // these commands should only be channel messages
         final MessageEvent me = (MessageEvent) event;
         final Context c = ContextFactory.getGlobal().enterContext();

@@ -3,6 +3,7 @@ package org.royaldev.royalbot.commands.impl.channelmanagement.subcommands;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
@@ -12,7 +13,7 @@ public class CMCommandsSubcommand implements IRCCommand {
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments!");
             return;

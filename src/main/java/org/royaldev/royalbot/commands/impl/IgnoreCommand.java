@@ -3,6 +3,7 @@ package org.royaldev.royalbot.commands.impl;
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class IgnoreCommand implements IRCCommand {
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (args.length < 1) {
             event.respond("Not enough arguments.");
             return;

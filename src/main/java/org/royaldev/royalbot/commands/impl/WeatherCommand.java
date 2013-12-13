@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.UnsupportedEncodingException;
@@ -29,7 +30,7 @@ public class WeatherCommand extends NoticeableCommand {
     }
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         String url;
         try {
             url = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s", URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8"));

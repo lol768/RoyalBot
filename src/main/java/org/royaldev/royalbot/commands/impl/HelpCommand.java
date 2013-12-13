@@ -7,6 +7,7 @@ import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.CommandHandler;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.auth.Auth;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 
@@ -15,7 +16,7 @@ public class HelpCommand implements IRCCommand {
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         final CommandHandler ch = rb.getCommandHandler();
         final User u = event.getUser();
         final boolean userIsAdmin = Auth.checkAuth(u).isAuthed();

@@ -3,6 +3,7 @@ package org.royaldev.royalbot.commands.impl;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,7 +19,7 @@ public class DefineCommand extends NoticeableCommand {
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         if (!rb.getConfig().getDictionaryAPIEnabled()) {
             notice(event, "Dictionary API is turned off on this bot.");
             return;

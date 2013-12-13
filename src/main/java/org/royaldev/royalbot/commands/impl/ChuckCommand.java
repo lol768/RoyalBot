@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.UnsupportedEncodingException;
@@ -15,7 +16,7 @@ public class ChuckCommand extends NoticeableCommand {
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
-    public void onCommand(GenericMessageEvent event, String label, String[] args) {
+    public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
         final String url;
         try {
             url = "http://api.icndb.com/jokes/random" + ((args.length > 0) ? "?limitTo=[" + URLEncoder.encode(args[0], "UTF-8") + "]" : "");

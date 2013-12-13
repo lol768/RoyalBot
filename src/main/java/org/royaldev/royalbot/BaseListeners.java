@@ -16,6 +16,7 @@ import org.pircbotx.hooks.types.GenericChannelUserEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.pircbotx.hooks.types.GenericUserEvent;
 import org.royaldev.royalbot.auth.Auth;
+import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.configuration.ChannelPreferences;
@@ -166,7 +167,7 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
         }
         rb.getLogger().info(((isPrivateMessage) ? "" : ((MessageEvent) e).getChannel().getName() + "/") + e.getUser().getNick() + ": " + e.getMessage());
         try {
-            command.onCommand(e, commandString, ArrayUtils.subarray(split, 1, split.length));
+            command.onCommand(e, new CallInfo(commandString, ((isPrivateMessage) ? CallInfo.UsageType.PRIVATE : CallInfo.UsageType.MESSAGE)), ArrayUtils.subarray(split, 1, split.length));
         } catch (Throwable t) {
             final StringBuilder sb = new StringBuilder("Unhandled command exception! ");
             sb.append(t.getClass().getSimpleName()).append(": ").append(t.getMessage());
