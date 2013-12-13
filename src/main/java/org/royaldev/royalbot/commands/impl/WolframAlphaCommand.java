@@ -1,9 +1,10 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -12,18 +13,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.net.URLEncoder;
 
-public class WolframAlphaCommand implements IRCCommand {
+public class WolframAlphaCommand extends NoticeableCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (!rb.getConfig().getWolframAlphaEnabled()) {
-            event.respond("WolframAlpha is disabled on this bot.");
+            notice(event, "WolframAlpha is disabled on this bot.");
             return;
         }
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         final String query = StringUtils.join(args, ' ');
@@ -31,14 +32,14 @@ public class WolframAlphaCommand implements IRCCommand {
         try {
             content = BotUtils.getContent(String.format("http://api.wolframalpha.com/v2/query?appid=%s&input=%s", rb.getConfig().getWolframAlphaAPIKey(), URLEncoder.encode(query, "UTF-8")));
         } catch (Exception e) {
-            event.respond("An error occurred while contacting WolframAlpha.");
+            notice(event, "An error occurred while contacting WolframAlpha.");
             return;
         }
         final Document d;
         try {
             d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(content)));
         } catch (Exception ex) {
-            event.respond(BotUtils.formatException(ex));
+            notice(event, BotUtils.formatException(ex));
             return;
         }
         Element root = d.getDocumentElement();
@@ -47,7 +48,7 @@ public class WolframAlphaCommand implements IRCCommand {
             StringBuilder sb = new StringBuilder("WolframAlpha returned with an error!");
             if (!root.getAttribute("error").equalsIgnoreCase("false"))
                 sb.append(" ").append(root.getAttribute("error"));
-            event.respond(sb.toString());
+            notice(event, sb.toString());
             return;
         }
         final String toSend;
@@ -57,7 +58,7 @@ public class WolframAlphaCommand implements IRCCommand {
             e = (Element) e.getElementsByTagName("plaintext").item(0);
             toSend = e.getTextContent();
         } catch (Exception e) {
-            event.respond(BotUtils.formatException(e));
+            notice(event, BotUtils.formatException(e));
             return;
         }
         event.respond(toSend.replaceAll("(\r)?\n", " / "));

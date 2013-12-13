@@ -1,17 +1,18 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.net.URLEncoder;
 
-public class MCAccountCommand implements IRCCommand {
+public class MCAccountCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         boolean status;
@@ -19,7 +20,7 @@ public class MCAccountCommand implements IRCCommand {
             String content = BotUtils.getContent(String.format("https://minecraft.net/haspaid.jsp?user=%s", URLEncoder.encode(args[0], "UTF-8")));
             status = content.equalsIgnoreCase("true");
         } catch (Exception e) {
-            event.respond(BotUtils.formatException(e));
+            notice(event, BotUtils.formatException(e));
             return;
         }
         event.respond(args[0] + " has " + Colors.BOLD + ((status) ? "" : "not ") + "paid" + Colors.NORMAL + " for Minecraft.");

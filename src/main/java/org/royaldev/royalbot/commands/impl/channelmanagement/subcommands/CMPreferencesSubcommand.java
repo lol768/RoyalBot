@@ -1,4 +1,4 @@
-package org.royaldev.royalbot.commands.channelmanagement.subcommands;
+package org.royaldev.royalbot.commands.impl.channelmanagement.subcommands;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.Colors;

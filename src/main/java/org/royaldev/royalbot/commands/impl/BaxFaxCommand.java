@@ -1,10 +1,11 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.IRCCommand;
 
 import java.util.List;
 import java.util.Random;

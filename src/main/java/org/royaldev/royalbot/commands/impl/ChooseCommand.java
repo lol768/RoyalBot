@@ -1,11 +1,12 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.util.Random;
 
-public class ChooseCommand implements IRCCommand {
+public class ChooseCommand extends NoticeableCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
     private final Random r = rb.getRandom();
@@ -13,11 +14,11 @@ public class ChooseCommand implements IRCCommand {
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         if (args.length == 1) {
-            event.respond("It seems that the choice is already made.");
+            notice(event, "It seems that the choice is already made.");
             return;
         }
         event.respond(args[r.nextInt(args.length)]);

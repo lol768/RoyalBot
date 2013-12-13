@@ -1,13 +1,14 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RollCommand implements IRCCommand {
+public class RollCommand extends NoticeableCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
     private final Random r = rb.getRandom();
@@ -16,12 +17,12 @@ public class RollCommand implements IRCCommand {
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         Matcher m = p.matcher(args[0]);
         if (!m.find()) {
-            event.respond("Please specify correct type of die.");
+            notice(event, "Please specify correct type of die.");
             return;
         }
         final StringBuilder rolls = new StringBuilder();
@@ -30,15 +31,15 @@ public class RollCommand implements IRCCommand {
             numRolls = Integer.parseInt(m.group(1) == null ? "1" : m.group(1));
             dieValue = Integer.parseInt(m.group(2) == null ? "6" : m.group(2));
         } catch (NumberFormatException ex) {
-            event.respond("Rolls or die value was not a number.");
+            notice(event, "Rolls or die value was not a number.");
             return;
         }
         if (numRolls < 1 || dieValue < 1) {
-            event.respond("Can't roll zero times or roll a die that has no faces.");
+            notice(event, "Can't roll zero times or roll a die that has no faces.");
             return;
         }
         if (numRolls > 25) {
-            event.respond(numRolls + " rolls is a little excessive. Max number of rolls is 25.");
+            notice(event, numRolls + " rolls is a little excessive. Max number of rolls is 25.");
             return;
         }
         for (int i = 0; i < numRolls; i++) rolls.append(r.nextInt(dieValue) + 1).append(" ");

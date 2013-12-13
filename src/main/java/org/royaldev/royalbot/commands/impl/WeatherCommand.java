@@ -1,16 +1,17 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 
-public class WeatherCommand implements IRCCommand {
+public class WeatherCommand extends NoticeableCommand {
 
     private final ObjectMapper om = new ObjectMapper();
     private final DecimalFormat df = new DecimalFormat("###.##");
@@ -33,14 +34,14 @@ public class WeatherCommand implements IRCCommand {
         try {
             url = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s", URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8"));
         } catch (UnsupportedEncodingException ex) {
-            event.respond("Couldn't encode in UTF-8.");
+            notice(event, "Couldn't encode in UTF-8.");
             return;
         }
         JsonNode jn;
         try {
             jn = om.readTree(BotUtils.getContent(url));
         } catch (Exception ex) {
-            event.respond("Unknown area.");
+            notice(event, "Unknown area.");
             return;
         }
         JsonNode main = jn.path("main");

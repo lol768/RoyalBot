@@ -1,40 +1,35 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.commands.IRCCommand;
 
-public class MessageCommand implements IRCCommand {
+public class QuitCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
-        if (args.length < 2) {
-            event.respond("Not enough arguments.");
-            return;
-        }
-        String target = args[0];
-        String message = StringUtils.join(args, ' ', 1, args.length);
-        event.getBot().sendIRC().message(target, message);
-        event.respond("Sent message to " + target + ".");
+        if (args.length < 1) event.getBot().sendIRC().quitServer();
+        else event.getBot().sendIRC().quitServer(StringUtils.join(args, ' '));
     }
 
     @Override
     public String getName() {
-        return "message";
+        return "quit";
     }
 
     @Override
     public String getUsage() {
-        return "<command> [target] [message]";
+        return "<command> (reason)";
     }
 
     @Override
     public String getDescription() {
-        return "Sends a message to the target";
+        return "Makes the bot quit. :(";
     }
 
     @Override
     public String[] getAliases() {
-        return new String[]{"msg"};
+        return new String[0];
     }
 
     @Override

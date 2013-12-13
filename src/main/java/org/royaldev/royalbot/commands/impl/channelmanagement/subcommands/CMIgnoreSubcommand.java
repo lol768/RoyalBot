@@ -1,4 +1,4 @@
-package org.royaldev.royalbot.commands.channelmanagement.subcommands;
+package org.royaldev.royalbot.commands.impl.channelmanagement.subcommands;
 
 import org.pircbotx.Colors;
 import org.pircbotx.hooks.types.GenericMessageEvent;

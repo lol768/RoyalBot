@@ -1,10 +1,9 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
-import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.IRCCommand;
 
-public class ShortenCommand implements IRCCommand {
+public class JoinCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
@@ -12,27 +11,28 @@ public class ShortenCommand implements IRCCommand {
             event.respond("Not enough arguments.");
             return;
         }
-        final String url = StringUtils.join(args, ' ');
-        try {
-            event.respond(BotUtils.shortenURL(url));
-        } catch (Exception e) {
-            event.respond("Could not shorten that link.");
+        final String channel = args[0];
+        if (!channel.startsWith("#")) {
+            event.respond("Channel did not start with \"#\".");
+            return;
         }
+        event.getBot().sendIRC().joinChannel(channel);
+        event.respond("Joined " + channel + ".");
     }
 
     @Override
     public String getName() {
-        return "shorten";
+        return "join";
     }
 
     @Override
     public String getUsage() {
-        return "<command> [url]";
+        return "join [channel]";
     }
 
     @Override
     public String getDescription() {
-        return "Shortens a URL.";
+        return "Makes the bot join a channel";
     }
 
     @Override
@@ -42,11 +42,11 @@ public class ShortenCommand implements IRCCommand {
 
     @Override
     public CommandType getCommandType() {
-        return CommandType.BOTH;
+        return CommandType.PRIVATE;
     }
 
     @Override
     public AuthLevel getAuthLevel() {
-        return AuthLevel.PUBLIC;
+        return AuthLevel.ADMIN;
     }
 }

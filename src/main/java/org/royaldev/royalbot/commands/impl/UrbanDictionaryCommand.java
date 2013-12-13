@@ -1,29 +1,30 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class UrbanDictionaryCommand implements IRCCommand {
+public class UrbanDictionaryCommand extends NoticeableCommand {
 
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         final String url;
         try {
             url = String.format("http://api.urbandictionary.com/v0/define?term=%s", URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8"));
         } catch (UnsupportedEncodingException ex) {
-            event.respond("Couldn't encode in UTF-8.");
+            notice(event, "Couldn't encode in UTF-8.");
             return;
         }
         JsonNode jn;
@@ -31,11 +32,11 @@ public class UrbanDictionaryCommand implements IRCCommand {
             jn = om.readTree(BotUtils.getContent(url));
         } catch (Exception ex) {
             String stackURL = BotUtils.linkToStackTrace(ex);
-            event.respond(BotUtils.formatException(ex) + ((stackURL != null) ? " (" + stackURL + ")" : ""));
+            notice(event, BotUtils.formatException(ex) + ((stackURL != null) ? " (" + stackURL + ")" : ""));
             return;
         }
         if (jn.path("result_type").asText().equalsIgnoreCase("no_results")) {
-            event.respond("No results.");
+            notice(event, "No results.");
             return;
         }
         jn = jn.path("list").path(0);

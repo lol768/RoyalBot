@@ -1,8 +1,9 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -12,18 +13,18 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 import java.net.URLEncoder;
 
-public class DefineCommand implements IRCCommand {
+public class DefineCommand extends NoticeableCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (!rb.getConfig().getDictionaryAPIEnabled()) {
-            event.respond("Dictionary API is turned off on this bot.");
+            notice(event, "Dictionary API is turned off on this bot.");
             return;
         }
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         final String content;
@@ -31,7 +32,7 @@ public class DefineCommand implements IRCCommand {
             content = BotUtils.getContent(String.format("http://www.dictionaryapi.com/api/v1/references/collegiate/xml/%s?key=%s", URLEncoder.encode(args[0], "UTF-8"), URLEncoder.encode(rb.getConfig().getDictionaryAPIKey(), "UTF-8")));
         } catch (Exception e) {
             e.printStackTrace();
-            event.respond("Could not get definition!");
+            notice(event, "Could not get definition!");
             return;
         }
         int entryNumber = 0;
@@ -42,12 +43,12 @@ public class DefineCommand implements IRCCommand {
                 entryNumber = Integer.parseInt(split[0]) - 1;
                 if (split.length > 1) defNumber = Integer.parseInt(split[1]) - 1;
             } catch (NumberFormatException ex) {
-                event.respond("A number provided was not a number!");
+                notice(event, "A number provided was not a number!");
                 return;
             }
         }
         if (entryNumber < 0 || defNumber < 0) {
-            event.respond("A number was less than one.");
+            notice(event, "A number was less than one.");
             return;
         }
         final String toSend;
@@ -60,24 +61,24 @@ public class DefineCommand implements IRCCommand {
             NodeList nl = root.getElementsByTagName("entry");
             numberEntries = nl.getLength();
             if (numberEntries < 1) {
-                event.respond("No entries found.");
+                notice(event, "No entries found.");
                 return;
             }
             if (entryNumber + 1 > numberEntries) {
-                event.respond("Invalid entry number.");
+                notice(event, "Invalid entry number.");
                 return;
             }
             Element e = (Element) nl.item(entryNumber);
             nl = e.getElementsByTagName("dt");
             numberDefinitions = nl.getLength();
             if (defNumber + 1 > numberDefinitions) {
-                event.respond("Invalid definition number.");
+                notice(event, "Invalid definition number.");
                 return;
             }
             e = (Element) nl.item(defNumber);
             toSend = e.getTextContent();
         } catch (Exception e) {
-            event.respond(BotUtils.formatException(e));
+            notice(event, BotUtils.formatException(e));
             return;
         }
         event.respond(String.format("(%s entries, %s defs) %s", numberEntries, numberDefinitions, toSend.substring(1)));

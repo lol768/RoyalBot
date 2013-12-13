@@ -16,7 +16,7 @@ import org.royaldev.royalbot.BotUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class ChannelCommand implements IRCCommand {
+public abstract class ChannelCommand extends NoticeableCommand {
 
     private final ObjectMapper om = new ObjectMapper();
 

@@ -1,7 +1,8 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,12 +10,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-public class MCPingCommand implements IRCCommand {
+public class MCPingCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
         if (args.length < 1) {
-            event.respond("Not enough arguments.");
+            notice(event, "Not enough arguments.");
             return;
         }
         int port;
@@ -22,7 +23,7 @@ public class MCPingCommand implements IRCCommand {
             try {
                 port = Integer.valueOf(args[1]);
             } catch (NumberFormatException e) {
-                event.respond(BotUtils.formatException(e));
+                notice(event, BotUtils.formatException(e));
                 return;
             }
         } else port = 25565;
@@ -30,7 +31,7 @@ public class MCPingCommand implements IRCCommand {
         try {
             mpr = new MinecraftPing().getPing(args[0], port);
         } catch (IOException e) {
-            event.respond(BotUtils.formatException(e));
+            notice(event, BotUtils.formatException(e));
             return;
         }
         event.respond(mpr.getMotd() + " (" + mpr.getOnlinePlayers() + "/" + mpr.getMaxPlayers() + ", " + mpr.getVersion() + ")");

@@ -1,43 +1,42 @@
-package org.royaldev.royalbot.commands;
+package org.royaldev.royalbot.commands.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.commands.IRCCommand;
 
-public class QuitCommand implements IRCCommand {
+public class RepositoryCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, String label, String[] args) {
-        if (args.length < 1) event.getBot().sendIRC().quitServer();
-        else event.getBot().sendIRC().quitServer(StringUtils.join(args, ' '));
+        event.respond("Contribute to " + event.getBot().getNick() + "! https://github.com/RoyalDev/RoyalBot");
     }
 
     @Override
     public String getName() {
-        return "quit";
+        return "repository";
     }
 
     @Override
     public String getUsage() {
-        return "<command> (reason)";
+        return "<command>";
     }
 
     @Override
     public String getDescription() {
-        return "Makes the bot quit. :(";
+        return "Returns the repository for this bot.";
     }
 
     @Override
     public String[] getAliases() {
-        return new String[0];
+        return new String[]{"repo"};
     }
 
     @Override
     public CommandType getCommandType() {
-        return CommandType.PRIVATE;
+        return CommandType.BOTH;
     }
 
     @Override
     public AuthLevel getAuthLevel() {
-        return AuthLevel.ADMIN;
+        return AuthLevel.PUBLIC;
     }
 }
