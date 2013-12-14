@@ -12,12 +12,14 @@ import org.mozilla.javascript.WrapFactory;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
+import org.royaldev.royalbot.RoyalBot;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ChannelCommand extends NoticeableCommand {
 
+    private final RoyalBot rb = RoyalBot.getInstance();
     private final ObjectMapper om = new ObjectMapper();
 
     static {
@@ -76,6 +78,10 @@ public abstract class ChannelCommand extends NoticeableCommand {
         try {
             c.evaluateString(s, getJavaScript(), getName(), 1, null);
         } catch (Throwable t) {
+            if (t instanceof OutOfMemoryError) {
+                rb.getLogger().warning("Channel command (\"" + getName() + "\") produced OutOfMemoryError! Removing.");
+                rb.getCommandHandler().unregisterCommand(getName());
+            }
             final String url = BotUtils.linkToStackTrace(t);
             notice(event, "Exception!" + ((url != null) ? " (" + url + ")" : ""));
         } finally {
@@ -120,11 +126,36 @@ public abstract class ChannelCommand extends NoticeableCommand {
     }
 
     private static class SandboxContextFactory extends ContextFactory {
+        private static class TimedContext extends Context {
+            long startTime;
+
+            private TimedContext(SandboxContextFactory scf) {
+                super(scf);
+            }
+        }
+
         @Override
         protected Context makeContext() {
-            Context cx = super.makeContext();
-            cx.setWrapFactory(new SandboxWrapFactory());
-            return cx;
+            TimedContext tcx = new TimedContext(this);
+            tcx.setOptimizationLevel(-1);
+            tcx.setInstructionObserverThreshold(500);
+            tcx.setWrapFactory(new SandboxWrapFactory());
+            return tcx;
+        }
+
+        @Override
+        protected void observeInstructionCount(Context cx, int instructionCount) {
+            TimedContext tcx = (TimedContext) cx;
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - tcx.startTime > 7500L)
+                throw new Error("Command ran for too long (longer than 7.5 seconds)!");
+        }
+
+        @Override
+        protected Object doTopCall(org.mozilla.javascript.Callable callable, Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+            TimedContext tcx = (TimedContext) cx;
+            tcx.startTime = System.currentTimeMillis();
+            return super.doTopCall(callable, cx, scope, thisObj, args);
         }
     }
 
