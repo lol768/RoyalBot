@@ -75,8 +75,8 @@ public abstract class ChannelCommand extends NoticeableCommand {
         ScriptableObject.putProperty(s, "args", Context.javaToJS(args, s)); // supply arguments
         try {
             c.evaluateString(s, getJavaScript(), getName(), 1, null);
-        } catch (Exception e) {
-            final String url = BotUtils.linkToStackTrace(e);
+        } catch (Throwable t) {
+            final String url = BotUtils.linkToStackTrace(t);
             notice(event, "Exception!" + ((url != null) ? " (" + url + ")" : ""));
         } finally {
             Context.exit();
