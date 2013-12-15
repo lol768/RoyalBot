@@ -127,4 +127,10 @@ public class Config {
         return cs;
     }
 
+    public ConfigurationSection getFlipTable() {
+        ConfigurationSection cs = yc.getConfigurationSection("flip");
+        if (cs == null) cs = yc.createSection("flip");
+        return cs;
+    }
+
 }

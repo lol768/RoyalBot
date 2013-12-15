@@ -2,6 +2,7 @@ package org.royaldev.royalbot;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -13,6 +14,7 @@ import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.auth.AuthResponse;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
+import org.royaldev.royalbot.configuration.ConfigurationSection;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -291,6 +293,37 @@ public class BotUtils {
         boolean isChanOp = u.getChannelsOpIn().contains(u.getBot().getUserChannelDao().getChannel(chan));
         boolean isSuperAdmin = RoyalBot.getInstance().getConfig().getSuperAdmin().equalsIgnoreCase(u.getNick());
         return (loggedIn && isChanOp) || isSuperAdmin;
+    }
+
+    /**
+     * Flips a string upside-down in accordance to the table from the configuration.
+     *
+     * @param toFlip String to flip
+     * @return Flipped string
+     */
+    public static String flip(String toFlip) {
+        System.out.println("flipping " + toFlip);
+        final ConfigurationSection flips = RoyalBot.getInstance().getConfig().getFlipTable();
+        final StringBuilder sb = new StringBuilder();
+        for (char c : toFlip.toCharArray()) {
+            final String ch = String.valueOf(c);
+            System.out.println(ch + ": " + flips.getString(ch, ch));
+            sb.append(flips.getString(ch, ch));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Gets an array of all indices of a string.
+     *
+     * @param string Search string
+     * @param of     Delimiter
+     * @return Array of ints
+     */
+    public static int[] indicesOf(String string, String of) {
+        List<Integer> indices = new ArrayList<>();
+        for (int i = string.indexOf(of); i >= 0; i = string.indexOf(of, i + 1)) indices.add(i);
+        return ArrayUtils.toPrimitive(indices.toArray(new Integer[indices.size()]));
     }
 
 }
