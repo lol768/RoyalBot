@@ -302,12 +302,10 @@ public class BotUtils {
      * @return Flipped string
      */
     public static String flip(String toFlip) {
-        System.out.println("flipping " + toFlip);
         final ConfigurationSection flips = RoyalBot.getInstance().getConfig().getFlipTable();
         final StringBuilder sb = new StringBuilder();
         for (char c : toFlip.toCharArray()) {
             final String ch = String.valueOf(c);
-            System.out.println(ch + ": " + flips.getString(ch, ch));
             sb.append(flips.getString(ch, ch));
         }
         return sb.toString();
