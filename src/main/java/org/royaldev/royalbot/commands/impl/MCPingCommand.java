@@ -238,7 +238,7 @@ public class MCPingCommand extends NoticeableCommand {
         MinecraftPingReply(final String ip, final int port, final String motd, final String protocolVersion, final String version, final int onlinePlayers, final int maxPlayers) {
             this.ip = ip;
             this.port = port;
-            this.motd = motd;
+            this.motd = motd.replaceAll("(?i)\\u00a7[0-9a-fk-or]", "");
             this.protocolVersion = protocolVersion;
             this.version = version;
             this.maxPlayers = maxPlayers;
