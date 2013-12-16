@@ -6,6 +6,7 @@ import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -28,7 +29,8 @@ public class IsUpCommand extends NoticeableCommand {
         final boolean isReachable;
         try {
             ia = InetAddress.getByName(args[0]);
-            Socket s = new Socket(ia, port);
+            Socket s = new Socket();
+            s.connect(new InetSocketAddress(ia, port), 2500);
             s.close();
             isReachable = s.isConnected();
         } catch (UnknownHostException e) {
