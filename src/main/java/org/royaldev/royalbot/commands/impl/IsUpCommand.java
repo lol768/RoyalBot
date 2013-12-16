@@ -6,6 +6,7 @@ import org.royaldev.royalbot.commands.NoticeableCommand;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class IsUpCommand extends NoticeableCommand {
@@ -16,11 +17,20 @@ public class IsUpCommand extends NoticeableCommand {
             notice(event, "Not enough arguments.");
             return;
         }
+        final int port;
+        try {
+            port = (args.length > 1) ? Integer.parseInt(args[1]) : 80;
+        } catch (NumberFormatException ex) {
+            notice(event, "The port was not a number.");
+            return;
+        }
         final InetAddress ia;
         final boolean isReachable;
         try {
             ia = InetAddress.getByName(args[0]);
-            isReachable = ia.isReachable(2500);
+            Socket s = new Socket(ia, port);
+            s.close();
+            isReachable = s.isConnected();
         } catch (UnknownHostException e) {
             notice(event, "Unknown host.");
             return;
