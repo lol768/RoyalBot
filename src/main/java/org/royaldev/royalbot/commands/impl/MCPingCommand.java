@@ -1,10 +1,13 @@
 package org.royaldev.royalbot.commands.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,23 +22,19 @@ public class MCPingCommand extends NoticeableCommand {
             notice(event, "Not enough arguments.");
             return;
         }
-        int port;
-        if (args.length > 1) {
-            try {
-                port = Integer.valueOf(args[1]);
-            } catch (NumberFormatException e) {
-                notice(event, BotUtils.formatException(e));
-                return;
-            }
-        } else port = 25565;
-        MinecraftPingReply mpr;
+        final int port;
         try {
-            mpr = new MinecraftPing().getPing(args[0], port);
-        } catch (IOException e) {
+            port = (args.length > 1) ? Integer.valueOf(args[1]) : 25565;
+        } catch (NumberFormatException e) {
             notice(event, BotUtils.formatException(e));
             return;
         }
-        event.respond(mpr.getMotd() + " (" + mpr.getOnlinePlayers() + "/" + mpr.getMaxPlayers() + ", " + mpr.getVersion() + ")");
+        final MinecraftPingReply mpr = new MinecraftPing().getPing(args[0], port);
+        if (mpr == null) {
+            notice(event, "Server appears to be down.");
+            return;
+        }
+        event.respond(mpr.getMotd() + " - " + mpr.getOnlinePlayers() + "/" + mpr.getMaxPlayers() + " players, " + mpr.getVersion());
     }
 
     @Override
@@ -70,6 +69,75 @@ public class MCPingCommand extends NoticeableCommand {
 
     private class MinecraftPing {
 
+        private final ObjectMapper om = new ObjectMapper();
+
+        public MinecraftPingReply getPing(final String hostname, final int port) {
+            try {
+                return get17Ping(hostname, port);
+            } catch (IOException ex) {
+                try {
+                    return get16Ping(hostname, port);
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+        }
+
+        public int readVarInt(DataInputStream in) throws IOException {
+            int i = 0;
+            int j = 0;
+            while (true) {
+                int k = in.readByte();
+                i |= (k & 0x7F) << j++ * 7;
+                if (j > 5) throw new RuntimeException("VarInt too big");
+                if ((k & 0x80) != 128) break;
+            }
+            return i;
+        }
+
+        public void writeVarInt(DataOutputStream out, int paramInt) throws IOException {
+            while (true) {
+                if ((paramInt & 0xFFFFFF80) == 0) {
+                    out.writeByte(paramInt);
+                    return;
+                }
+                out.writeByte(paramInt & 0x7F | 0x80);
+                paramInt >>>= 7;
+            }
+        }
+
+        public MinecraftPingReply get17Ping(final String hostname, final int port) throws IOException {
+            this.validate(hostname, "Hostname cannot be null.");
+            this.validate(port, "Port cannot be null.");
+            final Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, port), 1750);
+            final DataInputStream in = new DataInputStream(socket.getInputStream());
+            final DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            final DataOutputStream prepare = new DataOutputStream(baos);
+            writeVarInt(prepare, 0x00);
+            writeVarInt(prepare, 4); // protocol version as of 1.7.2/4
+            writeVarInt(prepare, hostname.length());
+            prepare.writeBytes(hostname);
+            prepare.writeShort(port);
+            writeVarInt(prepare, 1);
+            prepare.flush();
+            writeVarInt(out, baos.size());
+            out.write(baos.toByteArray());
+            out.flush();
+            writeVarInt(out, 0x01);
+            writeVarInt(out, 0x00);
+            out.flush();
+            if (readVarInt(in) < 1) throw new IOException("Invalid packet size.");
+            if (readVarInt(in) != 0x00) throw new IOException("Invalid packet ID.");
+            final int length = readVarInt(in);
+            if (length < 1) throw new IOException("Invalid string length.");
+            byte[] bs = new byte[length];
+            in.readFully(bs);
+            final JsonNode jn = om.readTree(new String(bs));
+            return new MinecraftPingReply(hostname, port, jn.path("description").asText(), jn.path("version").path("protocol").asText(), jn.path("version").path("name").asText(), jn.path("players").path("online").asInt(), jn.path("players").path("max").asInt());
+        }
+
         /**
          * Fetches a {@link MinecraftPingReply} for the supplied hostname and port. Will revert to pre-12w42b ping message if required.
          *
@@ -78,7 +146,7 @@ public class MCPingCommand extends NoticeableCommand {
          * @return {@link MinecraftPingReply} - list of basic server information
          * @throws IOException thrown when failed to receive packet or when incorrect packet is received
          */
-        public MinecraftPingReply getPing(final String hostname, final int port) throws IOException {
+        public MinecraftPingReply get16Ping(final String hostname, final int port) throws IOException {
             this.validate(hostname, "Hostname cannot be null.");
             this.validate(port, "Port cannot be null.");
             final Socket socket = new Socket();
