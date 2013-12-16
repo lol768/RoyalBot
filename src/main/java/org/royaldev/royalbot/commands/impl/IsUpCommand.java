@@ -1,6 +1,7 @@
 package org.royaldev.royalbot.commands.impl;
 
 import org.pircbotx.hooks.types.GenericMessageEvent;
+import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.NoticeableCommand;
 
@@ -37,7 +38,7 @@ public class IsUpCommand extends NoticeableCommand {
             notice(event, "Unknown host.");
             return;
         } catch (IOException e) {
-            notice(event, "An input/output error occurred. Please try again.");
+            notice(event, BotUtils.formatException(e));
             return;
         }
         event.respond(ia.getHostName() + " is " + ((isReachable) ? "" : "not ") + "up.");
