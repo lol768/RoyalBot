@@ -324,4 +324,16 @@ public class BotUtils {
         return ArrayUtils.toPrimitive(indices.toArray(new Integer[indices.size()]));
     }
 
+    /**
+     * Returns a string of less than or equal to the maximum length provided. If the provided string is more than the
+     * maximum length, the rest of the contents will be removed.
+     *
+     * @param text      Text to truncate
+     * @param maxLength Maximum length to allow
+     * @return Truncated string
+     */
+    public static String truncate(String text, int maxLength) {
+        return text.length() < maxLength ? text : text.substring(0, maxLength);
+    }
+
 }

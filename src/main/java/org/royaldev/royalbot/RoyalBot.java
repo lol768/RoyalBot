@@ -16,6 +16,7 @@ import org.royaldev.royalbot.commands.impl.BaxFaxCommand;
 import org.royaldev.royalbot.commands.impl.ChooseCommand;
 import org.royaldev.royalbot.commands.impl.ChuckCommand;
 import org.royaldev.royalbot.commands.impl.DefineCommand;
+import org.royaldev.royalbot.commands.impl.GoogleCommand;
 import org.royaldev.royalbot.commands.impl.HelpCommand;
 import org.royaldev.royalbot.commands.impl.IgnoreCommand;
 import org.royaldev.royalbot.commands.impl.JoinCommand;
@@ -190,6 +191,7 @@ public class RoyalBot {
         ch.registerCommand(new ChooseCommand());
         ch.registerCommand(new ChuckCommand());
         ch.registerCommand(new DefineCommand());
+        ch.registerCommand(new GoogleCommand());
         ch.registerCommand(new HelpCommand());
         ch.registerCommand(new IgnoreCommand());
         ch.registerCommand(new JoinCommand());
