@@ -5,6 +5,12 @@
     <artifactId>royalbot</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>RoyalBot</name>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>royaldev-repo-snap</id>
+            <url>http://minor.royaldev.org:8081/nexus/content/repositories/products-snap/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <finalName>${project.name}-${project.version}</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
@@ -56,6 +62,16 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>royaldev-repo-snap</serverId>
+                    <nexusUrl>http://minor.royaldev.org:8081/nexus/</nexusUrl>
+                </configuration>
             </plugin>
         </plugins>
     </build>
