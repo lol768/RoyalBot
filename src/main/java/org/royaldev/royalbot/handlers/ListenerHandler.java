@@ -1,4 +1,4 @@
-package org.royaldev.royalbot;
+package org.royaldev.royalbot.handlers;
 
 import org.royaldev.royalbot.listeners.IRCListener;
 
@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * A class for registering and retrieving {@link org.royaldev.royalbot.listeners.IRCListener}s.
  */
-public class ListenerHandler {
+public class ListenerHandler implements Handler<IRCListener> {
 
     private final Map<String, IRCListener> listeners = new TreeMap<>();
 
@@ -22,13 +22,19 @@ public class ListenerHandler {
      * @param listener Listener to be registered
      * @return If listener was registered
      */
-    public boolean registerListener(IRCListener listener) {
+    @Override
+    public boolean register(IRCListener listener) {
         final String name = listener.getName().toLowerCase();
         synchronized (listeners) {
             if (listeners.containsKey(name)) return false;
             listeners.put(name, listener);
         }
         return true;
+    }
+
+    @Override
+    public boolean unregister(IRCListener listener) {
+        return unregister(listener.getName());
     }
 
     /**
@@ -38,11 +44,16 @@ public class ListenerHandler {
      *
      * @param name Name to remove
      */
-    public void unregisterListener(String name) {
+    public boolean unregister(String name) {
         name = name.toLowerCase();
+        boolean wasRemoved = false;
         synchronized (listeners) {
-            if (listeners.containsKey(name)) listeners.remove(name);
+            if (listeners.containsKey(name)) {
+                listeners.remove(name);
+                wasRemoved = true;
+            }
         }
+        return wasRemoved;
     }
 
     /**
@@ -51,7 +62,7 @@ public class ListenerHandler {
      * @param name Name of the listener to get
      * @return IRCListener, or null if none registered
      */
-    public IRCListener getListener(String name) {
+    public IRCListener get(String name) {
         name = name.toLowerCase();
         synchronized (listeners) {
             if (listeners.containsKey(name)) return listeners.get(name);
@@ -64,7 +75,7 @@ public class ListenerHandler {
      *
      * @return Collection
      */
-    public Collection<IRCListener> getAllListeners() {
+    public Collection<IRCListener> getAll() {
         synchronized (listeners) {
             return listeners.values();
         }

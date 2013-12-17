@@ -1,4 +1,4 @@
-package org.royaldev.royalbot;
+package org.royaldev.royalbot.handlers;
 
 import org.royaldev.royalbot.commands.IRCCommand;
 
@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * A class for registering and retrieving {@link org.royaldev.royalbot.commands.IRCCommand}s.
  */
-public class CommandHandler {
+public class CommandHandler implements Handler<IRCCommand> {
 
     private final Map<String, IRCCommand> commands = new TreeMap<>();
     // Alias, Command
@@ -24,7 +24,8 @@ public class CommandHandler {
      * @param command Command to be registered
      * @return If command was registered
      */
-    public boolean registerCommand(IRCCommand command) {
+    @Override
+    public boolean register(IRCCommand command) {
         final String name = command.getName().toLowerCase();
         synchronized (commands) {
             if (commands.containsKey(name)) return false;
@@ -41,20 +42,37 @@ public class CommandHandler {
     }
 
     /**
+     * Removes the supplied command from the CommandHandler.
+     *
+     * @param command Command to be removed
+     * @return If command was removed
+     */
+    @Override
+    public boolean unregister(IRCCommand command) {
+        return unregister(command.getName());
+    }
+
+    /**
      * Removes a registered command by its name. Case does not matter.
      * <br/>
      * If no command is registered under the provided name, this method does nothing.
      *
      * @param name Name to remove
+     * @return If command was unregistered
      */
-    public void unregisterCommand(String name) {
+    public boolean unregister(String name) {
         name = name.toLowerCase();
+        boolean wasRemoved = false;
         synchronized (commands) {
-            if (commands.containsKey(name)) commands.remove(name);
+            if (commands.containsKey(name)) {
+                commands.remove(name);
+                wasRemoved = true;
+            }
         }
         synchronized (aliasCommands) {
             if (aliasCommands.containsKey(name)) aliasCommands.remove(name);
         }
+        return wasRemoved;
     }
 
     /**
@@ -63,12 +81,12 @@ public class CommandHandler {
      * @param name Name of the command to get
      * @return IRCCommand, or null if none registered
      */
-    public IRCCommand getCommand(String name) {
+    public IRCCommand get(String name) {
         name = name.toLowerCase();
         synchronized (commands) {
             if (commands.containsKey(name)) return commands.get(name);
             synchronized (aliasCommands) {
-                if (aliasCommands.containsKey(name)) return getCommand(aliasCommands.get(name));
+                if (aliasCommands.containsKey(name)) return get(aliasCommands.get(name));
             }
         }
         return null;
@@ -79,7 +97,7 @@ public class CommandHandler {
      *
      * @return Collection
      */
-    public Collection<IRCCommand> getAllCommands() {
+    public Collection<IRCCommand> getAll() {
         synchronized (commands) {
             return commands.values();
         }

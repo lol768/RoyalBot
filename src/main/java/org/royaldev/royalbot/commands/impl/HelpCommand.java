@@ -4,7 +4,7 @@ package org.royaldev.royalbot.commands.impl;
 import org.pircbotx.User;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
-import org.royaldev.royalbot.CommandHandler;
+import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.commands.CallInfo;
@@ -23,14 +23,14 @@ public class HelpCommand implements IRCCommand {
         final boolean isSuperAdmin = userIsAdmin && rb.getConfig().getSuperAdmin().equalsIgnoreCase(u.getNick());
         u.send().message("Channel command prefix: \"" + rb.getCommandPrefix() + "\"");
         if (args.length < 1) {
-            for (IRCCommand ic : ch.getAllCommands()) {
+            for (IRCCommand ic : ch.getAll()) {
                 if (ic instanceof ChannelCommand) continue;
                 if (ic.getAuthLevel() == AuthLevel.ADMIN && !userIsAdmin) continue;
                 if (ic.getAuthLevel() == AuthLevel.SUPERADMIN && !isSuperAdmin) continue;
                 u.send().message(BotUtils.getHelpString(ic));
             }
         } else {
-            final IRCCommand ic = ch.getCommand(args[0]);
+            final IRCCommand ic = ch.get(args[0]);
             if (ic == null) {
                 event.respond("No such command!");
                 return;

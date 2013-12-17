@@ -26,7 +26,7 @@ public class CMCommandsSubcommand implements IRCCommand {
             }
             final String channel = args[1];
             int number = 0;
-            for (IRCCommand ic : rb.getCommandHandler().getAllCommands()) {
+            for (IRCCommand ic : rb.getCommandHandler().getAll()) {
                 if (!(ic instanceof ChannelCommand)) continue;
                 ChannelCommand cc = (ChannelCommand) ic;
                 if (!cc.getChannel().equalsIgnoreCase(channel)) continue;
@@ -53,7 +53,7 @@ public class CMCommandsSubcommand implements IRCCommand {
                 event.respond("Could not create command!" + ((url == null) ? "" : " (" + stackTraceURL + ")"));
                 return;
             }
-            if (rb.getCommandHandler().registerCommand(cc)) event.respond("Registered command.");
+            if (rb.getCommandHandler().register(cc)) event.respond("Registered command.");
             else {
                 event.respond("Could not register that command.");
                 return;
@@ -71,7 +71,7 @@ public class CMCommandsSubcommand implements IRCCommand {
                 event.respond("You need to be an op in that channel.");
                 return;
             }
-            IRCCommand ic = rb.getCommandHandler().getCommand(command + ":" + channel);
+            IRCCommand ic = rb.getCommandHandler().get(command + ":" + channel);
             if (ic == null || !(ic instanceof ChannelCommand)) {
                 event.respond("No such command.");
                 return;
@@ -81,7 +81,7 @@ public class CMCommandsSubcommand implements IRCCommand {
                 event.respond("That command does not appear to register with the channel.");
                 return;
             }
-            rb.getCommandHandler().unregisterCommand(ic.getName());
+            rb.getCommandHandler().unregister(ic.getName());
             event.respond("Unregistered.");
             rb.getConfig().getChannelCommands().set(channel + "." + cc.getBaseName(), null);
             rb.getConfig().save();
@@ -101,7 +101,7 @@ public class CMCommandsSubcommand implements IRCCommand {
                 event.respond("No commands in that channel.");
                 return;
             }
-            IRCCommand ic = rb.getCommandHandler().getCommand(command + ":" + channel);
+            IRCCommand ic = rb.getCommandHandler().get(command + ":" + channel);
             if (ic == null || !(ic instanceof ChannelCommand)) {
                 event.respond("No such command.");
                 return;

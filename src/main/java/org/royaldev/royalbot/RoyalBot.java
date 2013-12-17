@@ -15,6 +15,8 @@ import org.royaldev.royalbot.commands.impl.*;
 import org.royaldev.royalbot.commands.impl.channelmanagement.ChannelManagementCommand;
 import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
+import org.royaldev.royalbot.handlers.CommandHandler;
+import org.royaldev.royalbot.handlers.ListenerHandler;
 import org.royaldev.royalbot.listeners.YouTubeListener;
 
 import java.io.File;
@@ -162,36 +164,36 @@ public class RoyalBot {
     }
 
     private void addCommands() {
-        ch.registerCommand(new AdminCommand());
-        ch.registerCommand(new BaxFaxCommand());
-        ch.registerCommand(new ChannelManagementCommand());
-        ch.registerCommand(new ChooseCommand());
-        ch.registerCommand(new ChuckCommand());
-        ch.registerCommand(new DefineCommand());
-        ch.registerCommand(new GoogleCommand());
-        ch.registerCommand(new HelpCommand());
-        ch.registerCommand(new IgnoreCommand());
-        ch.registerCommand(new IsUpCommand());
-        ch.registerCommand(new JoinCommand());
-        ch.registerCommand(new MCAccountCommand());
-        ch.registerCommand(new MCPingCommand());
-        ch.registerCommand(new MessageCommand());
-        ch.registerCommand(new NumberFactCommand());
-        ch.registerCommand(new PartCommand());
-        ch.registerCommand(new PingCommand());
-        ch.registerCommand(new QuitCommand());
-        ch.registerCommand(new RepositoryCommand());
-        ch.registerCommand(new RollCommand());
-        ch.registerCommand(new RoyalBotCommand());
-        ch.registerCommand(new ShakespeareInsultCommand());
-        ch.registerCommand(new ShortenCommand());
-        ch.registerCommand(new UrbanDictionaryCommand());
-        ch.registerCommand(new WeatherCommand());
-        ch.registerCommand(new WolframAlphaCommand());
+        ch.register(new AdminCommand());
+        ch.register(new BaxFaxCommand());
+        ch.register(new ChannelManagementCommand());
+        ch.register(new ChooseCommand());
+        ch.register(new ChuckCommand());
+        ch.register(new DefineCommand());
+        ch.register(new GoogleCommand());
+        ch.register(new HelpCommand());
+        ch.register(new IgnoreCommand());
+        ch.register(new IsUpCommand());
+        ch.register(new JoinCommand());
+        ch.register(new MCAccountCommand());
+        ch.register(new MCPingCommand());
+        ch.register(new MessageCommand());
+        ch.register(new NumberFactCommand());
+        ch.register(new PartCommand());
+        ch.register(new PingCommand());
+        ch.register(new QuitCommand());
+        ch.register(new RepositoryCommand());
+        ch.register(new RollCommand());
+        ch.register(new RoyalBotCommand());
+        ch.register(new ShakespeareInsultCommand());
+        ch.register(new ShortenCommand());
+        ch.register(new UrbanDictionaryCommand());
+        ch.register(new WeatherCommand());
+        ch.register(new WolframAlphaCommand());
     }
 
     private void addListeners() {
-        lh.registerListener(new YouTubeListener());
+        lh.register(new YouTubeListener());
     }
 
     private void addChannelCommands() {
@@ -205,7 +207,7 @@ public class RoyalBot {
                 } catch (Exception e) {
                     continue;
                 }
-                ch.registerCommand(cc);
+                ch.register(cc);
             }
         }
     }

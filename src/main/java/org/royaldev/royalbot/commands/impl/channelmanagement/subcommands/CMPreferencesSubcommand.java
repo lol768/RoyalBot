@@ -61,7 +61,7 @@ public class CMPreferencesSubcommand implements IRCCommand {
                 return;
             }
             String command = args[1], status = args[2];
-            IRCCommand ic = rb.getCommandHandler().getCommand(command);
+            IRCCommand ic = rb.getCommandHandler().get(command);
             if (ic == null) {
                 event.respond("No such command.");
                 return;
@@ -100,7 +100,7 @@ public class CMPreferencesSubcommand implements IRCCommand {
                 return;
             }
             String listener = args[1], status = args[2];
-            IRCListener il = rb.getListenerHandler().getListener(listener);
+            IRCListener il = rb.getListenerHandler().get(listener);
             if (il == null) {
                 event.respond("No such listener.");
                 return;

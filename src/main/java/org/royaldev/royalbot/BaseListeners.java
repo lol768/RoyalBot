@@ -41,7 +41,7 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        for (IRCListener il : rb.getListenerHandler().getAllListeners()) {
+        for (IRCListener il : rb.getListenerHandler().getAll()) {
             if (event instanceof GenericChannelEvent) {
                 GenericChannelEvent gce = (GenericChannelEvent) event;
                 ChannelPreferences cp = new ChannelPreferences(gce.getChannel().getName());
@@ -132,9 +132,9 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
         if (message.charAt(0) != rb.getCommandPrefix() && !isPrivateMessage) return;
         final String[] split = message.trim().split(" ");
         final String commandString = (!isPrivateMessage) ? split[0].substring(1, split[0].length()) : split[0];
-        IRCCommand command = rb.getCommandHandler().getCommand(commandString);
+        IRCCommand command = rb.getCommandHandler().get(commandString);
         if (command == null && !isPrivateMessage) // search for channel-specific commands
-            command = rb.getCommandHandler().getCommand(commandString + ":" + ((MessageEvent) e).getChannel().getName());
+            command = rb.getCommandHandler().get(commandString + ":" + ((MessageEvent) e).getChannel().getName());
         if (command == null) {
             if (isPrivateMessage) e.respond("No such command.");
             return;

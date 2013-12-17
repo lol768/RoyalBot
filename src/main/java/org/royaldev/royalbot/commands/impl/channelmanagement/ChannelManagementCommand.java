@@ -3,7 +3,7 @@ package org.royaldev.royalbot.commands.impl.channelmanagement;
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
-import org.royaldev.royalbot.CommandHandler;
+import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMCommandsSubcommand;
@@ -15,9 +15,9 @@ public class ChannelManagementCommand implements IRCCommand {
     private final CommandHandler subcommands = new CommandHandler();
 
     public ChannelManagementCommand() {
-        subcommands.registerCommand(new CMCommandsSubcommand());
-        subcommands.registerCommand(new CMIgnoreSubcommand());
-        subcommands.registerCommand(new CMPreferencesSubcommand());
+        subcommands.register(new CMCommandsSubcommand());
+        subcommands.register(new CMIgnoreSubcommand());
+        subcommands.register(new CMPreferencesSubcommand());
     }
 
     @Override
@@ -28,11 +28,11 @@ public class ChannelManagementCommand implements IRCCommand {
         }
         final String subcommandName = args[0];
         if (subcommandName.equalsIgnoreCase("help")) {
-            for (IRCCommand subcommand : subcommands.getAllCommands())
+            for (IRCCommand subcommand : subcommands.getAll())
                 event.respond(BotUtils.getHelpString(subcommand));
             return;
         }
-        final IRCCommand ic = subcommands.getCommand(subcommandName);
+        final IRCCommand ic = subcommands.get(subcommandName);
         if (ic == null) {
             event.respond("No such subcommand!");
             return;

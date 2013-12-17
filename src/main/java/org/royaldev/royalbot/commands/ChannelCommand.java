@@ -80,7 +80,7 @@ public abstract class ChannelCommand extends NoticeableCommand {
         } catch (Throwable t) {
             if (t instanceof OutOfMemoryError) {
                 rb.getLogger().warning("Channel command (\"" + getName() + "\") produced OutOfMemoryError! Removing.");
-                rb.getCommandHandler().unregisterCommand(getName());
+                rb.getCommandHandler().unregister(getName());
             }
             final String url = BotUtils.linkToStackTrace(t);
             notice(event, "Exception!" + ((url != null) ? " (" + url + ")" : ""));
