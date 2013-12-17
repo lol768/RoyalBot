@@ -24,6 +24,9 @@ dist
 manifest.mf
 package
 
+# files for dev that don't need to go to repo
+exclude
+
 # Mac filesystem dust
 .DS_Store
 
