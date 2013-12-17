@@ -18,6 +18,7 @@ import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.handlers.ListenerHandler;
 import org.royaldev.royalbot.listeners.YouTubeListener;
+import org.royaldev.royalbot.plugins.PluginLoader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,6 +49,9 @@ public class RoyalBot {
     private final String botVersion = this.getClass().getPackage().getImplementationVersion();
     private final CommandHandler ch = new CommandHandler();
     private final ListenerHandler lh = new ListenerHandler();
+    private final PluginHandler ph = new PluginHandler();
+    @SuppressWarnings("FieldCanBeLocal")
+    private final PluginLoader pl = new PluginLoader(this);
     private final Config c;
     private final Random random = new Random();
     private static RoyalBot instance;
@@ -122,6 +126,7 @@ public class RoyalBot {
         if (!nickServPassword.isEmpty()) cb.setNickservPassword(nickServPassword);
         bot = new PircBotX(cb.buildConfiguration());
         addListeners();
+        pl.loadPlugins();
         getLogger().info("Connecting.");
         new Thread(new Runnable() {
             public void run() {
@@ -232,12 +237,33 @@ public class RoyalBot {
         return lh;
     }
 
+    public PluginHandler getPluginHandler() {
+        return ph;
+    }
+
+    protected PluginLoader getPluginLoader() {
+        return pl;
+    }
+
     public char getCommandPrefix() {
         return commandPrefix;
     }
 
     public Random getRandom() {
         return random;
+    }
+
+    /**
+     * Gets the path that the JAR is contained in.
+     *
+     * @return Path the jar is at
+     */
+    public String getPath() {
+        try {
+            return new File(RoyalBot.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getAbsolutePath();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public static RoyalBot getInstance() {

@@ -5,6 +5,7 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.Event;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.ConnectEvent;
+import org.pircbotx.hooks.events.DisconnectEvent;
 import org.pircbotx.hooks.events.InviteEvent;
 import org.pircbotx.hooks.events.JoinEvent;
 import org.pircbotx.hooks.events.KickEvent;
@@ -75,6 +76,12 @@ class BaseListeners extends ListenerAdapter<PircBotX> {
     @Override
     public void onConnect(ConnectEvent e) {
         rb.getLogger().info("Connected!");
+        rb.getPluginLoader().enablePlugins();
+    }
+
+    @Override
+    public void onDisconnect(DisconnectEvent e) {
+        rb.getPluginLoader().disablePlugins();
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -70,6 +71,17 @@ public class YamlConfiguration extends FileConfiguration {
         YamlConfiguration config = new YamlConfiguration();
         try {
             config.load(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return config;
+    }
+
+    public static YamlConfiguration loadConfiguration(InputStream is) {
+        Validate.notNull(is, "InputStream cannot be null");
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.load(is);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
