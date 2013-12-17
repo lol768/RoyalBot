@@ -7,7 +7,7 @@ Plugins
 -------
 
 Be sure to use Maven dependencies:
-```
+```xml
 <repositories>
     <repository>
         <id>royaldev-repo-snap</id>
