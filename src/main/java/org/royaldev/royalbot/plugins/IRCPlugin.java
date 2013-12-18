@@ -5,11 +5,13 @@ import org.royaldev.royalbot.configuration.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public abstract class IRCPlugin implements Plugin {
 
     private YamlConfiguration yc = null;
     private PluginDescription pd = null;
+    private Logger logger = null;
     private RoyalBot rb = null;
 
     @Override
@@ -58,8 +60,13 @@ public abstract class IRCPlugin implements Plugin {
         return rb;
     }
 
+    public Logger getLogger() {
+        return logger;
+    }
+
     void init(RoyalBot rb, PluginDescription pd) {
         this.pd = pd;
         this.rb = rb;
+        this.logger = new PluginLogger(this);
     }
 }
