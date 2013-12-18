@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 // Must stay in main package and be package-local
-public class PluginHandler implements Handler<Plugin> {
+public class PluginHandler implements Handler<Plugin, String> {
 
     PluginHandler() {}
 

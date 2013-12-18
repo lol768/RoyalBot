@@ -7,8 +7,9 @@ import java.util.Collection;
  * points in time.
  *
  * @param <T> Type of object to be handled by this Handler
+ * @param <U> Identifier to be used to get T
  */
-public interface Handler<T> {
+public interface Handler<T, U> {
 
     /**
      * Registers the object in this Handler.
@@ -32,7 +33,7 @@ public interface Handler<T> {
      * @param identifier Identifier attached to a registered object
      * @return Object if an object was registered with the supplied identifier, null if otherwise
      */
-    public T get(String identifier);
+    public T get(U identifier);
 
     /**
      * Gets all registered objects in this Handler.

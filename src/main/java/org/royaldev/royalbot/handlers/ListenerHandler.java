@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * A class for registering and retrieving {@link org.royaldev.royalbot.listeners.IRCListener}s.
  */
-public class ListenerHandler implements Handler<IRCListener> {
+public class ListenerHandler implements Handler<IRCListener, String> {
 
     private final Map<String, IRCListener> listeners = new TreeMap<>();
 

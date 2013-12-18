@@ -9,7 +9,7 @@ import java.util.TreeMap;
 /**
  * A class for registering and retrieving {@link org.royaldev.royalbot.commands.IRCCommand}s.
  */
-public class CommandHandler implements Handler<IRCCommand> {
+public class CommandHandler implements Handler<IRCCommand, String> {
 
     private final Map<String, IRCCommand> commands = new TreeMap<>();
     // Alias, Command
