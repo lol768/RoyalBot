@@ -11,11 +11,15 @@ public class PluginDescription {
     }
 
     public String getName() {
-        return yc.getString("name");
+        return yc.getString("name", "");
     }
 
     public String getMain() {
-        return yc.getString("main");
+        return yc.getString("main", "");
+    }
+
+    public String getVersion() {
+        return yc.getString("version", "");
     }
 
 }
