@@ -3,12 +3,12 @@ package org.royaldev.royalbot.commands.impl.channelmanagement;
 import org.apache.commons.lang3.ArrayUtils;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
-import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.IRCCommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMCommandsSubcommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMIgnoreSubcommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.subcommands.CMPreferencesSubcommand;
+import org.royaldev.royalbot.handlers.CommandHandler;
 
 public class ChannelManagementCommand implements IRCCommand {
 

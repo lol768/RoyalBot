@@ -4,12 +4,12 @@ package org.royaldev.royalbot.commands.impl;
 import org.pircbotx.User;
 import org.pircbotx.hooks.types.GenericMessageEvent;
 import org.royaldev.royalbot.BotUtils;
-import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.RoyalBot;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.commands.CallInfo;
 import org.royaldev.royalbot.commands.ChannelCommand;
 import org.royaldev.royalbot.commands.IRCCommand;
+import org.royaldev.royalbot.handlers.CommandHandler;
 
 public class HelpCommand implements IRCCommand {
 

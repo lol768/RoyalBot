@@ -21,7 +21,8 @@ class PluginClassLoader extends URLClassLoader {
         super.addURL(jarFile.toURI().toURL());
         JarFile jar = new JarFile(jarFile);
         ZipEntry pluginYml = jar.getEntry("plugin.yml");
-        if (pluginYml == null) throw new InvalidPluginException("Plugin has no plugin.yml! (" + jarFile.getName() + ")");
+        if (pluginYml == null)
+            throw new InvalidPluginException("Plugin has no plugin.yml! (" + jarFile.getName() + ")");
         final YamlConfiguration yc = YamlConfiguration.loadConfiguration(jar.getInputStream(pluginYml));
         if (!yc.contains("name"))
             throw new InvalidPluginException("plugin.yml has no name! (" + jarFile.getName() + ")");
