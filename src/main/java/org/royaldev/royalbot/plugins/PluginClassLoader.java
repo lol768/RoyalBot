@@ -33,6 +33,7 @@ class PluginClassLoader extends URLClassLoader {
             if (zipEntry.getName().endsWith(".class")) {
                 String className = zipEntry.getName();
                 className = className.replace(".class", "").replace("/", ".");
+                if (className.startsWith("org.royaldev.royalbot")) continue; // no hijacks, please
                 loadClass(className);
             }
         }
