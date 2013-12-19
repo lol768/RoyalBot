@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * This should be extended in order to create plugins.
+ */
 public abstract class IRCPlugin implements Plugin {
 
     private YamlConfiguration yc = null;
@@ -52,14 +55,30 @@ public abstract class IRCPlugin implements Plugin {
         return yc;
     }
 
+    /**
+     * Gets a PluginDescription containing the official data in the plugin.yml of this plugin.
+     *
+     * @return PluginDescription
+     */
     public PluginDescription getPluginDescription() {
         return pd;
     }
 
+    /**
+     * Gets the bot that this plugin is registered with.
+     *
+     * @return RoyalBot
+     */
     public RoyalBot getBot() {
         return rb;
     }
 
+    /**
+     * Gets a Logger for this plugin. This logger will prepend the name of the plugin to all logged data, allowing for
+     * easier identification.
+     *
+     * @return Logger specifically for this plugin
+     */
     public Logger getLogger() {
         return logger;
     }

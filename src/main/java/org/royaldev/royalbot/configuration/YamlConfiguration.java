@@ -23,6 +23,38 @@ public class YamlConfiguration extends FileConfiguration {
     private final Representer yamlRepresenter = new YamlRepresenter();
     private final Yaml yaml = new Yaml(new SafeConstructor(), yamlRepresenter, yamlOptions);
 
+    /**
+     * Creates a new {@link YamlConfiguration}, loading from the given file.
+     * <p/>
+     * Any errors loading the Configuration will be logged and then ignored.
+     * If the specified input is not a valid config, a blank config will be returned.
+     *
+     * @param file Input file
+     * @return Resulting configuration
+     * @throws IllegalArgumentException Thrown if file is null
+     */
+    public static YamlConfiguration loadConfiguration(File file) {
+        Validate.notNull(file, "File cannot be null");
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.load(file);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return config;
+    }
+
+    public static YamlConfiguration loadConfiguration(InputStream is) {
+        Validate.notNull(is, "InputStream cannot be null");
+        YamlConfiguration config = new YamlConfiguration();
+        try {
+            config.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return config;
+    }
+
     @Override
     public String saveToString() {
         yamlOptions.setIndent(2);
@@ -54,38 +86,6 @@ public class YamlConfiguration extends FileConfiguration {
             if (value instanceof Map) convertMapsToSections((Map<?, ?>) value, section.createSection(key));
             else section.set(key, value);
         }
-    }
-
-    /**
-     * Creates a new {@link YamlConfiguration}, loading from the given file.
-     * <p/>
-     * Any errors loading the Configuration will be logged and then ignored.
-     * If the specified input is not a valid config, a blank config will be returned.
-     *
-     * @param file Input file
-     * @return Resulting configuration
-     * @throws IllegalArgumentException Thrown if file is null
-     */
-    public static YamlConfiguration loadConfiguration(File file) {
-        Validate.notNull(file, "File cannot be null");
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.load(file);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return config;
-    }
-
-    public static YamlConfiguration loadConfiguration(InputStream is) {
-        Validate.notNull(is, "InputStream cannot be null");
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return config;
     }
 
     public class YamlRepresenter extends Representer {

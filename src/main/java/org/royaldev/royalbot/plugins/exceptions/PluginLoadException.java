@@ -1,5 +1,8 @@
 package org.royaldev.royalbot.plugins.exceptions;
 
+/**
+ * An exception to be used when a plugin has an error while loading.
+ */
 public class PluginLoadException extends PluginException {
 
     public PluginLoadException(String reason) {

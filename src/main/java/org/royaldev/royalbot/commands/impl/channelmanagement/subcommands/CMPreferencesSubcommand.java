@@ -132,10 +132,6 @@ public class CMPreferencesSubcommand implements IRCCommand {
         }
     }
 
-    private enum Status {
-        ENABLED, DISABLED
-    }
-
     @Override
     public String getName() {
         return "preferences";
@@ -164,5 +160,9 @@ public class CMPreferencesSubcommand implements IRCCommand {
     @Override
     public AuthLevel getAuthLevel() {
         return AuthLevel.PUBLIC;
+    }
+
+    private enum Status {
+        ENABLED, DISABLED
     }
 }

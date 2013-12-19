@@ -80,7 +80,6 @@ public interface IRCCommand {
          * Command can be used in either channel or private message.
          */
         BOTH("Channel or private message");
-
         private final String description;
 
         CommandType(String description) {

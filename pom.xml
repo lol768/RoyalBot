@@ -64,6 +64,41 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <links>
+                        <link>http://site.pircbotx.googlecode.com/hg-history/2.0/apidocs</link>
+                    </links>
+                    <detectLinks>true</detectLinks>
+                    <show>public</show>
+                    <excludePackageNames>org.royaldev.royalbot.commands.impl:org.royaldev.royalbot.listeners.impl:org.royaldev.royalbot.BaseListeners</excludePackageNames>
+                    <excludes>src/main/java/org/royaldev/royalbot/BaseListeners.java</excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.5.1</version>

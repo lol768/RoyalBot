@@ -24,22 +24,47 @@ public class AuthResponse {
     protected AuthResponse() {
     }
 
+    /**
+     * Gets if the account checked is a valid NickServ account.
+     *
+     * @return true or false
+     */
     public boolean isValid() {
         return isValid;
     }
 
+    /**
+     * Gets if the account is currently logged in.
+     *
+     * @return true or false
+     */
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
 
+    /**
+     * Gets if the account is an admin (must be logged in and in the admins list).
+     *
+     * @return true or false
+     */
     public boolean isAdmin() {
         return isAdmin;
     }
 
+    /**
+     * Gets if the account is authed (must be a valid account, logged in, and in the admins list).
+     *
+     * @return true or false
+     */
     public boolean isAuthed() {
         return isValid() && isLoggedIn() && isAdmin();
     }
 
+    /**
+     * Gets the name of the account handled by this AuthResponse.
+     *
+     * @return Account name - never null
+     */
     public String getAccountName() {
         return accountName;
     }

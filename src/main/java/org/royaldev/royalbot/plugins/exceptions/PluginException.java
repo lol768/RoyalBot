@@ -1,5 +1,8 @@
 package org.royaldev.royalbot.plugins.exceptions;
 
+/**
+ * Generic exception related to a plugin.
+ */
 public class PluginException extends Exception {
 
     public PluginException(String reason) {

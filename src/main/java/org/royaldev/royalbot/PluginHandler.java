@@ -10,9 +10,9 @@ import java.util.TreeMap;
 // Must stay in main package and be package-local
 public class PluginHandler implements Handler<Plugin, String> {
 
-    PluginHandler() {}
-
     private final Map<String, Plugin> plugins = new TreeMap<>();
+
+    PluginHandler() {}
 
     @Override
     public boolean register(Plugin plugin) {

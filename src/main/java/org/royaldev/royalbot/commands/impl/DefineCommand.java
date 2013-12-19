@@ -20,7 +20,7 @@ public class DefineCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
-        if (!rb.getConfig().getDictionaryAPIEnabled()) {
+        if (!rb.getConfig().isDictionaryAPIEnabled()) {
             notice(event, "Dictionary API is turned off on this bot.");
             return;
         }

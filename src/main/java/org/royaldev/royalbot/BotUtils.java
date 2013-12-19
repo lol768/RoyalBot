@@ -32,6 +32,8 @@ public class BotUtils {
 
     private final static ObjectMapper om = new ObjectMapper();
 
+    private BotUtils() {} // this is a thing that should never be done
+
     /**
      * Gets the appropriate string to send to a user if an exception is encountered.
      *

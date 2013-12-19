@@ -1,4 +1,4 @@
-package org.royaldev.royalbot.listeners;
+package org.royaldev.royalbot.listeners.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,6 +6,8 @@ import org.pircbotx.Colors;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.royaldev.royalbot.BotUtils;
 import org.royaldev.royalbot.RoyalBot;
+import org.royaldev.royalbot.listeners.IRCListener;
+import org.royaldev.royalbot.listeners.Listener;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -14,11 +16,6 @@ import java.util.regex.Pattern;
 
 public class YouTubeListener implements IRCListener {
 
-    @Override
-    public String getName() {
-        return "YouTube";
-    }
-
     private final Pattern p = Pattern.compile("https?://(?:[0-9A-Z-]+\\.)?(?:youtu\\.be/|youtube(?:-nocookie)?\\.com\\S*[^\\w\\-\\s])([\\w\\-]{11})(?=[^\\w\\-]|$)(?![?=&+%\\w.-]*(?:['\"][^<>]*>|</a>))[?=&+%\\w.-]*");
     // 2 = hour, 4 = minute, 6 = second
     private final Pattern time = Pattern.compile("PT((\\d+)H)?((\\d+)M)?((\\d+)S)?");
@@ -26,6 +23,11 @@ public class YouTubeListener implements IRCListener {
     private final DecimalFormat df = new DecimalFormat("00");
     private final NumberFormat nf = NumberFormat.getInstance();
     private final RoyalBot rb = RoyalBot.getInstance();
+
+    @Override
+    public String getName() {
+        return "YouTube";
+    }
 
     private int zeroOrNumber(String s) {
         try {
@@ -37,7 +39,7 @@ public class YouTubeListener implements IRCListener {
 
     @Listener
     public void parseYouTubeLink(MessageEvent e) {
-        if (!rb.getConfig().getYouTubeEnabled()) return;
+        if (!rb.getConfig().isYouTubeEnabled()) return;
         final Matcher m = p.matcher(e.getMessage());
         while (m.find()) {
             if (m.group(1) == null) continue;

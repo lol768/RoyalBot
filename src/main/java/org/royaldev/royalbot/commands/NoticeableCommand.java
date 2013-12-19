@@ -10,7 +10,7 @@ public abstract class NoticeableCommand implements IRCCommand {
      * @param event  Event to get User from
      * @param notice Notice to send to User
      */
-    protected void notice(GenericMessageEvent event, String notice) {
+    public void notice(GenericMessageEvent event, String notice) {
         event.getUser().send().notice(notice);
     }
 

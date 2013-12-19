@@ -20,7 +20,7 @@ public class WolframAlphaCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
-        if (!rb.getConfig().getWolframAlphaEnabled()) {
+        if (!rb.getConfig().isWolframAlphaEnabled()) {
             notice(event, "WolframAlpha is disabled on this bot.");
             return;
         }

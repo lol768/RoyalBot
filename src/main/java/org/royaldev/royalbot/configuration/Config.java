@@ -9,10 +9,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * The bot's main configuration.
+ */
 public class Config {
 
-    private File configFile = null;
     private final YamlConfiguration yc;
+    private File configFile = null;
 
     public Config(String path) {
         try {
@@ -58,6 +61,11 @@ public class Config {
         return admins;
     }
 
+    /**
+     * Sets the admins on the bot.
+     *
+     * @param admins Admins to set
+     */
     public void setAdmins(Set<String> admins) {
         final List<String> newAdmins = new ArrayList<>(admins);
         if (!getSuperAdmin().isEmpty() && newAdmins.contains(getSuperAdmin())) newAdmins.remove(getSuperAdmin());
@@ -65,76 +73,161 @@ public class Config {
         save();
     }
 
+    /**
+     * Gets the specified YouTube API key or an empty string if not set.
+     *
+     * @return API key or empty string
+     */
     public String getYouTubeAPIKey() {
         return yc.getString("youtube.api-key", "");
     }
 
-    public boolean getYouTubeEnabled() {
+    /**
+     * Returns if YouTube link parsing is enabled.
+     *
+     * @return true or false
+     */
+    public boolean isYouTubeEnabled() {
         return yc.getBoolean("youtube.enabled", false);
     }
 
+    /**
+     * Gets the API key for WolframAlpha or an empty string if not set.
+     *
+     * @return API key or empty string
+     */
     public String getWolframAlphaAPIKey() {
         return yc.getString("wolframalpha.api-key", "");
     }
 
-    public boolean getWolframAlphaEnabled() {
+    /**
+     * Returns if WolframAlpha is enabled.
+     *
+     * @return true or false
+     */
+    public boolean isWolframAlphaEnabled() {
         return yc.getBoolean("wolframalpha.enabled", false);
     }
 
-    public boolean getDictionaryAPIEnabled() {
+    /**
+     * Returns if the dictionary API is enabled.
+     *
+     * @return true or false
+     */
+    public boolean isDictionaryAPIEnabled() {
         return yc.getBoolean("dictionaryapi.enabled", false);
     }
 
+    /**
+     * Gets the API key for the dictionary API or empty string if not set.
+     *
+     * @return API key or empty string
+     */
     public String getDictionaryAPIKey() {
         return yc.getString("dictionaryapi.api-key", "");
     }
 
-    public boolean getWundergroundEnabled() {
+    /**
+     * Returns if Wunderground is enabled.
+     *
+     * @return true of false
+     */
+    public boolean isWundergroundEnabled() {
         return yc.getBoolean("weather.wunderground.enabled", false);
     }
 
+    /**
+     * Gets the API key for Wunderground or an empty string if not set.
+     *
+     * @return API key or empty string
+     */
     public String getWundergroundAPIKey() {
         return yc.getString("weather.wunderground.api-key", "");
     }
 
+    /**
+     * Gets the list of channels that the bot is set to automatically join on startup.
+     *
+     * @return List of channels - never null
+     */
     public List<String> getChannels() {
         return yc.getStringList("channels");
     }
 
+    /**
+     * Sets the list of channels that the bot is set to automatically join on startup.
+     *
+     * @param channels List of channels to join
+     */
     public void setChannels(List<String> channels) {
         yc.set("channels", channels);
         save();
     }
 
+    /**
+     * Gets the registered facts for the "baxfax" command.
+     *
+     * @return List of baxfax - never null
+     */
     public List<String> getBaxFax() {
         return yc.getStringList("baxfax");
     }
 
+    /**
+     * Gets the list of ignored hostmasks.
+     *
+     * @return List of hostmasks - never null
+     */
     public List<String> getIgnores() {
         return yc.getStringList("ignores");
     }
 
+    /**
+     * Sets the list of ignored hostmasks.
+     *
+     * @param ignores List of hostmasks to ignore
+     */
     public void setIgnores(List<String> ignores) {
         yc.set("ignores", ignores);
         save();
     }
 
+    /**
+     * Gets the superadmin of the bot. For security purposes, this has no setter.
+     *
+     * @return Nick of superadmin
+     */
     public String getSuperAdmin() {
         return yc.getString("superadmin", "");
     }
 
+    /**
+     * Gets a ConfigurationSection of {@link org.royaldev.royalbot.commands.ChannelCommand}s.
+     *
+     * @return ConfigurationSection
+     */
     public ConfigurationSection getChannelCommands() {
         ConfigurationSection cs = yc.getConfigurationSection("channel-commands");
         if (cs == null) cs = yc.createSection("channel-commands");
         return cs;
     }
 
+    /**
+     * Gets a ConfigurationSection of channel-specific preferences.
+     *
+     * @return ConfigurationSection
+     */
     public ConfigurationSection getChannelPreferences() {
         ConfigurationSection cs = yc.getConfigurationSection("channel-preferences");
         if (cs == null) cs = yc.createSection("channel-preferences");
         return cs;
     }
 
+    /**
+     * Gets a ConfigurationSection of letters for flipping.
+     *
+     * @return ConfigurationSection
+     */
     public ConfigurationSection getFlipTable() {
         ConfigurationSection cs = yc.getConfigurationSection("flip");
         if (cs == null) cs = yc.createSection("flip");

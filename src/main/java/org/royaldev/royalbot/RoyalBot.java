@@ -17,7 +17,7 @@ import org.royaldev.royalbot.configuration.Config;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.handlers.ListenerHandler;
-import org.royaldev.royalbot.listeners.YouTubeListener;
+import org.royaldev.royalbot.listeners.impl.YouTubeListener;
 import org.royaldev.royalbot.plugins.PluginLoader;
 
 import java.io.File;
@@ -39,10 +39,7 @@ import java.util.logging.Logger;
  */
 public class RoyalBot {
 
-    public static void main(String[] args) {
-        new RoyalBot(args);
-    }
-
+    private static RoyalBot instance;
     private final PircBotX bot;
     private final Logger logger = Logger.getLogger("org.royaldev.royalbot.RoyalBot");
     @SuppressWarnings("FieldCanBeLocal")
@@ -54,8 +51,6 @@ public class RoyalBot {
     private final PluginLoader pl = new PluginLoader(this);
     private final Config c;
     private final Random random = new Random();
-    private static RoyalBot instance;
-
     @Option(name = "-n", usage = "Define the nickname of the bot", aliases = {"--nick"})
     private String botNick = "RoyalBot";
     @Option(name = "-r", usage = "Define the real name of the bot", aliases = {"--real-name"})
@@ -141,6 +136,24 @@ public class RoyalBot {
         }).start();
     }
 
+    /**
+     * Starts the bot from the commandline.
+     *
+     * @param args Arguments to be used with the bot
+     */
+    public static void main(String[] args) {
+        new RoyalBot(args);
+    }
+
+    /**
+     * Statically gets the instance of this bot
+     *
+     * @return Instance
+     */
+    public static RoyalBot getInstance() {
+        return instance;
+    }
+
     private void saveDefaultConfig() {
         final File f;
         try {
@@ -217,38 +230,85 @@ public class RoyalBot {
         }
     }
 
+    /**
+     * Gets the actual backend of the bot.
+     *
+     * @return PircBotX backend
+     */
     public PircBotX getBot() {
         return bot;
     }
 
+    /**
+     * Gets the bot's logger. If being accessed by a plugin, {@link org.royaldev.royalbot.plugins.IRCPlugin#getLogger()}
+     * should probably being used instead.
+     *
+     * @return The logger associated with the bot
+     */
     public Logger getLogger() {
         return logger;
     }
 
+    /**
+     * Gets the bot's configuration. All changes made are saved immediately.
+     *
+     * @return Configuration for the bot
+     */
     public Config getConfig() {
         return c;
     }
 
+    /**
+     * Gets the CommandHandler of the bot.
+     *
+     * @return CommandHandler associated with the bot
+     */
     public CommandHandler getCommandHandler() {
         return ch;
     }
 
+    /**
+     * Gets the ListenerHandler of the bot.
+     *
+     * @return ListenerHandler associated with the bot
+     */
     public ListenerHandler getListenerHandler() {
         return lh;
     }
 
+    /**
+     * Gets the PluginHandler of the bot.
+     *
+     * @return PluginHandler associated with the bot
+     */
     public PluginHandler getPluginHandler() {
         return ph;
     }
 
+    /**
+     * Gets the PluginLoader for use internally.
+     *
+     * @return PluginLoader
+     */
     protected PluginLoader getPluginLoader() {
         return pl;
     }
 
+    /**
+     * Gets the prefix to be used in front of channel commands.
+     *
+     * @return char
+     */
     public char getCommandPrefix() {
         return commandPrefix;
     }
 
+    /**
+     * Gets the public Random used for the bot. In order to ensure more random results, it is recommended to use this
+     * Random when generating numbers.
+     *
+     * @return Random
+     */
     public Random getRandom() {
         return random;
     }
@@ -264,9 +324,5 @@ public class RoyalBot {
         } catch (Exception ex) {
             return null;
         }
-    }
-
-    public static RoyalBot getInstance() {
-        return instance;
     }
 }

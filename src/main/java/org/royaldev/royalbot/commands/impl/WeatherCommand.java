@@ -85,7 +85,7 @@ public class WeatherCommand extends NoticeableCommand {
         String url;
         try {
             final String query = URLEncoder.encode(StringUtils.join(args, ' '), "UTF-8");
-            if (rb.getConfig().getWundergroundEnabled())
+            if (rb.getConfig().isWundergroundEnabled())
                 url = String.format("http://api.wunderground.com/api/%s/conditions/forecast/q/%s.json", URLEncoder.encode(rb.getConfig().getWundergroundAPIKey(), "UTF-8"), query);
             else url = String.format("http://api.openweathermap.org/data/2.5/weather?q=%s", query);
         } catch (UnsupportedEncodingException ex) {
@@ -100,7 +100,7 @@ public class WeatherCommand extends NoticeableCommand {
             return;
         }
         event.respond(String.format("Weather in %s: Currently %sC (%sF). High is %sC (%sF); low is %sC (%sF). %s. %s. Wind at %skm/h. Humidity is %s.",
-                rb.getConfig().getWundergroundEnabled() ? getWundergroundData(jn) : getOpenWeatherMapData(jn)
+                rb.getConfig().isWundergroundEnabled() ? getWundergroundData(jn) : getOpenWeatherMapData(jn)
         ));
     }
 

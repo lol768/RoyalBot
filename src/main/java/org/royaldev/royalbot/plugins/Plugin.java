@@ -1,5 +1,10 @@
 package org.royaldev.royalbot.plugins;
 
+/**
+ * This should not be implemented to create plugins to register with RoyalBot.
+ *
+ * @see org.royaldev.royalbot.plugins.IRCPlugin
+ */
 public interface Plugin {
 
     /**

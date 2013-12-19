@@ -126,14 +126,6 @@ public abstract class ChannelCommand extends NoticeableCommand {
     }
 
     private static class SandboxContextFactory extends ContextFactory {
-        private static class TimedContext extends Context {
-            long startTime;
-
-            private TimedContext(SandboxContextFactory scf) {
-                super(scf);
-            }
-        }
-
         @Override
         protected Context makeContext() {
             TimedContext tcx = new TimedContext(this);
@@ -156,6 +148,14 @@ public abstract class ChannelCommand extends NoticeableCommand {
             TimedContext tcx = (TimedContext) cx;
             tcx.startTime = System.currentTimeMillis();
             return super.doTopCall(callable, cx, scope, thisObj, args);
+        }
+
+        private static class TimedContext extends Context {
+            long startTime;
+
+            private TimedContext(SandboxContextFactory scf) {
+                super(scf);
+            }
         }
     }
 
