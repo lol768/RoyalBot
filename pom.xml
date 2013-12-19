@@ -78,6 +78,10 @@
                 <configuration>
                     <links>
                         <link>http://site.pircbotx.googlecode.com/hg-history/2.0/apidocs</link>
+                        <link>http://fasterxml.github.io/jackson-core/javadoc/2.2.0/</link>
+                        <link>http://fasterxml.github.io/jackson-annotations/javadoc/2.2.0/</link>
+                        <link>http://fasterxml.github.io/jackson-databind/javadoc/2.2.0/</link>
+                        <link>http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/</link>
                     </links>
                     <detectLinks>true</detectLinks>
                     <show>public</show>
