@@ -89,6 +89,14 @@ public class Config {
         return yc.getString("dictionaryapi.api-key", "");
     }
 
+    public boolean getWundergroundEnabled() {
+        return yc.getBoolean("weather.wunderground.enabled", false);
+    }
+
+    public String getWundergroundAPIKey() {
+        return yc.getString("weather.wunderground.api-key", "");
+    }
+
     public List<String> getChannels() {
         return yc.getStringList("channels");
     }
