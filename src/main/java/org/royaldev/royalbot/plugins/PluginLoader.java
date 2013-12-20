@@ -11,6 +11,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that loads plugins into the bot.
+ */
 public class PluginLoader {
 
     private final RoyalBot rb;

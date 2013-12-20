@@ -3,6 +3,9 @@ package org.royaldev.royalbot.plugins;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+/**
+ * Logger that prepends the plugin's name to the message.
+ */
 class PluginLogger extends Logger {
 
     private final String prefix;

@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 // Must stay in main package and be package-local
+/**
+ * A class for registering and retrieving {@link org.royaldev.royalbot.plugins.Plugin}s.
+ */
 public class PluginHandler implements Handler<Plugin, String> {
 
     private final Map<String, Plugin> plugins = new TreeMap<>();

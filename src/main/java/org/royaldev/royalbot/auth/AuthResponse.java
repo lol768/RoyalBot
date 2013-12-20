@@ -4,6 +4,9 @@ import org.pircbotx.User;
 import org.pircbotx.hooks.events.NoticeEvent;
 import org.royaldev.royalbot.RoyalBot;
 
+/**
+ * Class containing the response from NickServ about a user.
+ */
 public class AuthResponse {
 
     private boolean isValid = false;

@@ -11,6 +11,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
+/**
+ * Package-local {@link java.net.URLClassLoader} that loads plugins.
+ */
 class PluginClassLoader extends URLClassLoader {
 
     public PluginClassLoader(URL[] urls) {
