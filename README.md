@@ -6,6 +6,9 @@ RoyalDev's IRC Bot :D
 Plugins
 -------
 
+RoyalBot has a plugin system that any developer can easily hook into. Please see
+[GithubPlugin](https://github.com/jkcclemens/GithubPlugin) for an example of a RoyalBot plugin.
+
 Be sure to use Maven dependencies:
 ```xml
 <repositories>
