@@ -37,7 +37,7 @@ public class BaxFaxCommand extends NoticeableCommand {
         final boolean xafxab = callInfo.getLabel().equalsIgnoreCase("xafxab");
         if (xafxab) {
             int index;
-            while ((index = StringUtils.indexOfIgnoreCase(response, "xafxab")) != -1)
+            while ((index = StringUtils.indexOfIgnoreCase(response, "baxfax")) != -1)
                 response = response.substring(0, index) + StringUtils.reverse(response.substring(index, index + 6)) + response.substring(index + 6, response.length());
         }
         event.respond(response);
