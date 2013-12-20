@@ -1,5 +1,6 @@
 package org.royaldev.royalbot.commands.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.pircbotx.User;
 import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.types.GenericMessageEvent;
@@ -24,7 +25,7 @@ public class BaxFaxCommand extends NoticeableCommand {
             return;
         }
         boolean noPing = args.length > 0 && args[0].equalsIgnoreCase("noping");
-        String response = baxfax.get(r.nextInt(baxfax.size()));
+        String response = "[baxfax] " + baxfax.get(r.nextInt(baxfax.size()));
         if (noPing && event instanceof MessageEvent) {
             MessageEvent me = (MessageEvent) event;
             for (User u : me.getChannel().getUsers()) {
@@ -33,7 +34,13 @@ public class BaxFaxCommand extends NoticeableCommand {
                     response = response.substring(0, index) + BotUtils.flip(response.substring(index, index + length)) + response.substring(index + length, response.length());
             }
         }
-        event.respond(((callInfo.getLabel().equalsIgnoreCase("xafxab")) ? "[xafxab] " : "[baxfax] ") + response);
+        final boolean xafxab = callInfo.getLabel().equalsIgnoreCase("xafxab");
+        if (xafxab) {
+            int index;
+            while ((index = StringUtils.indexOfIgnoreCase(response, "xafxab")) != -1)
+                response = response.substring(0, index) + StringUtils.reverse(response.substring(index, index + 6)) + response.substring(index + 6, response.length());
+        }
+        event.respond(response);
     }
 
     @Override
