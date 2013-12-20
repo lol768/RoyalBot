@@ -27,7 +27,7 @@ import org.royaldev.royalbot.listeners.Listener;
 import java.lang.reflect.Method;
 import java.util.List;
 
-class BaseListeners extends ListenerAdapter<PircBotX> {
+final class BaseListeners extends ListenerAdapter<PircBotX> {
 
     private final RoyalBot rb;
 
