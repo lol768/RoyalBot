@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.jetbrains.annotations.Contract;
 import org.pircbotx.User;
 import org.royaldev.royalbot.auth.Auth;
 import org.royaldev.royalbot.auth.AuthResponse;
@@ -48,7 +47,6 @@ public class BotUtils {
      * @return Message to send user; never null
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String formatException(Throwable t) {
         //noinspection ThrowableResultOfMethodCallIgnored
         notNull(t, "t was null");
@@ -62,7 +60,6 @@ public class BotUtils {
      * @return Stack trace as string
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String getStackTrace(Throwable t) {
         //noinspection ThrowableResultOfMethodCallIgnored
         notNull(t, "t was null");
@@ -78,7 +75,6 @@ public class BotUtils {
      * @return Hastebin URL or null if error encountered
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String pastebin(String paste) {
         notNull(paste, "paste was null");
         final CloseableHttpClient hc = HttpClients.createDefault();
@@ -127,7 +123,6 @@ public class BotUtils {
      * @return Shortened link to the stack trace or null
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String linkToStackTrace(Throwable t) {
         //noinspection ThrowableResultOfMethodCallIgnored
         notNull(t, "");
@@ -152,7 +147,6 @@ public class BotUtils {
      * @throws IOException
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String getContent(String url) throws IOException {
         notNull(url, "url was null");
         final URL u = new URL(url);
@@ -171,7 +165,6 @@ public class BotUtils {
      * @throws IOException                    If an exception occurs encoding or shortening
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String shortenURL(String url) throws IOException {
         notNull(url, "url was null");
         final URL shorten = new URL("http://is.gd/create.php?format=simple&url=" + URLEncoder.encode(url, "UTF-8"));
@@ -185,7 +178,6 @@ public class BotUtils {
      * @return String to send user
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String getHelpString(IRCCommand ic) {
         notNull(ic, "ic was null");
         return ic.getName() + " / Description: " + ic.getDescription() + " / Usage: " + ic.getUsage().replaceAll("(?i)<command>", ic.getName()) + " / Aliases: " + Arrays.toString(ic.getAliases()) + " / Type: " + ic.getCommandType().getDescription();
@@ -200,7 +192,6 @@ public class BotUtils {
      * @throws RuntimeException               If there is any error
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public static ChannelCommand createChannelCommand(String commandJson, final String channel) throws RuntimeException {
         notNull(commandJson, "commandJson was null");
         notNull(channel, "channel was null");
@@ -278,7 +269,6 @@ public class BotUtils {
      * @return true if hostmask matches checkAgainst, false if otherwise
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public static boolean doesHostmaskMatch(String hostmask, String checkAgainst) {
         notNull(hostmask, "hostmask was null");
         notNull(checkAgainst, "checkAgainst was null");
@@ -294,7 +284,6 @@ public class BotUtils {
      * @return true if hostmask is ignored, false if not
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public static boolean isIgnored(String hostmask, List<String> ignores) {
         notNull(hostmask, "hostmask was null");
         notNull(ignores, "ignores was null");
@@ -312,7 +301,6 @@ public class BotUtils {
      * @return true if hostmask is ignored, false if not
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static boolean isIgnored(String hostmask) {
         notNull(hostmask, "hostmask was null");
         return isIgnored(hostmask, RoyalBot.getInstance().getConfig().getIgnores());
@@ -325,7 +313,6 @@ public class BotUtils {
      * @return Real hostmask
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String generateHostmask(User user) {
         notNull(user, "user was null");
         return user.getNick() + "!" + user.getLogin() + "@" + user.getHostmask();
@@ -339,7 +326,6 @@ public class BotUtils {
      * @return true if authorized or superadmin, false if not
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public static boolean isAuthorized(User u, String chan) {
         notNull(u, "u was null");
         notNull(chan, "chan was null");
@@ -357,7 +343,6 @@ public class BotUtils {
      * @return Flipped string
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null -> fail")
     public static String flip(String toFlip) {
         notNull(toFlip, "toFlip was null");
         final ConfigurationSection flips = RoyalBot.getInstance().getConfig().getFlipTable();
@@ -377,7 +362,6 @@ public class BotUtils {
      * @return Array of ints
      * @throws java.lang.NullPointerException If any argument is null
      */
-    @Contract("null, _ -> fail; _, null -> fail")
     public static int[] indicesOf(String string, String of) {
         notNull(string, "string was null");
         notNull(of, "of was null");
@@ -396,7 +380,6 @@ public class BotUtils {
      * @throws java.lang.IllegalArgumentException If maxLength is less than zero
      * @throws java.lang.NullPointerException     If any argument is null
      */
-    @Contract("null, _ -> fail")
     public static String truncate(String text, int maxLength) {
         notNull(text, "text was null");
         if (maxLength < 0) throw new IllegalArgumentException("maxLength was less than zero");
