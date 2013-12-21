@@ -77,13 +77,15 @@
                 </executions>
                 <configuration>
                     <links>
-                        <link>http://site.pircbotx.googlecode.com/hg-history/2.0/apidocs</link>
+                        <link>http://site.pircbotx.googlecode.com/hg-history/2.0/apidocs/</link>
+                        <link>http://www.slf4j.org/apidocs/</link>
+                        <link>http://args4j.kohsuke.org/args4j/apidocs/</link>
                         <link>http://fasterxml.github.io/jackson-core/javadoc/2.2.0/</link>
                         <link>http://fasterxml.github.io/jackson-annotations/javadoc/2.2.0/</link>
                         <link>http://fasterxml.github.io/jackson-databind/javadoc/2.2.0/</link>
+                        <!-- snakeyaml should go here, but no javadocs -->
                         <link>http://hc.apache.org/httpcomponents-client-ga/httpclient/apidocs/</link>
                     </links>
-                    <detectLinks>true</detectLinks>
                     <show>public</show>
                     <excludePackageNames>org.royaldev.royalbot.commands.impl:org.royaldev.royalbot.listeners.impl:org.royaldev.royalbot.BaseListeners</excludePackageNames>
                     <excludes>src/main/java/org/royaldev/royalbot/BaseListeners.java</excludes>
@@ -128,7 +130,7 @@
         <dependency>
             <groupId>args4j</groupId>
             <artifactId>args4j</artifactId>
-            <version>2.0.25</version>
+            <version>2.0.26</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
