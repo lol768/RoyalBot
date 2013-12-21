@@ -35,6 +35,11 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
         return defaults;
     }
 
+    public void setDefaults(Configuration defaults) {
+        Validate.notNull(defaults, "Defaults may not be null");
+        this.defaults = defaults;
+    }
+
     @Override
     public ConfigurationSection getParent() {
         return null;

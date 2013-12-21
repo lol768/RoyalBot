@@ -7,6 +7,7 @@ import org.royaldev.royalbot.plugins.exceptions.PluginLoadException;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,15 +18,9 @@ import java.util.List;
 public class PluginLoader {
 
     private final RoyalBot rb;
-    private PluginClassLoader pcl;
 
     public PluginLoader(RoyalBot instance) {
         rb = instance;
-        try {
-            pcl = new PluginClassLoader(new URL[]{new File(rb.getPath(), "plugins").toURI().toURL()});
-        } catch (Exception ex) {
-            pcl = null;
-        }
     }
 
     /**
@@ -40,6 +35,12 @@ public class PluginLoader {
      *                                                                         and its structure or setup
      */
     public Plugin loadPlugin(File file) throws PluginLoadException, InvalidPluginException {
+        final PluginClassLoader pcl;
+        try {
+            pcl = new PluginClassLoader(new URL[]{new File(rb.getPath(), "plugins").toURI().toURL()});
+        } catch (MalformedURLException ex) {
+            throw new PluginLoadException(ex);
+        }
         final PluginDescription pd;
         try {
             pd = pcl.loadAndScanJar(file);
@@ -63,7 +64,7 @@ public class PluginLoader {
         } catch (Exception ex) {
             throw new PluginLoadException("Could not load plugin " + pd.getName() + ": Couldn't construct plugin", ex);
         }
-        plugin.init(rb, pd);
+        plugin.init(rb, pd, pcl, new File(rb.getPath(), "plugins" + File.separator + pd.getName()));
         rb.getLogger().info("Loaded " + pd.getName());
         rb.getPluginHandler().register(plugin);
         return plugin;
@@ -75,13 +76,7 @@ public class PluginLoader {
      * @return Array of loaded plugins
      */
     public Plugin[] loadPlugins() {
-        final File f;
-        try {
-            f = new File(pcl.getURLs()[0].toURI());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return new Plugin[0];
-        }
+        final File f = new File(rb.getPath(), "plugins");
         if (!f.exists() || !f.isDirectory()) return new Plugin[0]; // no plugins to be loaded, obviously
         List<Plugin> plugins = new ArrayList<>();
         for (String name : f.list()) {

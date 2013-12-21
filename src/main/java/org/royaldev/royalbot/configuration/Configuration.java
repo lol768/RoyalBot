@@ -43,4 +43,15 @@ public interface Configuration extends ConfigurationSection {
      * @return Configuration source for default values, or null if none exist.
      */
     public Configuration getDefaults();
+
+    /**
+     * Sets the source of all default values for this {@link Configuration}.
+     * <p/>
+     * If a previous source was set, or previous default values were defined,
+     * then they will not be copied to the new source.
+     *
+     * @param defaults New source of default values for this configuration.
+     * @throws IllegalArgumentException Thrown if defaults is null or this.
+     */
+    public void setDefaults(Configuration defaults);
 }
