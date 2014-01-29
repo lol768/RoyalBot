@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -50,7 +52,7 @@ public class RoyalBot {
     @SuppressWarnings("FieldCanBeLocal")
     private final PluginLoader pl = new PluginLoader(this);
     private final Config c;
-    private final Random random = new Random();
+    private Random random;
     @Option(name = "-n", usage = "Define the nickname of the bot", aliases = {"--nick"})
     private String botNick = "RoyalBot";
     @Option(name = "-r", usage = "Define the real name of the bot", aliases = {"--real-name"})
@@ -78,6 +80,11 @@ public class RoyalBot {
     private long messageDelay = 1000L;
 
     private RoyalBot(String[] args) {
+        try {
+            random = SecureRandom.getInstance("SHA1PRNG");
+        } catch (NoSuchAlgorithmException ex) {
+            random = new Random();
+        }
         final ConsoleHandler ch = new ConsoleHandler();
         ch.setFormatter(new Formatter() {
             private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
