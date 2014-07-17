@@ -8,7 +8,7 @@ public class RepositoryCommand implements IRCCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
-        event.respond("Contribute to " + event.getBot().getNick() + "! https://github.com/RoyalDev/RoyalBot");
+        event.respond("Contribute to " + event.getBot().getNick() + "! https://github.com/Bionicrm/RoyalBot");
     }
 
     @Override
