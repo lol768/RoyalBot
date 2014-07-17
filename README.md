@@ -1,7 +1,7 @@
 RoyalBot
 ========
 
-RoyalDev's IRC Bot :D
+lol768's IRC bot, modified by Bionicrm (created by RoyalDev)
 
 Plugins
 -------
