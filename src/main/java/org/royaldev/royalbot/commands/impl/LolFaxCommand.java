@@ -19,13 +19,13 @@ public class LolFaxCommand extends NoticeableCommand {
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
-        final List<String> baxfax = rb.getConfig().getLolFax();
-        if (baxfax.size() < 1) {
+        final List<String> lolfax = rb.getConfig().getLolFax();
+        if (lolfax.size() < 1) {
             notice(event, "No lolfax registered!");
             return;
         }
         boolean noPing = args.length > 0 && args[0].equalsIgnoreCase("noping");
-        String response = "[lolfax] " + baxfax.get(r.nextInt(baxfax.size()));
+        String response = "[lolfax] " + lolfax.get(r.nextInt(lolfax.size()));
         if (noPing && event instanceof MessageEvent) {
             MessageEvent me = (MessageEvent) event;
             for (User u : me.getChannel().getUsers()) {
@@ -45,7 +45,7 @@ public class LolFaxCommand extends NoticeableCommand {
 
     @Override
     public String getName() {
-        return "baxfax";
+        return "lolfax";
     }
 
     @Override

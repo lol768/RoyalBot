@@ -165,9 +165,9 @@ public class Config {
     }
 
     /**
-     * Gets the registered facts for the "baxfax" command.
+     * Gets the registered facts for the "lolfax" command.
      *
-     * @return List of baxfax - never null
+     * @return List of lolfax - never null
      */
     public List<String> getLolFax() {
         return yc.getStringList("lolfax");
