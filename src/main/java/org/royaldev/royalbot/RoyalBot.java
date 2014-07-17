@@ -54,15 +54,15 @@ public class RoyalBot {
     private final Config c;
     private Random random;
     @Option(name = "-n", usage = "Define the nickname of the bot", aliases = {"--nick"})
-    private String botNick = "RoyalBot";
+    private String botNick = "LolBot";
     @Option(name = "-r", usage = "Define the real name of the bot", aliases = {"--real-name"})
-    private String botRealname = "RoyalBot";
+    private String botRealname = "LolBot";
     @Option(name = "-f", usage = "Define the response the a CTCP FINGER query", aliases = {"--finger"})
-    private String botFinger = "RoyalDev's IRC Management Bot";
+    private String botFinger = "lol768's IRC bot, modified by Bionicrm (created by RoyalDev)";
     @Option(name = "-l", usage = "Define the bot's login to the server", aliases = {"--login"})
-    private String botLogin = "RoyalBot";
+    private String botLogin = "LolBot";
     @Option(name = "-s", usage = "Set the server to connect to", aliases = {"--server"}, required = true)
-    private String serverHostname;
+    private String serverHostname = "irc.esper.net";
     @Option(name = "-P", usage = "Set the password of the server", aliases = {"--server-password"})
     private String serverPassword = "";
     @Option(name = "-A", usage = "Set the NickServ password to use", aliases = {"--nickserv-password"})
