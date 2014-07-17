@@ -12,20 +12,20 @@ import org.royaldev.royalbot.commands.NoticeableCommand;
 import java.util.List;
 import java.util.Random;
 
-public class BaxFaxCommand extends NoticeableCommand {
+public class LolFaxCommand extends NoticeableCommand {
 
     private final RoyalBot rb = RoyalBot.getInstance();
     private final Random r = rb.getRandom();
 
     @Override
     public void onCommand(GenericMessageEvent event, CallInfo callInfo, String[] args) {
-        final List<String> baxfax = rb.getConfig().getBaxFax();
+        final List<String> baxfax = rb.getConfig().getLolFax();
         if (baxfax.size() < 1) {
-            notice(event, "No baxfax registered!");
+            notice(event, "No lolfax registered!");
             return;
         }
         boolean noPing = args.length > 0 && args[0].equalsIgnoreCase("noping");
-        String response = "[baxfax] " + baxfax.get(r.nextInt(baxfax.size()));
+        String response = "[lolfax] " + baxfax.get(r.nextInt(baxfax.size()));
         if (noPing && event instanceof MessageEvent) {
             MessageEvent me = (MessageEvent) event;
             for (User u : me.getChannel().getUsers()) {
@@ -34,10 +34,10 @@ public class BaxFaxCommand extends NoticeableCommand {
                     response = response.substring(0, index) + BotUtils.flip(response.substring(index, index + length)) + response.substring(index + length, response.length());
             }
         }
-        final boolean xafxab = callInfo.getLabel().equalsIgnoreCase("xafxab");
+        final boolean xafxab = callInfo.getLabel().equalsIgnoreCase("xaflol");
         if (xafxab) {
             int index;
-            while ((index = StringUtils.indexOfIgnoreCase(response, "baxfax")) != -1)
+            while ((index = StringUtils.indexOfIgnoreCase(response, "lolfax")) != -1)
                 response = response.substring(0, index) + StringUtils.reverse(response.substring(index, index + 6)) + response.substring(index + 6, response.length());
         }
         event.respond(response);
@@ -55,12 +55,12 @@ public class BaxFaxCommand extends NoticeableCommand {
 
     @Override
     public String getDescription() {
-        return "Gets a random mbaxter fact!";
+        return "Gets a random lol768 fact!";
     }
 
     @Override
     public String[] getAliases() {
-        return new String[]{"xafxab"};
+        return new String[]{"xaflol"};
     }
 
     @Override

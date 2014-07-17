@@ -190,7 +190,7 @@ public class RoyalBot {
 
     private void addCommands() {
         ch.register(new AdminCommand());
-        ch.register(new BaxFaxCommand());
+        ch.register(new LolFaxCommand());
         ch.register(new ChannelManagementCommand());
         ch.register(new ChooseCommand());
         ch.register(new ChuckCommand());

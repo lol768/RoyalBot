@@ -169,8 +169,8 @@ public class Config {
      *
      * @return List of baxfax - never null
      */
-    public List<String> getBaxFax() {
-        return yc.getStringList("baxfax");
+    public List<String> getLolFax() {
+        return yc.getStringList("lolfax");
     }
 
     /**
