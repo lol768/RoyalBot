@@ -11,9 +11,34 @@ import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.managers.ThreadedListenerManager;
 import org.royaldev.royalbot.commands.ChannelCommand;
-import org.royaldev.royalbot.commands.impl.*;
+import org.royaldev.royalbot.commands.impl.AdminCommand;
+import org.royaldev.royalbot.commands.impl.ChooseCommand;
+import org.royaldev.royalbot.commands.impl.ChuckCommand;
+import org.royaldev.royalbot.commands.impl.DefineCommand;
+import org.royaldev.royalbot.commands.impl.GoogleCommand;
+import org.royaldev.royalbot.commands.impl.HelpCommand;
+import org.royaldev.royalbot.commands.impl.IgnoreCommand;
+import org.royaldev.royalbot.commands.impl.IsUpCommand;
+import org.royaldev.royalbot.commands.impl.JoinCommand;
+import org.royaldev.royalbot.commands.impl.LolFaxCommand;
+import org.royaldev.royalbot.commands.impl.MCAccountCommand;
+import org.royaldev.royalbot.commands.impl.MCPingCommand;
+import org.royaldev.royalbot.commands.impl.MessageCommand;
+import org.royaldev.royalbot.commands.impl.NumberFactCommand;
+import org.royaldev.royalbot.commands.impl.PartCommand;
+import org.royaldev.royalbot.commands.impl.PingCommand;
+import org.royaldev.royalbot.commands.impl.QuitCommand;
+import org.royaldev.royalbot.commands.impl.RepositoryCommand;
+import org.royaldev.royalbot.commands.impl.RollCommand;
+import org.royaldev.royalbot.commands.impl.RoyalBotCommand;
+import org.royaldev.royalbot.commands.impl.ShakespeareInsultCommand;
+import org.royaldev.royalbot.commands.impl.ShortenCommand;
+import org.royaldev.royalbot.commands.impl.UrbanDictionaryCommand;
+import org.royaldev.royalbot.commands.impl.WeatherCommand;
+import org.royaldev.royalbot.commands.impl.WolframAlphaCommand;
 import org.royaldev.royalbot.commands.impl.channelmanagement.ChannelManagementCommand;
 import org.royaldev.royalbot.configuration.Config;
+import org.royaldev.royalbot.configuration.ConfigUpdater;
 import org.royaldev.royalbot.configuration.ConfigurationSection;
 import org.royaldev.royalbot.handlers.CommandHandler;
 import org.royaldev.royalbot.handlers.ListenerHandler;
@@ -52,6 +77,8 @@ public class RoyalBot {
     @SuppressWarnings("FieldCanBeLocal")
     private final PluginLoader pl = new PluginLoader(this);
     private final Config c;
+    private final ConfigUpdater configUpdater;
+    private final Thread configUpdaterThread;
     private Random random;
     @Option(name = "-n", usage = "Define the nickname of the bot", aliases = {"--nick"})
     private String botNick = "LolBot";
@@ -96,6 +123,8 @@ public class RoyalBot {
         });
         getLogger().setUseParentHandlers(false);
         getLogger().addHandler(ch);
+        // Set shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook()));
         // Set up log format before logging
         getLogger().info("Starting.");
         instance = this;
@@ -129,6 +158,10 @@ public class RoyalBot {
         bot = new PircBotX(cb.buildConfiguration());
         addListeners();
         pl.loadPlugins();
+        // Start config updater
+        configUpdater = new ConfigUpdater();
+        configUpdaterThread = new Thread(new ConfigUpdater());
+        configUpdaterThread.start();
         getLogger().info("Connecting.");
         new Thread(new Runnable() {
             public void run() {
@@ -234,6 +267,14 @@ public class RoyalBot {
                 }
                 ch.register(cc);
             }
+        }
+    }
+
+    // Runs on shutdown
+    private class ShutdownHook implements Runnable {
+        @Override
+        public void run() {
+            configUpdater.stop(configUpdaterThread);
         }
     }
 
